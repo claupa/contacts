@@ -37,9 +37,9 @@ urlpatterns = [
     url(r'^logout/$',djauth.logout, {'next_page': '/login/'}),
 
     # Account related URLs
+    url(r'^account/new/$', account_cru, name='account_new'),    
     url(r'^account/list/$',AccountList.as_view(), name='account_list'),
     url(r'^account/(?P<uuid>[\w-]+)/', include(account_urls)),
-    url(r'^account/new/$', account_cru, name='account_new'),
     # Contact related URLS
     
     # Communication related URLs
