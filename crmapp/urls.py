@@ -14,11 +14,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url
+from django.conf.urls import include
 from django.contrib import admin
 from marketing.views import HomePage
 from crmapp.suscribers.views import subscriber_new
 import django.contrib.auth.views as djauth
 from crmapp.accounts.views import AccountList
+from accounts.urls import account_urls
 
 urlpatterns = [
     # Marketing pages
@@ -35,11 +37,10 @@ urlpatterns = [
     url(r'^logout/$',djauth.logout, {'next_page': '/login/'}),
 
     # Account related URLs
-    url(r'^account/list/$',
-    AccountList.as_view(), name='account_list'),
+    url(r'^account/list/$',AccountList.as_view(), name='account_list'),
+    url(r'^account/(?P<uuid>[\w-]+)/', include(account_urls)),
 
     # Contact related URLS
-
-
+    
     # Communication related URLs
 ]
