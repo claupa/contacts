@@ -19,7 +19,7 @@ from django.contrib import admin
 from marketing.views import HomePage
 from crmapp.suscribers.views import subscriber_new
 import django.contrib.auth.views as djauth
-from crmapp.accounts.views import AccountList
+from crmapp.accounts.views import AccountList, account_cru
 from accounts.urls import account_urls
 
 urlpatterns = [
@@ -39,7 +39,7 @@ urlpatterns = [
     # Account related URLs
     url(r'^account/list/$',AccountList.as_view(), name='account_list'),
     url(r'^account/(?P<uuid>[\w-]+)/', include(account_urls)),
-
+    url(r'^account/new/$', account_cru, name='account_new'),
     # Contact related URLS
     
     # Communication related URLs
