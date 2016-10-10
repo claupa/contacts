@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from marketing.views import HomePage
+from crmapp.suscribers.views import subscriber_new
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -23,7 +24,7 @@ urlpatterns = [
     url(r'^$', HomePage.as_view(), name="home"),
 
     # Subscriber related URLs
-
+    url(r'^signup/$', subscriber_new, name='sub_new'),
 
     # Admin URL
 
