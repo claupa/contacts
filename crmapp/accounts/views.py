@@ -7,6 +7,7 @@ from .models import Account
 from django.http import HttpResponseRedirect 
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
+from crmapp.contact.models import Contact
 
 from .forms import AccountForm
 
@@ -34,20 +35,6 @@ class AccountList(ListView):
     def dispatch(self, *args, **kwargs):
         return super(AccountList, self).dispatch(*args, **kwargs)
 
-
-
-@login_required()
-def account_detail(request, uuid):
-    print Account.objects.all()
-    account = Account.objects.get(uuid=uuid)
-    if account.owner != request.user:
-            return HttpResponseForbidden()
-
-    variables = {
-        'account': account,
-    }
-
-    return render(request, 'accounts/account_detail.html', variables)
 
 @login_required()
 def account_cru(request, uuid=None):
@@ -81,3 +68,19 @@ def account_cru(request, uuid=None):
         template = 'accounts/account_cru.html'
 
     return render(request, template, variables)
+
+@login_required()
+def account_detail(request, uuid):
+
+    account = Account.objects.get(uuid=uuid)
+    if account.owner != request.user:
+            return HttpResponseForbidden()
+
+    contacts = Contact.objects.filter(account=account)
+
+    variables = {
+        'account': account,
+        'contacts': contacts,
+    }
+
+    return render(request, 'accounts/account_detail.html', variables)
