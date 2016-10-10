@@ -18,6 +18,7 @@ from django.contrib import admin
 from marketing.views import HomePage
 from crmapp.suscribers.views import subscriber_new
 import django.contrib.auth.views as djauth
+from crmapp.accounts.views import AccountList
 
 urlpatterns = [
     # Marketing pages
@@ -34,7 +35,8 @@ urlpatterns = [
     url(r'^logout/$',djauth.logout, {'next_page': '/login/'}),
 
     # Account related URLs
-
+    url(r'^account/list/$',
+    AccountList.as_view(), name='account_list'),
 
     # Contact related URLS
 
