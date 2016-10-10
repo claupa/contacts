@@ -19,7 +19,6 @@ from marketing.views import HomePage
 from crmapp.suscribers.views import subscriber_new
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
     # Marketing pages
     url(r'^$', HomePage.as_view(), name="home"),
 
@@ -27,10 +26,11 @@ urlpatterns = [
     url(r'^signup/$', subscriber_new, name='sub_new'),
 
     # Admin URL
-
+    url(r'^admin/', admin.site.urls),
 
     # Login/Logout URLs
-
+    (r'^login/$','django.contrib.auth.views.login', {'template_name': 'login.html'}),
+    (r'^logout/$','django.contrib.auth.views.logout', {'next_page': '/login/'}),
 
     # Account related URLs
 
