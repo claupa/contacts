@@ -37,10 +37,8 @@ SECRET_KEY = 'l)iwkjsh=t4hic4kmw5wir_5091%t32v-@^66uko54glvr4k1='
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-TEMPLATE_DEBUG = DEBUG
 if ENV_ROLE == 'development':
     DEBUG = True
-    TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = []
 
