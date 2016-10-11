@@ -9,6 +9,7 @@ class Subscriber(models.Model):
     city = models.CharField(max_length=50)
     state = models.CharField(max_length=2)
     stripe_id = models.CharField(max_length=30, blank=True)
+    
 
     class Meta:
         verbose_name_plural = 'subscribers'

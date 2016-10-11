@@ -16,22 +16,25 @@ Including another URLconf
 from django.conf.urls import url
 from django.conf.urls import include
 from django.contrib import admin
-from marketing.views import HomePage
+from marketing.views import home_page
 from suscribers.views import subscriber_new
 import django.contrib.auth.views as djauth
 from accounts.views import AccountList, account_cru
 from accounts.urls import account_urls
 from contact.urls import contact_urls
+from contact.views import contact_cru
 
 urlpatterns = [
     # Marketing pages
-    url(r'^$', HomePage.as_view(), name="home"),
+    url(r'^admin/', admin.site.urls),
+
+    url(r'^$', home_page, name="home"),
 
     # Subscriber related URLs
     url(r'^signup/$', subscriber_new, name='sub_new'),
 
     # Admin URL
-    url(r'^admin/', admin.site.urls),
+    # url(r'^admin/', admin.site.urls),
 
     # Login/Logout URLs
     url(r'^login/$', djauth.login, {'template_name': 'login.html'}),
@@ -42,7 +45,13 @@ urlpatterns = [
     url(r'^account/list/$',AccountList.as_view(), name='account_list'),
     url(r'^account/(?P<uuid>[\w-]+)/', include(account_urls)),
     # Contact related URLS
-    
+    url(r'^contact/new/$' ,contact_cru, name='contact_new'),
+
     url(r'^contact/(?P<uuid>[\w-]+)/', include(contact_urls)),
     # Communication related URLs
+    url('', subscriber_new, name = 'admin_roles' ),
+    url('', subscriber_new, name = 'admin_usuarios' ),
+    url('', subscriber_new, name = 'admin_history' ),
+    url('', subscriber_new, name = 'admin_categories' ),
+    
 ]

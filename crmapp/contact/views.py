@@ -7,6 +7,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseForbidden
 
 from .forms import ContactForm
+from crmapp.accounts.views import account_detail
 
 @login_required()
 def contact_detail(request, uuid):
@@ -34,7 +35,7 @@ def contact_cru(request):
             contact.save()
             # return the user to the account detail view
             reverse_url = reverse(
-                'crmapp.accounts.views.account_detail',
+                account_detail,
                 args=(account.uuid,)
             )
             return HttpResponseRedirect(reverse_url)
@@ -45,6 +46,6 @@ def contact_cru(request):
         'form': form,
     }
 
-    template = 'contacts/contact_cru.html'
+    template = 'contact/contact_cru.html'
 
     return render(request, template, variables)

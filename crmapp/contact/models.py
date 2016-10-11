@@ -18,6 +18,8 @@ class Contact(models.Model):
     account = models.ForeignKey(Account)
     owner = models.ForeignKey(User)
     created_on = models.DateField(auto_now_add=True)
+    # relacion_oncuba = 
+    # notes = models.TextF
 
     class Meta:
         verbose_name_plural = 'contacts'
@@ -40,3 +42,6 @@ class Contact(models.Model):
     @models.permalink
     def get_delete_url(self):
         return 'contact_delete', [self.id]
+
+class Entity(Contact):
+    pass

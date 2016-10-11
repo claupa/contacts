@@ -1,65 +1,92 @@
-{% extends 'base.html' %}
-{% block title %}Home{% endblock title %}
-{% block nav-style %}mkt-nav{% endblock nav-style %}
+{% extends 'base.html' %} {% block title %}Contactos{% endblock title %} {% block content %}
 
-{% block content %}  
-
-    {# Hero Section #} 
-    <div class="mkt-s1">
-    <div class="mkt-s1-body container ">
-        <div class="row">
-            <h1 class="col-md-8">Never Miss Another Opportunity</h1>
-        </div>
-        <div class="row">
-            <p class="col-md-8">A CRM application that lets you track
-            all of your customers, meetings, notes,
-            and plans. Never forget an important
-            contact or follow up task again.</p>
-        </div>
-        <div class="row">
-            {# First Signup Link #}
-            <a href="{% url 'sub_new' %}" 
-               class="sign-up btn btn-success">Sign Up Now for $15/month!
-            </a>
+<div class="row header-blue">
+    <div class="container">
+        <div id="header-search-collapse" class="navbar-collapse collapse row" style="height: auto;">
+            <form role="search" id="form-search" class="navbar-form" method="get" action="#">
+                <div class="input-group header-search">
+                    <input type="text" class="form-control" name="s">
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-default glyphicon glyphicon-search"></button>
+                    </span>
+                </div>
+            </form>
+            <h4 id="create-contact" class="media-heading"><a href="#" class="text-left">Crear Contacto</a>
+            </h4>
         </div>
     </div>
+
 </div>
- 
 
-    {# Main Section #}
-<div class="mkt-s2 container">
-    <h2 class="mkt-s2-h">Why Buy CRM Easy?</h2>
-    <div class="mkt-s2-body">
-        <div class="col-md-4 mkt-vp">
-            <img class="" src="{{ STATIC_URL }}images/clock.png"/>
-            <h5>Save Time</h5>
-            <p>By tracking your customers in
-            an easy to use application you'll
-            be able to find them faster. Don't
-            waste time searching email, looking
-            at business cards, or looking online -
-            just open CRM Easy!</p>
-        </div>
-        <div class="col-md-4 mkt-vp">
-            <img class="" src="{{ STATIC_URL }}images/lightbulb.png"/>
-            <h5>Stay Current</h5>
-            <p>Keeping track of customer details
-            is a critical part of serving the customer
-            right. Make sure you know what they want and when
-            they want it. Use CRM Easy to track all customer
-            communications.</p>
-        </div>
-        <div class="col-md-4 mkt-vp">
-            <img class="" src="{{ STATIC_URL }}images/dollar.png"/>
-            <h5>Win Business</h5>
-            <p>By tracking customers and staying up
-            to date on their requirements you'll be
-            in a better position to sell your products
-            or services. You win and so does the customer.</p>
+<div class="container">
+    <div class="col-md-3" id="filter-table">
+        <form role="filter" id="form-filter" class="" method="get" action="#">
+            <div class="contact-type">
+                <div class="form-group">
+                    <label for="contact-type">
+                        <h4>Tipo de Contacto</h4>                    
+                    </label>
+                    <select class="form-control" id="contact-type">
+                        <option>Todos</option>                        
+                        <option>Persona</option>
+                        <option>Entidad</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="proyecto">
+                        <h4>Proyecto</h4>
+                    </label>
+                    <select multiple="" class="form-control" id="proyecto">
+                       {% for proyecto in proyectos %}
+                            <option value="{{proyecto.id}}">{{proyecto.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="categorias">
+                        <h4>Categorías</h4>
+                    </label>
+                    <select multiple="" class="form-control" id="categorias">
+                        {% for categoria in categorias %}
+                            <option value="{{categoria.id}}">{{categoria.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <button type="submit" form="form-filter" id="form-filter-submit" value="Submit">Filtrar</button>
+
+            </div>
+        </form>
+    </div>
+    <div class="col-md-9">
+        <div class="table" id="contact-table">
+            <div class="row-header-blue">
+                <h1 class="page-title" id="contacts-header">Lista de Contactos</h4>
+            </div>
+            {% comment %}{% for contact in contacts %}{% endcomment %}
+            <div class="table-row row contact">
+                <div class="contact-number-name">
+                    <span class="contact-number">1.</span>
+                    <span class="contact-name">Claudia Paredes Plasencia</span>
+                </div>
+                <div class="occupation">Programmer</div>
+                <div class="created-by">
+                    <span class="created-by-text">Creado por: </span> David Darias
+                </div>
+            </div>
+            <div class="table-row row contact">
+                <div class="contact-number-name">
+                    <span class="contact-number">1.</span>
+                    <span class="contact-name">Claudia Paredes Plasencia</span>
+                </div>
+                <div class="occupation">Programmer</div>
+                <div class="created-by">
+                    <span class="created-by-text">Creado por: </span> David Darias
+                </div>
+            </div>
+            {% comment %}{% endfor %} {% endcomment %}
         </div>
     </div>
-    {# Second Signup Link #}
-    <a href="{% url 'sub_new' %}" class=" sgn-btm ">SIGN UP FOR ONLY $15/MONTH</a>
 </div>
 
 {% endblock content %}
