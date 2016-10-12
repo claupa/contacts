@@ -12,10 +12,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> {% endblock head_meta_viewport %} {% endblock head_meta %} {% block head_css %} {% block head_css_site %}
     <link href="{{ STATIC_URL }}css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="{{ STATIC_URL }}css/oncubastyle.css" rel="stylesheet" media="screen">
-    <link href="{{ STATIC_URL }}css/app.css" rel="stylesheet" media="screen"> {% endblock head_css_site %} {% block head_css_section %} {% endblock head_css_section %} {% block head_css_page %} {% endblock head_css_page %} {% endblock head_css %}
+    <link href="{{ STATIC_URL }}css/app.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"> {% endblock head_css_site %} {% block head_css_section %} {% endblock head_css_section %} {% block head_css_page %} {% endblock head_css_page %} {% endblock head_css %}
 </head>
 
-<body >
+<body>
     {# Navigation Menu #}
     <header>
         <div id="nav1" class="main-menu navbar navbar-default navbar-static-top" role="navigation">
@@ -47,10 +48,12 @@
                                             <b class="caret"></b>
                                         </a>
                             <ul class="dropdown-menu">
-                                <li class="menu-roles"><a href="{% url 'admin_roles'%}">Roles</a></li>
-                                <li class="menu-usuarios"><a href="{% url 'admin_usuarios'%}">Usuarios</a></li>
+                                <li class="menu-roles"><a href="{{URL}}admin/oncuba/role/">Roles</a></li>
+                                <li class="menu-usuarios"><a href="{{URL}}admin/oncuba/usuario/">Usuarios</a></li>
                                 <li class="menu-historial"><a href="{% url 'admin_history'%}">Historial</a></li>
-                                <li class="menu-categorias"><a href="{% url 'admin_categories'%}">Categorías</a></li>
+                                <li class="menu-categorias"><a href="{{URL}}admin/oncuba/categoria/">Categorías</a></li>
+                                <li class="menu-categorias"><a href="{{URL}}admin/oncuba/proyecto/">Proyecto</a></li>
+
                             </ul>
                         </li>
                         {% endif %}

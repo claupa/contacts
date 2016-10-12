@@ -23,6 +23,7 @@ from accounts.views import AccountList, account_cru
 from accounts.urls import account_urls
 from contact.urls import contact_urls
 from contact.views import contact_cru
+from oncuba.views import create_contact
 
 urlpatterns = [
     # Marketing pages
@@ -32,7 +33,8 @@ urlpatterns = [
 
     # Subscriber related URLs
     url(r'^signup/$', subscriber_new, name='sub_new'),
-
+    url(r'^nuevo-contacto/$', create_contact, name='create_contact'),
+    
     # Admin URL
     # url(r'^admin/', admin.site.urls),
 
@@ -49,9 +51,7 @@ urlpatterns = [
 
     url(r'^contact/(?P<uuid>[\w-]+)/', include(contact_urls)),
     # Communication related URLs
-    url('', subscriber_new, name = 'admin_roles' ),
     url('', subscriber_new, name = 'admin_usuarios' ),
     url('', subscriber_new, name = 'admin_history' ),
-    url('', subscriber_new, name = 'admin_categories' ),
     
 ]

@@ -81,6 +81,38 @@ form#form-search.navbar-form {
     padding: 5px;
     width: 100%;
 }
-.contact-type{
-    margin-top:10px;
+
+.contact-type {
+    margin-top: 10px;
+}
+
+#contact-persona-form {
+    margin: 20px auto;
+}
+
+#contact-persona-form input {
+    width: 80%;
+}
+
+.address-row {
+    margin: 10px auto;
+}
+
+.new-address {
+    border-bottom: 1px solid #ddd;
+}
+
+#anadir-direccion {
+    clear: both;
+    display: block;
+    /*text-align: center;*/
+    width: 100%;
+}
+
+.header-address {
+    margin-bottom: -8px;
+}
+
+.first-element {
+    margin-top: 10px;
 }

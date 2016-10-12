@@ -20,6 +20,7 @@ function csrfSafeMethod(method) {
     // these HTTP methods do not require CSRF protection
     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
 }
+
 function sameOrigin(url) {
     // test that a given url is a same-origin URL
     // url could be relative or scheme relative or absolute
@@ -48,7 +49,7 @@ $.ajaxSetup({
 function resetForm($form) {
     $form.find('input:text, input:password, input:file, select, textarea').val('');
     $form.find('input:radio, input:checkbox')
-         .removeAttr('checked').removeAttr('selected');
+        .removeAttr('checked').removeAttr('selected');
 }
 
 // Main App
@@ -61,4 +62,39 @@ $(document).ready(function() {
         $('#gi-container').load($(this).attr('href'));
     });
 
+    var address_index = 0;
+    $('#anadir-direccion').click(function(e) {
+        e.preventDefault();
+        $('#direcciones-table').append('<div class="new-address-' + address_index + '">' +
+            ' <div class="text-right" id="delete-address-' + address_index + '"><a href="#" class="delete-address">Eliminar <i class="fa fa-times"></i></a></div>' +
+            '<div class="row address-row "><span class = "col-lg-6" > Dirección </span><span class = "col-lg-6" > Municipio </span></div>' +
+            '<div class = "row address-row" ><span class = "col-lg-6" >' +
+            '<input id = "id-direccion-' + address_index + '" maxlength = "100" name = "direccion" type = "text" value = " " >' +
+            '</span><span class = "col-lg-6" >' +
+            '<input id = "id-municipio-' + address_index + '" maxlength = "50" name = "municipio" type = "text" value = " " >' +
+            '</span></div ><div class = "row address-row" ><span class = "col-lg-6" > Provincia </span>' +
+            '<span class = "col-lg-6" > Descripción </span></div>' +
+            '<div class = "row address-row"><span class = "col-lg-6" >' +
+            '<input id = "id-provincia-' + address_index + '" maxlength = "50" name = "provincia" type = "text" value = " " >' +
+            '</span><span class = "col-lg-6" >' +
+            '<input id = "id-descripcion-' + address_index + '" maxlength = "100" name = "descripcion" type = "text" value = " " >' +
+            '</span></div></div>');
+        address_index++;
+    });
+    $('body').on('click', '.delete-address', function(e) {
+        e.preventDefault();
+        console.log(e.currentTarget);
+        e.toElement.parentNode.parentNode.remove();
+        console.log('hola');
+    });
+    $('#id_estado_civil option').each(function(index) {
+        if (index != 0) {
+            console.log(this.label);
+            this.label = this.label + 'o';
+        }
+    });
+    $('#id_sexo').click(function(e) {
+        console.log(e);
+        console.log($(this));
+    });
 });

@@ -1,0 +1,86 @@
+{% extends 'base.html' %} {% block title %}Crear Contacto: Persona{% endblock title %} {% block content %}
+<div id="content-container" class="container p-none">
+    <div class="side-p">
+        <form id="contact-persona-form" action="." method="post">
+            {% csrf_token %}
+            <h4 class="page-title sn-sh">Crear Nuevo Contacto: Persona</h4>
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Apellidos</th>
+                    </tr>
+                    <tr>
+                        <td>{{ form.nombre }}</td>
+                        <td>{{ form.apellidos }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ form.nombre.errors }}</td>
+                        <td>{{ form.apellidos.errors }}</td>
+                    </tr>
+                    <tr>
+                        <th>Lugar de Trabajo</th>
+                        <th>Ocupación</th>
+                    </tr>
+                    <tr>
+                        <td>{{ form.lugar_de_trabajo }}</td>
+                        <td>{{ form.ocupacion }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ form.lugar_de_trabajo.errors }}</td>
+                        <td>{{ form.ocupacion.errors }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            {# Billing Address Section #}
+            <h3 class="header-address">Listado de Direcciones</h3>
+            <div class="table" id="direcciones-persona">
+                <div id="direcciones-table">
+                </div>
+            </div>
+            <a id="anadir-direccion" href="#">+ Añadir Dirección</a>
+
+            <div class="row mas-datos-persona first-element">
+                <span class="col-md-6" id="pais-header-table">País
+                </span>
+                <span class="col-md-6" id="pais-header-table">Fecha de Nacimiento
+                </span>
+            </div>
+            <div class="row mas-datos-persona">
+                <span class="col-md-6" id="pais-header-table">{{ form.pais}}</span>
+                <span class="col-md-6" id="pais-header-table">{{form.fecha_nac}}</span>
+            </div>
+            <div class="row mas-datos-persona">
+                <span class="col-md-6" id="pais-header-table">{{ form.pais.errors}}</span>
+                <span class="col-md-6" id="pais-header-table">{{form.fecha_nac.errors}}</span>
+            </div>
+
+            <div class="row mas-datos-persona first-element">
+                <span class="col-md-4" id="marcar-header-table">Estado Civil
+                </span>
+                <span class="col-md-4" id="marcar-header-table">Sexo
+                </span>
+                <span class="col-md-4" id="marcar-header-table">Hijos
+                </span>
+            </div>
+            <div class="row mas-datos-persona">
+                <span class="col-md-4" id="estado-civil">{{form.estado_civil}}</span>
+                <span class="col-md-4" id="pais-header-table">{{form.sexo}}</span>
+                <span class="col-md-4" id="pais-header-table">{{form.hijos}}</span>
+
+            </div>
+            <div class="row mas-datos-persona">
+                <span class="col-md-4" id="pais-header-table">{{ form.estado.errors}}</span>
+                <span class="col-md-4" id="pais-header-table">{{form.sexo.errors}}</span>
+                <span class="col-md-4" id="pais-header-table">{{form.hijos.errors}}</span>
+
+            </div>
+            {% comment %}#URLInput{% endcomment %}
+
+
+            <button type="submit" form="form-filter" id="contact-persona-form" value="Submit">Crear Contacto</button>
+        </form>
+        {# Credit Card Section #}
+    </div>
+</div>
+{% endblock content %}
