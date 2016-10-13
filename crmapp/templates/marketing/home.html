@@ -11,7 +11,11 @@
                     </span>
                 </div>
             </form>
-            <h4 id="create-contact" class="media-heading"><a href="{% url 'create_contact'%}" class="text-left">Crear Contacto</a>
+            <h4 id="create-contact" class="media-heading">
+                <span>Crear Contacto: </span>
+                <span><a href="{% url 'create_contact_persona'%}" class="text-left">Persona</a></span>
+                <span> o </span>
+                <span><a href="{% url 'create_contact_entidad'%}" class="text-left">Entidad</a></span>
             </h4>
         </div>
     </div>
@@ -59,33 +63,7 @@
         </form>
     </div>
     <div class="col-md-9">
-        <div class="table" id="contact-table">
-            <div class="row-header-blue">
-                <h1 class="page-title" id="contacts-header">Lista de Contactos</h4>
-            </div>
-            {% comment %}{% for contact in contacts %}{% endcomment %}
-            <div class="table-row row contact">
-                <div class="contact-number-name">
-                    <span class="contact-number">1.</span>
-                    <span class="contact-name">Claudia Paredes Plasencia</span>
-                </div>
-                <div class="occupation">Programmer</div>
-                <div class="created-by">
-                    <span class="created-by-text">Creado por: </span> David Darias
-                </div>
-            </div>
-            <div class="table-row row contact">
-                <div class="contact-number-name">
-                    <span class="contact-number">1.</span>
-                    <span class="contact-name">Claudia Paredes Plasencia</span>
-                </div>
-                <div class="occupation">Programmer</div>
-                <div class="created-by">
-                    <span class="created-by-text">Creado por: </span> David Darias
-                </div>
-            </div>
-            {% comment %}{% endfor %} {% endcomment %}
-        </div>
+        {% include 'marketing/contacts_list.html' %}
     </div>
 </div>
 

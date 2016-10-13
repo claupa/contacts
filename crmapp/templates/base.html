@@ -41,7 +41,7 @@
                 <div id="main-nav-menu" class="navbar-collapse collapse">
                     <ul id="menu-main-english" class="nav navbar-nav">
                         {% if user.is_authenticated %}
-                        <li><a href="{% url 'account_list' %}" class="p-r-none">Mis Contactos</a></li>
+                        <li><a href="{% url 'mis_contactos' %}" class="p-r-none">Mis Contactos</a></li>
                         {% if user.is_superuser %}
                         <li class="dropdown menu-more">
                             <a class="dropdown-toggle" data-toggle="dropdown" data-target="#" href="#">Administrar 

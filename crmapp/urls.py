@@ -16,14 +16,14 @@ Including another URLconf
 from django.conf.urls import url
 from django.conf.urls import include
 from django.contrib import admin
-from marketing.views import home_page
+from marketing.views import home_page, mis_contactos
 from suscribers.views import subscriber_new
 import django.contrib.auth.views as djauth
 from accounts.views import AccountList, account_cru
 from accounts.urls import account_urls
 from contact.urls import contact_urls
 from contact.views import contact_cru
-from oncuba.views import create_contact
+from oncuba.views import create_persona, create_entidad, view_contact
 
 urlpatterns = [
     # Marketing pages
@@ -33,7 +33,12 @@ urlpatterns = [
 
     # Subscriber related URLs
     url(r'^signup/$', subscriber_new, name='sub_new'),
-    url(r'^nuevo-contacto/$', create_contact, name='create_contact'),
+    url(r'^nueva-persona/$', create_persona, name='create_contact_persona'),
+    url(r'^nueva-entidad/$', create_entidad, name='create_contact_entidad'),
+    url(r'^mis-contactos/$', mis_contactos, name='mis_contactos'),
+    url(r'^contactos/(?P<contact_id>.*)/$', view_contact, name='view_contact'),
+    
+    
     
     # Admin URL
     # url(r'^admin/', admin.site.urls),

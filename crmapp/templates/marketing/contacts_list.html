@@ -1,0 +1,32 @@
+<div class="table" id="contact-table">
+    <div class="row-header-blue">
+        <h1 class="page-title" id="contacts-header">Lista de Contactos</h4>
+    </div>
+    {% for contact in contacts %}
+    <div class="table-row row contact">
+        <div class="col-md-10 col-lg-10">
+            <div class="contact-number-name">
+                <span class="contact-number">{{contact.index}}.</span> {% if contact.can_read %}
+                <a href="{% url 'view_contact' contact.id %}">
+                    <span class="contact-name">{{contact.nombre}}</span>
+                </a>
+                {% else %}
+                <span class="contact-name">{{contact.nombre}}</span> {% endif %}
+            </div>
+            <div class="occupation">{{contact.ocupacion}}</div>
+            <div class="created-by">
+                <span class="created-by-text">Creado por: </span>{{contact.created_by}}
+            </div>
+        </div>
+        <div class="col-lg-2 modify">
+            {% if contact.can_edit %}
+            <span><a href="#"><i class="fa fa-pencil"></i></a>
+        </span> {% endif %} {% if contact.can_delete %}
+            <span>
+            <span><a href="#"><i class="fa fa-times"></i></a>
+        </span>
+            </span> {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>

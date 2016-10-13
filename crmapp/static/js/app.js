@@ -65,28 +65,22 @@ $(document).ready(function() {
     var address_index = 0;
     $('#anadir-direccion').click(function(e) {
         e.preventDefault();
-        $('#direcciones-table').append('<div class="new-address-' + address_index + '">' +
-            ' <div class="text-right" id="delete-address-' + address_index + '"><a href="#" class="delete-address">Eliminar <i class="fa fa-times"></i></a></div>' +
-            '<div class="row address-row "><span class = "col-lg-6" > Dirección </span><span class = "col-lg-6" > Municipio </span></div>' +
-            '<div class = "row address-row" ><span class = "col-lg-6" >' +
-            '<input id = "id-direccion-' + address_index + '" maxlength = "100" name = "direccion" type = "text" value = " " >' +
-            '</span><span class = "col-lg-6" >' +
-            '<input id = "id-municipio-' + address_index + '" maxlength = "50" name = "municipio" type = "text" value = " " >' +
-            '</span></div ><div class = "row address-row" ><span class = "col-lg-6" > Provincia </span>' +
-            '<span class = "col-lg-6" > Descripción </span></div>' +
-            '<div class = "row address-row"><span class = "col-lg-6" >' +
-            '<input id = "id-provincia-' + address_index + '" maxlength = "50" name = "provincia" type = "text" value = " " >' +
-            '</span><span class = "col-lg-6" >' +
-            '<input id = "id-descripcion-' + address_index + '" maxlength = "100" name = "descripcion" type = "text" value = " " >' +
-            '</span></div></div>');
+        if (address_index == 3) {
+            $('#anadir-direccion').hide();
+        }
+        $('.new-address-' + address_index).fadeIn(100);
         address_index++;
+        console.log(address_index);
+
     });
-    $('body').on('click', '.delete-address', function(e) {
+    $('.delete-address').click(function(e) {
         e.preventDefault();
-        console.log(e.currentTarget);
-        e.toElement.parentNode.parentNode.remove();
-        console.log('hola');
+        address_index--;
+        $('.new-address-' + address_index).hide();
+        $('#anadir-direccion').show();
+        $('.new-address-' + address_index + ' input').prop('value', '');
     });
+
     $('#id_estado_civil option').each(function(index) {
         if (index != 0) {
             console.log(this.label);
@@ -95,6 +89,6 @@ $(document).ready(function() {
     });
     $('#id_sexo').click(function(e) {
         console.log(e);
-        console.log($(this));
+
     });
 });
