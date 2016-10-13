@@ -1,38 +1,58 @@
 #-*- coding: utf8 -*-
 from django import forms
 
-from .models import Persona, Entidad
+from .models import Persona, AddressPerson, PhoneNumberPerson, EmailPerson
+from .models import Entidad, AddressEntidad, PhoneNumberEntidad, EmailEntidad
 
 
 class CreateContactForm(forms.ModelForm):
     YEARS = range(1900,2017)
-
-    fecha_nac = forms.DateField(widget=forms.SelectDateWidget(years=tuple(YEARS[-1::-1])))
-    
-    
+    fecha_nac = forms.DateField(widget=forms.SelectDateWidget(years=tuple(YEARS[-1::-1])))   
     class Meta:
         model = Persona
-        # exclude = ('hijos',)
         fields = ('nombre', 'apellidos',
                   'lugar_de_trabajo', 'ocupacion', 'pais',
                   'sexo', 'estado_civil', 'hijos', 'observaciones',
                   'sitio_web', 'categoria', 'proyecto')
 
+class CreateAddressForm(forms.ModelForm):
+    class Meta:
+        model = AddressPerson
+        fields = ('address_one', 'provincia', 'municipio', 'descripcion')
 
-        # widgets = {
-        #     'nombre': forms.TextInput(
-        #         attrs={'placeholder':'First Name', 'class':'form-control'}
-        #     ),
-        #     'apellidos': forms.TextInput(
-        #         attrs={'placeholder':'Last Name', 'class':'form-control'}
-        #     ),
-        #     'lugar_de_trabajo': forms.TextInput(
-        #         attrs={'placeholder':'Role', 'class':'form-control'}
-        #     ),
-        #     'phone': forms.TextInput(
-        #         attrs={'placeholder':'Teléfono', 'class':'form-control'}
-        #     ),
-        #     'fecha_de_nacimiento': forms.DateInput(
-        #         attrs={'placeholder':'Fecha de Nacimiento', 'class':'form-control'}
-        #     ),
-        # }
+class CreatePhoneForm(forms.ModelForm):
+    
+    class Meta:
+        model = PhoneNumberPerson
+        fields = ('number', 'descripcion')
+
+class CreateEmailForm(forms.ModelForm):
+    class Meta:
+        model = EmailPerson
+        fields = ('email', 'descripcion')
+
+class CreateAddressFormEntidad(forms.ModelForm):
+    class Meta:
+        model = AddressEntidad
+        fields = ('address_one', 'provincia', 'municipio', 'descripcion')
+
+class CreatePhoneFormEntidad(forms.ModelForm):
+    class Meta:
+        model = PhoneNumberEntidad
+        fields = ('number', 'descripcion')
+
+class CreateEmailFormEntidad(forms.ModelForm):
+    class Meta:
+        model = EmailEntidad
+        fields = ('email', 'descripcion')
+
+class CreateContactFormEntidad(forms.ModelForm):
+    YEARS = range(1900,2017)
+
+    aniversario = forms.DateField(widget=forms.SelectDateWidget(years=tuple(YEARS[-1::-1])))  
+    fiesta =  forms.DateField(widget=forms.SelectDateWidget(years=tuple(YEARS[-1::-1])))
+
+    class Meta:
+        model = Entidad
+        fields = ('nombre', 'servicios', 'persona' , 'cargo',
+                 'pais',  'observaciones','sitio_web', 'categoria', 'proyecto')

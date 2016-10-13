@@ -1,0 +1,171 @@
+{% extends 'base.html' %} {% block title %}Crear Contacto: Entidad{% endblock title %} {% block content %}
+<div id="content-container" class="container p-none">
+    <div class="side-p">
+        <form id="contact-persona-form" action="{% url 'create_contact_entidad'%}" method="post">
+            {% csrf_token %}
+            <h4 class="page-title sn-sh">Crear Nuevo Contacto: Entidad</h4>
+            <div class="row create-contact-inputs">
+                <div class="col-lg-3">{{form.nombre.label}}</div>
+                <div class="col-lg-9">{{form.nombre}}</div>
+            </div>
+            <div class="row create-contact-errors">
+                <div class="col-lg-12">{{form.nombre.errors}}</div>
+            </div>
+            <div class="row create-contact-inputs">
+                <div class="col-lg-3">{{form.servicios.label}}</div>
+                <div class="col-lg-9">{{form.servicios}}</div>
+            </div>
+            <div class="row create-contact-errors">
+                <div class="col-lg-12">{{form.servicios.errors}}</div>
+            </div>
+            <div class="row create-contact-inputs">
+                <div class="col-lg-3">{{form.persona.label}}</div>
+                <div class="col-lg-9">{{form.persona}}</div>
+            </div>
+            <div class="row create-contact-errors">
+                <div class="col-lg-12">{{form.persona.errors}}</div>
+            </div>
+            <div class="row create-contact-inputs">
+                <div class="col-lg-3">{{form.cargo.label}}</div>
+                <div class="col-lg-9">{{form.cargo}}</div>
+            </div>
+            <div class="row create-contact-errors">
+                <div class="col-lg-12">{{form.cargo.errors}}</div>
+            </div>
+            <div class="row create-contact-inputs">
+                <div class="col-lg-3">{{phone.number.label}}</div>
+                <div class="col-lg-9">{{phone.number}}</div>
+            </div>
+            <div class="row create-contact-errors">
+                <div class="col-lg-12">{{phone.number.errors}}</div>
+            </div>
+            <div class="row create-contact-inputs">
+                <div class="col-lg-3">{{phone.phone_descripcion.label}}</div>
+                <div class="col-lg-9">{{phone.phone_descripcion}}</div>
+            </div>
+            <div class="row create-contact-errors">
+                <div class="col-lg-12">{{phone.phone_descripcion.errors}}</div>
+            </div>
+
+            <div class="row create-contact-inputs">
+                <div class="col-lg-3">{{email.email.label}}</div>
+                <div class="col-lg-9">{{email.email}}</div>
+            </div>
+            <div class="row create-contact-errors">
+                <div class="col-lg-12">{{email.email.errors}}</div>
+            </div>
+            <div class="row create-contact-inputs">
+                <div class="col-lg-3">{{email.email_descripcion.label}}</div>
+                <div class="col-lg-9">{{email.email_descripcion}}</div>
+            </div>
+            <div class="row create-contact-errors">
+                <div class="col-lg-12">{{email.email_descripcion.errors}}</div>
+            </div>
+
+
+            {% comment %}
+            <h3 class="header-address">Listado de Direcciones</h3>{% endcomment %}
+
+            <div class="table" id="direcciones-persona">
+                <div id="direcciones-table">
+                    {% comment %}{% for addr in address%}{% endcomment %}
+                    <div class="new-address new-address-0">
+                        <div class="text-right" id="delete-address-0">
+                            <a href="0" class="delete-address">Eliminar <i class="fa fa-times"></i></a>
+                        </div>
+                        <div class="row create-contact-inputs">
+                            <div class="col-lg-3">{{address.address_one.label}}</div>
+                            <div class="col-lg-9">{{address.address_one}}</div>
+                        </div>
+                        <div class="row create-contact-errors">
+                            <div class="col-lg-12">{{address.address_one.errors}}</div>
+                        </div>
+                        <div class="row create-contact-inputs">
+                            <div class="col-lg-3">{{address.municipio.label}}</div>
+                            <div class="col-lg-9">{{address.municipio}}</div>
+                        </div>
+                        <div class="row create-contact-errors">
+                            <div class="col-lg-12">{{address.municipio.errors}}</div>
+                        </div>
+                        <div class="row create-contact-inputs">
+                            <div class="col-lg-3">{{address.provincia.label}}</div>
+                            <div class="col-lg-9">{{address.provincia}}</div>
+                        </div>
+                        <div class="row create-contact-errors">
+                            <div class="col-lg-12">{{address.provincia.errors}}</div>
+                        </div>
+                        <div class="row create-contact-inputs">
+                            <div class="col-lg-3">{{address.descripcion.label}}</div>
+                            <div class="col-lg-9">{{address.descripcion}}</div>
+                        </div>
+                        <div class="row create-contact-errors">
+                            <div class="col-lg-12">{{address.descripcion.errors}}</div>
+                        </div>
+                        {% comment %}{% endfor %}{% endcomment %}
+                    </div>
+                </div>
+                <div class="row create-contact-inputs">
+                    <div class="col-lg-3">
+                        <a id="anadir-direccion" href="#"><i class="fa fa-plus-circle"></i> Añadir Dirección</a>
+                    </div>
+                </div>
+
+                <div class="row create-contact-inputs">
+                    <div class="col-lg-3">{{form.pais.label}}</div>
+                    <div class="col-lg-9">{{form.pais}}</div>
+                </div>
+                <div class="row create-contact-errors">
+                    <div class="col-lg-12">{{form.pais.errors}}</div>
+                </div>
+                <div class="row create-contact-inputs">
+                    <div class="col-lg-3">{{form.sitio_web.label}}</div>
+                    <div class="col-lg-9">{{form.sitio_web}}</div>
+                </div>
+                <div class="row create-contact-errors">
+                    <div class="col-lg-12">{{form.sitio_web.errors}}</div>
+                </div>
+
+                <div class="row create-contact-inputs">
+                    <div class="col-lg-3">Aniversario</div>
+                    <div class="col-lg-9">{{form.aniversario}}</div>
+                </div>
+                <div class="row create-contact-errors">
+                    <div class="col-lg-12">{{form.aniversario.errors}}</div>
+                </div>
+
+                <div class="row create-contact-inputs">
+                    <div class="col-lg-3">{{form.fiesta.label}}</div>
+                    <div class="col-lg-9">{{form.fiesta}}</div>
+                </div>
+                <div class="row create-contact-errors">
+                    <div class="col-lg-12">{{form.fiesta.errors}}</div>
+                </div>
+
+                <div class="row create-contact-inputs">
+                    <div class="col-lg-3">{{form.categoria.label}}</div>
+                    <div class="col-lg-9">{{form.categoria}}</div>
+                </div>
+                <div class="row create-contact-errors">
+                    <div class="col-lg-12">{{form.categoria.errors}}</div>
+                </div>
+                <div class="row create-contact-inputs">
+                    <div class="col-lg-3">{{form.proyecto.label}}</div>
+                    <div class="col-lg-9">{{form.proyecto}}</div>
+                </div>
+                <div class="row create-contact-errors">
+                    <div class="col-lg-12">{{form.proyecto.errors}}</div>
+                </div>
+
+                <div class="row create-contact-inputs">
+                    <div class="col-lg-3">{{form.observaciones.label}}</div>
+                    <div class="col-lg-9">{{form.observaciones}}</div>
+                </div>
+                <div class="row create-contact-errors">
+                    <div class="col-lg-12">{{form.observaciones.errors}}</div>
+                </div>
+
+                <input class="btn btn-primary create-contact-submit" type="submit" value="Crear Contacto">
+        </form>
+        </div>
+    </div>
+    {% endblock content %}

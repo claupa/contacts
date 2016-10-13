@@ -32,177 +32,158 @@
             <div class="row create-contact-errors">
                 <div class="col-lg-12">{{form.ocupacion.errors}}</div>
             </div>
+            <div class="row create-contact-inputs">
+                <div class="col-lg-3">{{phone.number.label}}</div>
+                <div class="col-lg-9">{{phone.number}}</div>
+            </div>
+            <div class="row create-contact-errors">
+                <div class="col-lg-12">{{phone.number.errors}}</div>
+            </div>
+            <div class="row create-contact-inputs">
+                <div class="col-lg-3">{{phone.phone_descripcion.label}}</div>
+                <div class="col-lg-9">{{phone.phone_descripcion}}</div>
+            </div>
+            <div class="row create-contact-errors">
+                <div class="col-lg-12">{{phone.phone_descripcion.errors}}</div>
+            </div>
 
-            <h3 class="header-address">Listado de Direcciones</h3>
+            <div class="row create-contact-inputs">
+                <div class="col-lg-3">{{email.email.label}}</div>
+                <div class="col-lg-9">{{email.email}}</div>
+            </div>
+            <div class="row create-contact-errors">
+                <div class="col-lg-12">{{email.email.errors}}</div>
+            </div>
+            <div class="row create-contact-inputs">
+                <div class="col-lg-3">{{email.email_descripcion.label}}</div>
+                <div class="col-lg-9">{{email.email_descripcion}}</div>
+            </div>
+            <div class="row create-contact-errors">
+                <div class="col-lg-12">{{email.email_descripcion.errors}}</div>
+            </div>
+
+
+            {% comment %}
+            <h3 class="header-address">Listado de Direcciones</h3>{% endcomment %}
 
             <div class="table" id="direcciones-persona">
                 <div id="direcciones-table">
+                    {% comment %}{% for addr in address%}{% endcomment %}
                     <div class="new-address new-address-0">
-                        <div class="text-right" id="delete-address-' + address_index + '">
+                        <div class="text-right" id="delete-address-0">
                             <a href="0" class="delete-address">Eliminar <i class="fa fa-times"></i></a>
                         </div>
-                        
-                            <div class="row create-contact-inputs">
-                                <div class="col-lg-3">Dirección</div>
-                                <div class="col-lg-9"><input id="id_address_0" maxlength="50" name="address_0" type="text" value=""></div>
-                            </div>
-                            <div class="row create-contact-inputs">
-                                <div class="col-lg-3">Municipio</div>
-                                <div class="col-lg-9"><input id="id_municipio_0" maxlength="50" name="municipio_0" type="text" value=""></div>
-                            </div>
-                            <div class="row create-contact-inputs">
-                                <div class="col-lg-3">Provincia</div>
-                                <div class="col-lg-9"><input id="id_provincia_0" maxlength="50" name="provincia_0" type="text" value=""></div>
-                            </div>
-                            <div class="row create-contact-inputs">
-                                <div class="col-lg-3">Descripción</div>
-                                <div class="col-lg-9"><input id="id_descripcion_0" maxlength="50" name="descripcion_0" type="text" value=""></div>
-                            </div>
-                    </div>
-                    <div class="new-address new-address-1">
-                        <div class="text-right" id="delete-address-' + address_index + '">
-                            <a href="1" class="delete-address">Eliminar <i class="fa fa-times"></i></a>
-                        </div>
-
                         <div class="row create-contact-inputs">
-                            <div class="col-lg-3">Dirección</div>
-                            <div class="col-lg-9"><input id="id_address_1" maxlength="50" name="address_1" type="text" value=""></div>
+                            <div class="col-lg-3">{{address.address_one.label}}</div>
+                            <div class="col-lg-9">{{address.address_one}}</div>
+                        </div>
+                        <div class="row create-contact-errors">
+                            <div class="col-lg-12">{{address.address_one.errors}}</div>
                         </div>
                         <div class="row create-contact-inputs">
-                            <div class="col-lg-3">Municipio</div>
-                            <div class="col-lg-9"><input id="id_municipio_1" maxlength="50" name="municipio_1" type="text" value=""></div>
+                            <div class="col-lg-3">{{address.municipio.label}}</div>
+                            <div class="col-lg-9">{{address.municipio}}</div>
+                        </div>
+                        <div class="row create-contact-errors">
+                            <div class="col-lg-12">{{address.municipio.errors}}</div>
                         </div>
                         <div class="row create-contact-inputs">
-                            <div class="col-lg-3">Provincia</div>
-                            <div class="col-lg-9"><input id="id_provincia_1" maxlength="50" name="provincia_1" type="text" value=""></div>
+                            <div class="col-lg-3">{{address.provincia.label}}</div>
+                            <div class="col-lg-9">{{address.provincia}}</div>
+                        </div>
+                        <div class="row create-contact-errors">
+                            <div class="col-lg-12">{{address.provincia.errors}}</div>
                         </div>
                         <div class="row create-contact-inputs">
-                            <div class="col-lg-3">Descripción</div>
-                            <div class="col-lg-9"><input id="id_descripcion_1" maxlength="50" name="descripcion_1" type="text" value=""></div>
+                            <div class="col-lg-3">{{address.descripcion.label}}</div>
+                            <div class="col-lg-9">{{address.descripcion}}</div>
                         </div>
-                    </div>
-                    <div class="new-address new-address-2">
-                        <div class="text-right" id="delete-address-' + address_index + '">
-                            <a href="2" class="delete-address">Eliminar <i class="fa fa-times"></i></a>
+                        <div class="row create-contact-errors">
+                            <div class="col-lg-12">{{address.descripcion.errors}}</div>
                         </div>
-
-                        <div class="row create-contact-inputs">
-                            <div class="col-lg-3">Dirección</div>
-                            <div class="col-lg-9"><input id="id_address_2" maxlength="50" name="address_2" type="text" value=""></div>
-                        </div>
-                        <div class="row create-contact-inputs">
-                            <div class="col-lg-3">Municipio</div>
-                            <div class="col-lg-9"><input id="id_municipio_2" maxlength="50" name="municipio_2" type="text" value=""></div>
-                        </div>
-                        <div class="row create-contact-inputs">
-                            <div class="col-lg-3">Provincia</div>
-                            <div class="col-lg-9"><input id="id_provincia_2" maxlength="50" name="provincia_2" type="text" value=""></div>
-                        </div>
-                        <div class="row create-contact-inputs">
-                            <div class="col-lg-3">Descripción</div>
-                            <div class="col-lg-9"><input id="id_descripcion_2" maxlength="50" name="descripcion_2" type="text" value=""></div>
-                        </div>
-                    </div>
-                    <div class="new-address new-address-3">
-                        <div class="text-right" id="delete-address-' + address_index + '">
-                            <a href="3" class="delete-address">Eliminar <i class="fa fa-times"></i></a>
-                        </div>
-                        <div class="row create-contact-inputs">
-                            <div class="col-lg-3">Dirección</div>
-                            <div class="col-lg-9"><input id="id_address_3" maxlength="50" name="address_3" type="text" value=""></div>
-                        </div>
-                        <div class="row create-contact-inputs">
-                            <div class="col-lg-3">Municipio</div>
-                            <div class="col-lg-9"><input id="id_municipio_3" maxlength="50" name="municipio_3" type="text" value=""></div>
-                        </div>
-                        <div class="row create-contact-inputs">
-                            <div class="col-lg-3">Provincia</div>
-                            <div class="col-lg-9"><input id="id_provincia_3" maxlength="50" name="provincia_3" type="text" value=""></div>
-                        </div>
-                        <div class="row create-contact-inputs">
-                            <div class="col-lg-3">Descripción</div>
-                            <div class="col-lg-9"><input id="id_descripcion_3" maxlength="50" name="descripcion_3" type="text" value=""></div>
-                        </div>
+                        {% comment %}{% endfor %}{% endcomment %}
                     </div>
                 </div>
-            </div>
+                <div class="row create-contact-inputs">
+                    <div class="col-lg-3">
+                        <a id="anadir-direccion" href="#"><i class="fa fa-plus-circle"></i> Añadir Dirección</a>
+                    </div>
+                </div>
 
-            <a id="anadir-direccion" href="#">+ Añadir Dirección</a>
+                <div class="row create-contact-inputs">
+                    <div class="col-lg-3">{{form.pais.label}}</div>
+                    <div class="col-lg-9">{{form.pais}}</div>
+                </div>
+                <div class="row create-contact-errors">
+                    <div class="col-lg-12">{{form.pais.errors}}</div>
+                </div>
+                <div class="row create-contact-inputs">
+                    <div class="col-lg-3">{{form.sitio_web.label}}</div>
+                    <div class="col-lg-9">{{form.sitio_web}}</div>
+                </div>
+                <div class="row create-contact-errors">
+                    <div class="col-lg-12">{{form.sitio_web.errors}}</div>
+                </div>
 
-            <div class="row create-contact-inputs">
-                <div class="col-lg-3">{{form.pais.label}}</div>
-                <div class="col-lg-9">{{form.pais}}</div>
-            </div>
-            <div class="row create-contact-errors">
-                <div class="col-lg-12">{{form.pais.errors}}</div>
-            </div>
-            <div class="row create-contact-inputs">
-                <div class="col-lg-3">{{form.sitio_web.label}}</div>
-                <div class="col-lg-9">{{form.sitio_web}}</div>
-            </div>
-            <div class="row create-contact-errors">
-                <div class="col-lg-12">{{form.sitio_web.errors}}</div>
-            </div>
+                <div class="row create-contact-inputs">
+                    <div class="col-lg-3">Fecha de Nacimiento</div>
+                    <div class="col-lg-9">{{form.fecha_nac}}</div>
+                </div>
+                <div class="row create-contact-errors">
+                    <div class="col-lg-12">{{form.fecha_nac.errors}}</div>
+                </div>
 
-            <div class="row create-contact-inputs">
-                <div class="col-lg-3">Fecha de Nacimiento</div>
-                <div class="col-lg-9">{{form.fecha_nac}}</div>
-            </div>
-            <div class="row create-contact-errors">
-                <div class="col-lg-12">{{form.fecha_nac.errors}}</div>
-            </div>
+                <div class="row create-contact-inputs">
+                    <div class="col-lg-3">{{form.estado_civil.label}}</div>
+                    <div class="col-lg-9">{{form.estado_civil}}</div>
+                </div>
+                <div class="row create-contact-errors">
+                    <div class="col-lg-12">{{form.estado_civil.errors}}</div>
+                </div>
 
-            <div class="row create-contact-inputs">
-                <div class="col-lg-3">{{form.estado_civil.label}}</div>
-                <div class="col-lg-9">{{form.estado_civil}}</div>
-            </div>
-            <div class="row create-contact-errors">
-                <div class="col-lg-12">{{form.estado_civil.errors}}</div>
-            </div>
+                <div class="row create-contact-inputs">
+                    <div class="col-lg-3">{{form.sexo.label}}</div>
+                    <div class="col-lg-9">{{form.sexo}}</div>
+                </div>
+                <div class="row create-contact-errors">
+                    <div class="col-lg-12">{{form.sexo.errors}}</div>
+                </div>
 
-            <div class="row create-contact-inputs">
-                <div class="col-lg-3">{{form.sexo.label}}</div>
-                <div class="col-lg-9">{{form.sexo}}</div>
-            </div>
-            <div class="row create-contact-errors">
-                <div class="col-lg-12">{{form.sexo.errors}}</div>
-            </div>
-
-            <div class="row create-contact-inputs">
-                <div class="col-lg-3">Tiene Hijos?</div>
-                <div class="col-lg-9">{{form.hijos}}</div>
-            </div>
-            <div class="row create-contact-errors">
-                <div class="col-lg-12">{{form.hijos.errors}}</div>
-            </div>
+                <div class="row create-contact-inputs">
+                    <div class="col-lg-3">Tiene Hijos?</div>
+                    <div class="col-lg-9">{{form.hijos}}</div>
+                </div>
+                <div class="row create-contact-errors">
+                    <div class="col-lg-12">{{form.hijos.errors}}</div>
+                </div>
 
 
 
-            <div class="row create-contact-inputs">
-                <div class="col-lg-3">{{form.categoria.label}}</div>
-                <div class="col-lg-9">{{form.categoria}}</div>
-            </div>
-            <div class="row create-contact-errors">
-                <div class="col-lg-12">{{form.categoria.errors}}</div>
-            </div>
-            <div class="row create-contact-inputs">
-                <div class="col-lg-3">{{form.proyecto.label}}</div>
-                <div class="col-lg-9">{{form.proyecto}}</div>
-            </div>
-            <div class="row create-contact-errors">
-                <div class="col-lg-12">{{form.proyecto.errors}}</div>
-            </div>
+                <div class="row create-contact-inputs">
+                    <div class="col-lg-3">{{form.categoria.label}}</div>
+                    <div class="col-lg-9">{{form.categoria}}</div>
+                </div>
+                <div class="row create-contact-errors">
+                    <div class="col-lg-12">{{form.categoria.errors}}</div>
+                </div>
+                <div class="row create-contact-inputs">
+                    <div class="col-lg-3">{{form.proyecto.label}}</div>
+                    <div class="col-lg-9">{{form.proyecto}}</div>
+                </div>
+                <div class="row create-contact-errors">
+                    <div class="col-lg-12">{{form.proyecto.errors}}</div>
+                </div>
 
-            <div class="row create-contact-inputs">
-                <div class="col-lg-3">{{form.observaciones.label}}</div>
-                <div class="col-lg-9">{{form.observaciones}}</div>
-            </div>
-            <div class="row create-contact-errors">
-                <div class="col-lg-12">{{form.observaciones.errors}}</div>
-            </div>
+                <div class="row create-contact-inputs">
+                    <div class="col-lg-3">{{form.observaciones.label}}</div>
+                    <div class="col-lg-9">{{form.observaciones}}</div>
+                </div>
+                <div class="row create-contact-errors">
+                    <div class="col-lg-12">{{form.observaciones.errors}}</div>
+                </div>
 
-            <input class="btn btn-primary create-contact-submit" type="submit" value="Crear Contacto">
+                <input class="btn btn-primary create-contact-submit" type="submit" value="Crear Contacto">
         </form>
+        </div>
     </div>
-</div>
-{% endblock content %}
+    {% endblock content %}

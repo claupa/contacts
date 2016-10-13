@@ -65,7 +65,7 @@ $(document).ready(function() {
     var address_index = 0;
     $('#anadir-direccion').click(function(e) {
         e.preventDefault();
-        if (address_index == 3) {
+        if (address_index == 0) {
             $('#anadir-direccion').hide();
         }
         $('.new-address-' + address_index).fadeIn(100);
