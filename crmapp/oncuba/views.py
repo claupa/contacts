@@ -1,7 +1,7 @@
 #-*- coding: utf8 -*-
 from django.shortcuts import render
 from django.core.exceptions import PermissionDenied
-from .forms import CreateContactForm, CreateAddressForm, CreatePhoneForm, CreateEmailForm
+from .forms import CreateContactForm, CreateAddressForm, CreatePhoneForm, CreateEmailForm,OnCubaUserForm
 from .forms import CreateContactFormEntidad, CreateAddressFormEntidad, CreatePhoneFormEntidad, CreateEmailFormEntidad
 from .models import PhoneNumberPerson, EmailPerson, AddressPerson
 from .models import PhoneNumberEntidad, EmailEntidad, AddressEntidad
@@ -323,8 +323,34 @@ def create_entidad(request, template="oncuba/create_contact_entidad.html"):
 def create_oncuba_user(render, template="oncuba/create_oncuba_user.html"):
     pass
 
-def edit_oncuba_user(render, template="oncuba/edit_oncuba_user.html"):
-    pass    
+def edit_oncuba_user(request, template="oncuba/oncuba_user_form.html"):
+    oncubauser = OnCubaUser.objects.get(user__pk = request.user.pk)
+    if request.POST:
+        form = OnCubaUserForm(request.POST)
+        if form.is_valid():
+            print form.cleaned_data
+            oncubauser.user.username = form.cleaned_data['username']
+            oncubauser.user.first_name = form.cleaned_data['first_name']
+            oncubauser.user.last_name = form.cleaned_data['last_name']
+            oncubauser.user.email = form.cleaned_data['email']
+            oncubauser.user.save()
+            oncubauser.cargo = form.cleaned_data['cargo']
+            # oncubauser.proyecto.clear()
+            
+            # for proyecto in form.cleaned_data['proyecto']:
+            #     oncubauser.proyecto.add(proyecto)
+            oncubauser.save()
+            return redirect('/mi-perfil/')
+    else:
+        form = OnCubaUserForm({
+            'username': oncubauser.user.username,
+            'first_name' : oncubauser.user.first_name,
+            'last_name' : oncubauser.user.last_name, 
+            'email' : oncubauser.user.email,
+            'cargo' : oncubauser.cargo,
+            # 'proyecto' : oncubauser.proyecto
+        })
+    return render(request, template, {'form': form})
 
 @login_required()
 def view_oncuba_user(request, template="oncuba/view_oncuba_user.html"):

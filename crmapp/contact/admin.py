@@ -4,4 +4,4 @@ from .models import Contact
 class ContactAdmin(admin.ModelAdmin):
     list_display = ('first_name', 'last_name', 'uuid')
 
-admin.site.register(Contact, ContactAdmin)
+# admin.site.register(Contact, ContactAdmin)
