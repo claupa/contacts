@@ -12,6 +12,12 @@ from django.http import HttpResponseRedirect
 from django.views.generic import UpdateView
 from django.forms.models import model_to_dict
 
+from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+from django.shortcuts import render, redirect
+
+
 # Create your views here.
 @login_required()
 def create_persona(request, template="oncuba/create_contact_persona.html"):
@@ -324,3 +330,19 @@ def edit_oncuba_user(render, template="oncuba/edit_oncuba_user.html"):
 def view_oncuba_user(request, template="oncuba/view_oncuba_user.html"):
     oncubauser= OnCubaUser.objects.get(user = request.user)
     return render(request, template, {'oncubauser': oncubauser})
+
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('accounts:change_password')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'oncuba/change_password.html', {
+        'form': form
+    })

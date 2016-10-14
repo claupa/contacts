@@ -62,8 +62,9 @@ def home_page(request, template='marketing/home.html'):
                         'nombre' : persona.nombre+ ' '+ persona.apellidos,
                         'ocupacion': persona.ocupacion + '/'+ persona.lugar_de_trabajo,
                         'created_by': persona.created_by.user.username,
-                        'can_edit': persona.created_by.user.username == request.user.username,
+                        'can_edit': persona.created_by.user.username == request.user.username or request.user.is_superuser,
                         'can_read': check_credentials(persona, request.user),
+                        'can_delete': persona.created_by.user.username == request.user.username or request.user.is_superuser,
                         'is_persona' : True
                         })
         if contacts[-1]['can_read']:
@@ -75,9 +76,9 @@ def home_page(request, template='marketing/home.html'):
                         'nombre' : entidad.nombre,
                         'ocupacion': entidad.servicios,
                         'created_by': entidad.created_by.user.username,
-                        'can_edit': entidad.created_by.user.username == request.user.username,
+                        'can_edit': entidad.created_by.user.username == request.user.username or request.user.is_superuser,
                         'can_read': check_credentials(entidad, request.user),
-                        'can_delete': entidad.created_by.user.username == request.user.username,
+                        'can_delete': entidad.created_by.user.username == request.user.username or request.user.is_superuser,
                         'is_persona' : False
                          })
         if contacts[-1]['can_read']:
@@ -105,9 +106,9 @@ def mis_contactos(request, template= "marketing/mis_contactos.html"):
                         'nombre' : persona.nombre+ ' '+ persona.apellidos,
                         'ocupacion': persona.ocupacion + '/'+ persona.lugar_de_trabajo,
                         'created_by': persona.created_by.user.username,
-                        'can_edit': persona.created_by.user.username == request.user.username,
+                        'can_edit': persona.created_by.user.username == request.user.username or request.user.is_superuser,
                         'can_read': check_credentials(persona, request.user),
-                        'can_delete': persona.created_by.user.username == request.user.username,
+                        'can_delete': persona.created_by.user.username == request.user.username or request.user.is_superuser,
                         'is_persona': True })
         if contacts[-1]['can_read']:
             contacts[-1]['id'] = persona.pk 
@@ -119,9 +120,9 @@ def mis_contactos(request, template= "marketing/mis_contactos.html"):
                         'nombre' : entidad.nombre,
                         'ocupacion': entidad.servicios,
                         'created_by': entidad.created_by.username,
-                        'can_edit': entidad.created_by.user.username == request.user.username,
+                        'can_edit': entidad.created_by.user.username == request.user.username or request.user.is_superuser,
                         'can_read': check_credentials(entidad, request.user),
-                        'can_delete': entidad.created_by.user.username == request.user.username ,
+                        'can_delete': entidad.created_by.user.username == request.user.username or request.user.is_superuser,
                         'is_persona': False})
         if contacts[-1]['can_read']:
             contacts[-1]['id'] = entidad.pk 
