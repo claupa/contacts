@@ -4,6 +4,7 @@ from django import forms
 from .models import Persona, AddressPerson, PhoneNumberPerson, EmailPerson
 from .models import Entidad, AddressEntidad, PhoneNumberEntidad, EmailEntidad
 from .models import Proyecto, Categoria
+from django.contrib.auth.forms import UserCreationForm
 
 
 class CreateContactForm(forms.ModelForm):
@@ -103,4 +104,24 @@ class FilterForm(forms.Form):
     categoria = forms.MultipleChoiceField(widget=forms.SelectMultiple,
                                          choices=tuple(categoria_choices),
                                          required=False)
+
+class SubscriberForm(UserCreationForm):
+    first_name = forms.CharField(
+        required=True, widget=forms.TextInput(attrs={'class':'form-control'})
+    )
+    last_name = forms.CharField(
+        required=True, widget=forms.TextInput(attrs={'class':'form-control'})
+    )
+    email = forms.EmailField(
+        required=True, widget=forms.TextInput(attrs={'class':'form-control'})
+    )
+    username = forms.CharField(
+        widget=forms.TextInput(attrs={'class':'form-control'})
+    )
+    password1 = forms.CharField(
+        widget=forms.TextInput(attrs={'class':'form-control', 'type':'password'})
+    )
+    password2 = forms.CharField(
+        widget=forms.TextInput(attrs={'class':'form-control', 'type':'password'})
+    )
         

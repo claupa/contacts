@@ -1,0 +1,29 @@
+{% extends 'base.html' %} {% block title %}Mi Perfil{% endblock title %} {% block content %}
+<div id="content-container" class="container p-none">
+    <div class="side-p">
+        <h4 class="page-title sn-sh">Usuario</h4>
+        <div class="row create-contact-inputs">
+            <div class="col-lg-3">Nombre de usuario:</div>
+            <div class="col-lg-9">{{oncubauser.user.username}}</div>
+        </div>
+        <div class="row create-contact-inputs">
+            <div class="col-lg-3">Nombre:</div>
+            <div class="col-lg-9">{{oncubauser.user.first_name}}</div>
+        </div>
+        <div class="row create-contact-inputs">
+            <div class="col-lg-3">Apellido(s):</div>
+            <div class="col-lg-9">{{oncubauser.user.last_name}}</div>
+        </div>
+        <div class="row create-contact-inputs">
+            <div class="col-lg-3">Cargo:</div>
+            <div class="col-lg-9">{{oncubauser.cargo}}</div>
+        </div>
+        <div class="row create-contact-inputs">
+            <div class="col-lg-3">Proyecto(s):</div>
+            <div class="col-lg-9">
+                {% for proyecto in oncubauser.proyecto.all %}
+                <span>{{proyecto.name}}</span><br/> {% endfor %}</div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

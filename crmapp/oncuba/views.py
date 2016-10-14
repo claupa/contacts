@@ -312,3 +312,15 @@ def create_entidad(request, template="oncuba/create_contact_entidad.html"):
         del form_email.fields['descripcion']       
 
     return render(request, template, {'form':form_contact, 'address': form_address, 'phone': form_phone, 'email': form_email})
+
+
+def create_oncuba_user(render, template="oncuba/create_oncuba_user.html"):
+    pass
+
+def edit_oncuba_user(render, template="oncuba/edit_oncuba_user.html"):
+    pass    
+
+@login_required()
+def view_oncuba_user(request, template="oncuba/view_oncuba_user.html"):
+    oncubauser= OnCubaUser.objects.get(user = request.user)
+    return render(request, template, {'oncubauser': oncubauser})
