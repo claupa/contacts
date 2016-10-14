@@ -28,7 +28,7 @@ view_oncuba_user, change_password
 
 urlpatterns = [
     # Marketing pages
-    url(r'^admin/', admin.site.urls),
+    url(r'^admin/$', admin.site.urls),
 
     url(r'^$', home_page, name="home"),
 

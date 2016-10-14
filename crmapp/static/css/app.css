@@ -161,3 +161,10 @@ form#form-search.navbar-form {
 #form-filter .contact-type select {
     width: 90%;
 }
+
+#change-password {
+    margin: 20px auto;
+}
+#change-password input{
+    width: 200px;
+}

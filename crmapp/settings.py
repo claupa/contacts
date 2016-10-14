@@ -149,5 +149,5 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
-LOGIN_REDIRECT_URL = '/account/list/'
+LOGIN_REDIRECT_URL = '/'
 URL = 'http://localhost:8000/'
