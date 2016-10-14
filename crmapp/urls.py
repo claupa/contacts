@@ -29,7 +29,7 @@ view_oncuba_user, change_password, edit_oncuba_user
 urlpatterns = [
     # Marketing pages
     url(r'^admin/', admin.site.urls),
-
+    # url(r'^admin/oncuba/roles/$', admin.site.urls, name="roles"),
     url(r'^$', home_page, name="home"),
 
     # Subscriber related URLs

@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from select_multiple_field.models import SelectMultipleField
 from django.contrib.auth.models import User
 # from datetime import datetime
-from django.utils.timezone import now
+import django.utils.timezone as t
 
 class Categoria(models.Model):
     name = models.CharField(max_length=50, unique=True)
@@ -83,7 +83,7 @@ class Persona(models.Model):
     observaciones = models.TextField(blank = True)
     created_by = models.ForeignKey(OnCubaUser, verbose_name = 'Creado por',default = 1)
     marked_for_deletion = models.BooleanField(default=False)
-    date_marked = models.DateTimeField(blank = True, default =now())
+    date_marked = models.DateTimeField(blank = True, default =t.now)
 
 
     def __unicode__(self):
@@ -137,7 +137,8 @@ class Entidad(models.Model):
 
     created_by = models.ForeignKey(OnCubaUser, verbose_name = 'Creado por',default = 1)
     marked_for_deletion = models.BooleanField(default = False)
-    date_marked = models.DateTimeField(blank = True, default =now())
+    date_marked = models.DateTimeField(blank = True, default =t.now)
+
     
 
     class Meta:
@@ -179,30 +180,9 @@ class AddressEntidad(models.Model):
     class Meta:
         verbose_name_plural = 'Direcciones Disponibles'
         verbose_name =  "Dirección"
-    
-    
-    
-    
 
-# Persona:
-# Lugar de Trabajo
-# Ocupacion
-# Fecha de Nacimiento
-# Sexo
-# Hijos
-# Estado Civil
-
-
-# Entidad:
-# Servicios/Productos
-# Aniversario
-# FIesta Nacional
-#     Nombre
-# List - Telefonos (Numeros y descripción)
-# List - Email (Numeros y descripcion) 
-# País
-# List - Direcion +  Descripcion
-# Sitio Web
-# Categoría
-# Relación con OnCuba
-# Observaciones
+class UserTracker(models.Model):
+    ACTIONS = (('C', 'Creado'),('M', 'Modificado'),('B', 'Borrado'), ('I','Invitado'), ('L', 'Leido'),('A', 'Accedido'))
+    user = models.ForeignKey(User)
+    action = models.CharField(max_length=1, choices = ACTIONS)
+    fecha = models.DateTimeField(default =t.now)

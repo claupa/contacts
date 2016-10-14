@@ -150,4 +150,4 @@ STATICFILES_DIRS = (
 )
 
 LOGIN_REDIRECT_URL = '/'
-URL = 'http://localhost:8000/'
+HOME_URL = 'http://localhost:8000/'

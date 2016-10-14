@@ -48,11 +48,11 @@
                                             <b class="caret"></b>
                                         </a>
                             <ul class="dropdown-menu">
-                                <li class="menu-roles"><a href="{{URL}}admin/oncuba/role/">Roles</a></li>
-                                <li class="menu-usuarios"><a href="{{URL}}admin/oncuba/usuario/">Usuarios</a></li>
+                                <li class="menu-roles"><a href="{% url 'admin:oncuba_role_changelist' %}">Roles</a></li>
+                                <li class="menu-usuarios"><a href="{{HOME_URL}}admin/oncuba/usuario/">Usuarios</a></li>
                                 <li class="menu-historial"><a href="{% url 'admin_history'%}">Historial</a></li>
-                                <li class="menu-categorias"><a href="{{URL}}admin/oncuba/categoria/">Categorías</a></li>
-                                <li class="menu-categorias"><a href="{{URL}}admin/oncuba/proyecto/">Proyecto</a></li>
+                                <li class="menu-categorias"><a href="{% url 'admin:oncuba_categoria_changelist' %}">Categorías</a></li>
+                                <li class="menu-categorias"><a href="{% url 'admin:oncuba_proyecto_changelist' %}">Proyecto</a></li>
 
                             </ul>
                         </li>

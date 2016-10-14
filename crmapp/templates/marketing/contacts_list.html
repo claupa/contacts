@@ -29,11 +29,11 @@
                 </span> {% else %}
             <span>
                     <a href="{% url 'editar_entidad' contact.id %}"><i class="fa fa-pencil"></i></a>
-                </span> {% endif %}{% endif %} {% comment %}{% if contact.can_delete %}
+                </span> {% endif %}{% endif %} {% if contact.can_delete %}
             <span>
             <span><a href="#"><i class="fa fa-times"></i></a>
         </span>
-            </span> {% endif %}{% endcomment %}
+            </span> {% endif %}
         </div>
         {% comment %}{{contact}}{% endcomment %}
     </div>
