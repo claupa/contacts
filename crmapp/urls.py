@@ -23,7 +23,7 @@ from accounts.views import AccountList, account_cru
 from accounts.urls import account_urls
 from contact.urls import contact_urls
 from contact.views import contact_cru
-from oncuba.views import create_persona, create_entidad, view_contact
+from oncuba.views import create_persona, create_entidad, view_persona,view_entidad, editar_persona, editar_entidad
 
 urlpatterns = [
     # Marketing pages
@@ -35,8 +35,15 @@ urlpatterns = [
     url(r'^signup/$', subscriber_new, name='sub_new'),
     url(r'^nueva-persona/$', create_persona, name='create_contact_persona'),
     url(r'^nueva-entidad/$', create_entidad, name='create_contact_entidad'),
+    url(r'^editar-persona/(?P<contact_id>.*)/$', editar_persona, name='editar_persona'),
+    url(r'^editar-entidad/(?P<contact_id>.*)/$', editar_entidad, name='editar_entidad'),
+    url(r'^ver-persona/(?P<contact_id>.*)/$', view_persona, name='view_persona'),
+    url(r'^ver-entidad/(?P<contact_id>.*)/$', view_entidad, name='view_entidad'),
+    
+    
     url(r'^mis-contactos/$', mis_contactos, name='mis_contactos'),
-    url(r'^contactos/(?P<contact_id>.*)/$', view_contact, name='view_contact'),
+
+    # url(r'^contactos/(?P<contact_id>.*)/$', view_contact, name='view_contact'),
     
     
     

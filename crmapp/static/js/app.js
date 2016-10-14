@@ -91,4 +91,8 @@ $(document).ready(function() {
         console.log(e);
 
     });
+
+    $('#id_phone_descripcion').prop('value', $('#phone-descr').text());
+    $('#id_email_descripcion').prop('value', $('#email-descr').text());
+
 });

@@ -10,6 +10,7 @@ from django.contrib.auth.decorators import login_required
 from crmapp.oncuba.models import Persona, Entidad, OnCubaUser
 from django.http import HttpResponseRedirect
 from django.views.generic import UpdateView
+from django.forms.models import model_to_dict
 
 # Create your views here.
 @login_required()
@@ -81,48 +82,171 @@ def create_persona(request, template="oncuba/create_contact_persona.html"):
 
     return render(request, template, {'form':form_contact, 'address': form_address, 'phone': form_phone, 'email': form_email})
 
-def edit_persona(request, template="oncuba/create_contact_persona.html"):
+def editar_persona(request, contact_id, template="oncuba/edit_contact.html"):
+    
+    persona = Persona.objects.get(pk=contact_id)
+    address = AddressPerson.objects.filter(contact__pk = contact_id)[0]
+    phone = PhoneNumberPerson.objects.filter(contact__pk= contact_id)[0]
+    email = EmailPerson.objects.filter(contact__pk= contact_id)[0]
+    
     if request.method == 'POST':
-        form = CreateContactForm(request.POST)
-        if form.is_valid():
-            nombre = form.cleaned_data['nombre']
-            apellidos = form.cleaned_data['apellidos']
-            lugar = form.cleaned_data['lugar_de_trabajo']
-            ocupacion = form.cleaned_data['ocupacion']
-            pais = form.cleaned_data['pais']
-            fecha_nac = form.cleaned_data['fecha_nac']
-            sexo = form.cleaned_data['sexo']
-            estado = form.cleaned_data['estado_civil']
-            hijos = form.cleaned_data['hijos']
-            sitio_web = form.cleaned_data['sitio_web']
-            categorias = form.cleaned_data['categoria']
-            proyectos = form.cleaned_data['proyecto']
-            observaciones = form.cleaned_data['observaciones']
-            
-            # Create the User record
-            persona = Persona(nombre= nombre, apellidos = apellidos, lugar_de_trabajo = lugar,
-            ocupacion = ocupacion, pais=pais, fecha_de_nacimiento=fecha_nac, sexo = sexo, estado_civil = estado,
-            hijos= hijos, sitio_web=sitio_web, observaciones = observaciones,
-            created_by= OnCubaUser.objects.get(user= request.user))
-            persona.save()
+        form_contact = CreateContactForm(request.POST)
+        form_address = CreateAddressForm(request.POST)
+        form_phone = CreatePhoneForm(request.POST)
+        form_email = CreateEmailForm(request.POST)
+        form_phone.modification = True
+        form_email.modification = True
+        form_phone.fields['phone_descripcion'] = form_phone.fields['descripcion']
+        del form_phone.fields['descripcion']
+        form_email.fields['email_descripcion'] = form_email.fields['descripcion']
+        del form_email.fields['descripcion']
+        
 
-            for categoria in categorias:
+        if form_contact.is_valid() and form_address.is_valid() and form_phone.is_valid() and form_email.is_valid():
+            persona.nombre = form_contact.cleaned_data['nombre']
+            persona.apellidos = form_contact.cleaned_data['apellidos']
+            persona.lugar = form_contact.cleaned_data['lugar_de_trabajo']
+            persona.ocupacion = form_contact.cleaned_data['ocupacion']
+            persona.pais = form_contact.cleaned_data['pais']
+            persona.fecha_de_nacimiento = form_contact.cleaned_data['fecha_nac']
+            persona.sexo = form_contact.cleaned_data['sexo']
+            persona.estado = form_contact.cleaned_data['estado_civil']
+            persona.hijos = form_contact.cleaned_data['hijos']
+            persona.sitio_web = form_contact.cleaned_data['sitio_web']
+            persona.observaciones = form_contact.cleaned_data['observaciones']
+            
+            persona.categoria.clear()
+            persona.proyecto.clear()
+
+            for categoria in form_contact.cleaned_data['categoria']:
                 persona.categoria.add(categoria)
 
-            for proyecto in proyectos:
+            for proyecto in form_contact.cleaned_data['proyecto']:
                 persona.proyecto.add(proyecto)
-
             persona.save()
+
+            phone.number = form_phone.cleaned_data['number']
+            phone.descripcion =  form_phone.cleaned_data['phone_descripcion']
+            phone.save()
+
+            email.email = form_email.cleaned_data['email']
+            email.descripcion =  form_email.cleaned_data['email_descripcion']
+            email.save()
             
-            return HttpResponseRedirect('/')
-        else:
-            form = CreateContactForm()
+            address.address_one = form_address.cleaned_data['address_one']
+            address.provincia = form_address.cleaned_data['provincia']
+            address.municipio= form_address.cleaned_data['municipio']
+            address.descripcion = form_address.cleaned_data['descripcion']
+            address.save()
+            
+        return HttpResponseRedirect('/')
+    else:
+        form_contact = CreateContactForm(model_to_dict(persona)) 
+        form_address = CreateAddressForm(model_to_dict(address))
+        # print model_to_dict(email)
 
-        return render(request, template, {'form':form})
+        form_email = CreateEmailForm(model_to_dict(email))
+        form_phone = CreatePhoneForm(model_to_dict(phone))
+        form_phone.modification = True
+        form_email.modification = True
+        form_phone.fields['phone_descripcion'] = form_phone.fields['descripcion']
+        del form_phone.fields['descripcion']
+        form_email.fields['email_descripcion'] = form_email.fields['descripcion']
+        del form_email.fields['descripcion']
 
-def view_contact(request, contact_id, template=""):
-    print  "View Contact"
-    return HttpResponseRedirect('/mis-contactos/')
+    return render(request, template, {'form':form_contact, 'address': form_address, 'phone': form_phone, 'email': form_email,
+        'phone_description': phone.descripcion, 'email_description': email.descripcion, 'contact_id': contact_id})
+
+def editar_entidad(request, contact_id, template="oncuba/edit_entidad.html"):
+        
+    entidad = Entidad.objects.get(pk=contact_id)
+    address = AddressEntidad.objects.filter(contact__pk = contact_id)[0]
+    phone = PhoneNumberEntidad.objects.filter(contact__pk= contact_id)[0]
+    email = EmailEntidad.objects.filter(contact__pk= contact_id)[0]
+    
+    if request.method == 'POST':
+        form_contact = CreateContactFormEntidad(request.POST)
+        form_address = CreateAddressFormEntidad(request.POST)
+        form_phone = CreatePhoneFormEntidad(request.POST)
+        form_email = CreateEmailFormEntidad(request.POST)
+        form_phone.modification = True
+        form_email.modification = True
+        form_phone.fields['phone_descripcion'] = form_phone.fields['descripcion']
+        del form_phone.fields['descripcion']
+        form_email.fields['email_descripcion'] = form_email.fields['descripcion']
+        del form_email.fields['descripcion']
+        
+
+        if form_contact.is_valid() and form_address.is_valid() and form_phone.is_valid() and form_email.is_valid():
+            entidad.nombre = form_contact.cleaned_data['nombre']
+            entidad.servicios = form_contact.cleaned_data['servicios']
+            entidad.persona = form_contact.cleaned_data['persona']
+            entidad.cargo = form_contact.cleaned_data['cargo']
+            entidad.pais = form_contact.cleaned_data['pais']
+            entidad.aniversario = form_contact.cleaned_data['aniversario']
+            entidad.fiesta = form_contact.cleaned_data['fiesta']
+            entidad.sitio_web = form_contact.cleaned_data['sitio_web']
+            entidad.observaciones = form_contact.cleaned_data['observaciones']
+            
+            entidad.categoria.clear()
+            entidad.proyecto.clear()
+
+            for categoria in form_contact.cleaned_data['categoria']:
+                entidad.categoria.add(categoria)
+
+            for proyecto in form_contact.cleaned_data['proyecto']:
+                entidad.proyecto.add(proyecto)
+            entidad.save()
+
+            phone.number = form_phone.cleaned_data['number']
+            phone.descripcion =  form_phone.cleaned_data['phone_descripcion']
+            phone.save()
+
+            email.email = form_email.cleaned_data['email']
+            email.descripcion =  form_email.cleaned_data['email_descripcion']
+            email.save()
+            
+            address.address_one = form_address.cleaned_data['address_one']
+            address.provincia = form_address.cleaned_data['provincia']
+            address.municipio= form_address.cleaned_data['municipio']
+            address.descripcion = form_address.cleaned_data['descripcion']
+            address.save()
+            
+        return HttpResponseRedirect('/')
+    else:
+        form_contact = CreateContactFormEntidad(model_to_dict(entidad)) 
+        form_address = CreateAddressFormEntidad(model_to_dict(address))
+        # print model_to_dict(email)
+
+        form_email = CreateEmailFormEntidad(model_to_dict(email))
+        form_phone = CreatePhoneFormEntidad(model_to_dict(phone))
+        form_phone.modification = True
+        form_email.modification = True
+        form_phone.fields['phone_descripcion'] = form_phone.fields['descripcion']
+        del form_phone.fields['descripcion']
+        form_email.fields['email_descripcion'] = form_email.fields['descripcion']
+        del form_email.fields['descripcion']
+
+    return render(request, template, {'form':form_contact, 'address': form_address, 'phone': form_phone, 'email': form_email,
+        'phone_description': phone.descripcion, 'email_description': email.descripcion, 'contact_id': contact_id})
+
+def view_persona(request, contact_id, template="oncuba/view_persona.html"):
+    # Si tienes los permisos
+    contact = Persona.objects.get(pk=contact_id)
+    email = EmailPerson.objects.get(contact__pk = contact_id)
+    phone = PhoneNumberPerson.objects.get(contact__pk= contact_id)
+    address = AddressPerson.objects.get(contact__pk= contact_id)
+    
+    return render(request, template, {'contact': contact, 'email': email , 'phone': phone, 'address': address})
+
+def view_entidad(request, contact_id, template="oncuba/view_entidad.html"):
+    # Si tienes los permisos
+    contact = Entidad.objects.get(pk=contact_id)
+    email = EmailEntidad.objects.get(contact__pk = contact_id)
+    phone = PhoneNumberEntidad.objects.get(contact__pk= contact_id)
+    address = AddressEntidad.objects.get(contact__pk= contact_id)
+    
+    return render(request, template, {'contact': contact, 'email': email , 'phone': phone, 'address': address})
         
 @login_required()
 def create_entidad(request, template="oncuba/create_contact_entidad.html"):

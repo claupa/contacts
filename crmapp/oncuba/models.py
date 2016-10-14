@@ -4,7 +4,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from select_multiple_field.models import SelectMultipleField
 from django.contrib.auth.models import User
-
+# from datetime import datetime
+from django.utils.timezone import now
 
 class Categoria(models.Model):
     name = models.CharField(max_length=50, unique=True)
@@ -43,6 +44,7 @@ class OnCubaUser(models.Model):
     user = models.ForeignKey(User, verbose_name = 'Usuario')
     cargo = models.CharField(max_length= 200)
     proyecto = models.ManyToManyField(Proyecto)
+    role = models.ForeignKey(Role, blank=True, null=True)
 
     class Meta:
         verbose_name_plural = 'Usuarios OnCuba'
@@ -80,6 +82,8 @@ class Persona(models.Model):
     proyecto = models.ManyToManyField(Proyecto)
     observaciones = models.TextField(blank = True)
     created_by = models.ForeignKey(OnCubaUser, verbose_name = 'Creado por',default = 1)
+    marked_for_deletion = models.BooleanField(default=False)
+    date_marked = models.DateTimeField(blank = True, default =now())
 
 
     def __unicode__(self):
@@ -132,6 +136,9 @@ class Entidad(models.Model):
     observaciones = models.TextField(blank = True)
 
     created_by = models.ForeignKey(OnCubaUser, verbose_name = 'Creado por',default = 1)
+    marked_for_deletion = models.BooleanField(default = False)
+    date_marked = models.DateTimeField(blank = True, default =now())
+    
 
     class Meta:
         verbose_name_plural = 'entidades'
@@ -151,7 +158,7 @@ class PhoneNumberEntidad(models.Model):
 
 
     def __unicode__(self):
-        return u"%s" % (self.nombre) 
+        return u"%s" % (self.number) 
 
 
 class EmailEntidad(models.Model):

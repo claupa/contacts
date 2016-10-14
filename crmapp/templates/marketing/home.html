@@ -24,37 +24,23 @@
 
 <div class="container">
     <div class="col-md-3" id="filter-table">
-        <form role="filter" id="form-filter" class="" method="get" action="#">
+        <form role="filter" id="form-filter" class="" method="post" action="{%url 'home' %}">
+            {% csrf_token %}
             <div class="contact-type">
                 <div class="form-group">
                     <label for="contact-type">
                         <h4>Tipo de Contacto</h4>                    
-                    </label>
-                    <select class="form-control" id="contact-type">
-                        <option>Todos</option>                        
-                        <option>Persona</option>
-                        <option>Entidad</option>
-                    </select>
+                    </label> {{filter_form.tipos}}
                 </div>
                 <div class="form-group">
                     <label for="proyecto">
                         <h4>Proyecto</h4>
-                    </label>
-                    <select multiple="" class="form-control" id="proyecto">
-                       {% for proyecto in proyectos %}
-                            <option value="{{proyecto.id}}">{{proyecto.name}}</option>
-                        {% endfor %}
-                    </select>
+                    </label> {{filter_form.proyecto}}
                 </div>
                 <div class="form-group">
                     <label for="categorias">
                         <h4>Categorías</h4>
-                    </label>
-                    <select multiple="" class="form-control" id="categorias">
-                        {% for categoria in categorias %}
-                            <option value="{{categoria.id}}">{{categoria.name}}</option>
-                        {% endfor %}
-                    </select>
+                    </label> {{filter_form.categoria}}
                 </div>
 
                 <button type="submit" form="form-filter" id="form-filter-submit" value="Submit">Filtrar</button>
