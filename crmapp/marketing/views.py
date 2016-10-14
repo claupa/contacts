@@ -4,6 +4,8 @@ from crmapp.oncuba.models import Categoria, Proyecto, Persona, Entidad
 from crmapp.oncuba.utils import check_credentials
 from django.contrib.auth.decorators import login_required
 from crmapp.oncuba.forms import FilterForm
+from django.db.models import Q
+
 
 def check_list(categorias, proyectos, contacts):
     possible_contacts = []
@@ -25,7 +27,15 @@ def check_list(categorias, proyectos, contacts):
 def home_page(request, template='marketing/home.html'):
     contact_person = Persona.objects.all()
     contact_entidad = Entidad.objects.all()
-    
+    s = ''
+    if request.GET:
+        s =request.GET['s']
+         
+        contact_person = Persona.objects.filter(Q(nombre__icontains = s) | Q(apellidos__icontains=s) | Q(lugar_de_trabajo__icontains=s)\
+        | Q(ocupacion__icontains=s))
+        contact_entidad = Entidad.objects.filter(Q(nombre__icontains = s) | Q(servicios__icontains=s) | Q(persona__icontains=s)\
+        | Q(cargo__icontains=s))
+
     if request.POST:
         filter_form = FilterForm(request.POST)
         # print request.POST
@@ -73,9 +83,12 @@ def home_page(request, template='marketing/home.html'):
         if contacts[-1]['can_read']:
             contacts[-1]['id'] = entidad.pk 
 
-    return render(request, template, {'filter_form':filter_form, 'categorias' : Categoria.objects.all(),
+    return render(request, template, {'s': s,'filter_form':filter_form, 'categorias' : Categoria.objects.all(),
                                     'proyectos': Proyecto.objects.all(),
                                     'contacts': contacts})
+
+
+
 @login_required()
 def mis_contactos(request, template= "marketing/mis_contactos.html"):
     

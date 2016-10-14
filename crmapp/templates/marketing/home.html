@@ -3,9 +3,9 @@
 <div class="row header-blue">
     <div class="container">
         <div id="header-search-collapse" class="navbar-collapse collapse row" style="height: auto;">
-            <form role="search" id="form-search" class="navbar-form" method="get" action="#">
+            <form role="search" id="form-search" class="navbar-form" method="get" action="{% url 'home'%}">
                 <div class="input-group header-search">
-                    <input type="text" class="form-control" name="s">
+                    <input type="text" class="form-control" name="s" value="{{s}}">
                     <span class="input-group-btn">
                         <button type="submit" class="btn btn-default glyphicon glyphicon-search"></button>
                     </span>
