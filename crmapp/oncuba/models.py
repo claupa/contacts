@@ -193,3 +193,9 @@ class Staff(models.Model):
     phone_number = models.CharField(max_length = 15, blank=True, null=True)
     cargo = models.CharField(max_length= 200)
     proyectos = models.ManyToManyField(Proyecto)
+
+    class Meta:
+        verbose_name_plural = 'Staff'
+
+    def __unicode__(self):
+        return u"%s %s" % (self.nombre, self.apellidos) 
