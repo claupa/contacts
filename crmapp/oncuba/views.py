@@ -267,7 +267,7 @@ def create_entidad(request, template="oncuba/create_contact_entidad.html"):
         form_email.fields['email_descripcion'] = form_email.fields['descripcion']
         del form_email.fields['descripcion']
         
-
+        
         if form_contact.is_valid() and form_address.is_valid() and form_phone.is_valid() and form_email.is_valid():
             nombre = form_contact.cleaned_data['nombre']
             servicios = form_contact.cleaned_data['servicios']
