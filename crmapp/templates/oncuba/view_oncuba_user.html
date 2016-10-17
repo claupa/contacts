@@ -15,17 +15,20 @@
             <div class="col-lg-9">{{oncubauser.user.last_name}}</div>
         </div>
         <div class="row create-contact-inputs">
+            <div class="col-lg-3">Correo Electrónico:</div>
+            <div class="col-lg-9">{{oncubauser.user.email}}</div>
+        </div>
+        <div class="row create-contact-inputs">
+            <div class="col-lg-3">Teléfono:</div>
+            <div class="col-lg-9">{{oncubauser.phone_number}}</div>
+        </div>
+        <div class="row create-contact-inputs">
             <div class="col-lg-3">Cargo:</div>
             <div class="col-lg-9">{{oncubauser.cargo}}</div>
         </div>
-        <div class="row create-contact-inputs">
-            <div class="col-lg-3">Proyecto(s):</div>
-            <div class="col-lg-9">
-                {% for proyecto in oncubauser.proyecto.all %}
-                <span>{{proyecto.name}}</span><br/> {% endfor %}</div>
-        </div>
+
     </div>
     <button><a href="{% url 'editar-perfil'%}">Editar</a></button>
-    <button><a href="{% url 'change_password'%}">Cambiar Password</a></button>
+    <button><a href="{% url 'change_password'%}">Cambiar Contraseña</a></button>
 </div>
 {% endblock content %}

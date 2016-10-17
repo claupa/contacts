@@ -42,8 +42,8 @@ class Role(models.Model):
 class OnCubaUser(models.Model):
     user = models.ForeignKey(User, verbose_name = 'Usuario')
     cargo = models.CharField(max_length= 200)
-    proyecto = models.ManyToManyField(Proyecto)
     role = models.ForeignKey(Role, blank=True, null=True)
+    phone_number = models.CharField(max_length = 15, blank=True, null=True)
 
     class Meta:
         verbose_name_plural = 'Usuarios OnCuba'
@@ -185,3 +185,11 @@ class UserTracker(models.Model):
     user = models.ForeignKey(User)
     action = models.CharField(max_length=1, choices = ACTIONS)
     fecha = models.DateTimeField(default =t.now)
+
+class Staff(models.Model):
+    nombre = models.CharField(max_length = 100,  verbose_name='Nombre(s)', default = " ")
+    apellidos = models.CharField(max_length = 100, verbose_name='Apellido(s)', default = " ")
+    email = models.EmailField(unique= True, verbose_name = 'Correo Electrónico')
+    phone_number = models.CharField(max_length = 15, blank=True, null=True)
+    cargo = models.CharField(max_length= 200)
+    proyectos = models.ManyToManyField(Proyecto)
