@@ -24,7 +24,7 @@ from accounts.urls import account_urls
 from contact.urls import contact_urls
 from contact.views import contact_cru
 from oncuba.views import create_persona, create_entidad, view_persona,view_entidad, editar_persona, editar_entidad,\
-view_oncuba_user, change_password, edit_oncuba_user
+view_oncuba_user, change_password, edit_oncuba_user, delete_contact
 
 urlpatterns = [
     # Marketing pages
@@ -42,7 +42,7 @@ urlpatterns = [
     url(r'^ver-entidad/(?P<contact_id>.*)/$', view_entidad, name='view_entidad'),
     url(r'^mi-perfil/$', view_oncuba_user, name='view_perfil'),
     url(r'^editar-perfil/$', edit_oncuba_user, name='editar-perfil'),
-
+    url(r'^borrar-contacto/(?P<contact_id>.*)/(?P<is_persona>.*)$', delete_contact, name='delete-contact'),
     url(r'^password/$', change_password, name='change_password'),
 
     

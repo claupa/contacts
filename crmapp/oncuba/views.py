@@ -1,24 +1,25 @@
 #-*- coding: utf8 -*-
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.core.exceptions import PermissionDenied
-from .forms import CreateContactForm, CreateAddressForm, CreatePhoneForm, CreateEmailForm,OnCubaUserForm
-from .forms import CreateContactFormEntidad, CreateAddressFormEntidad, CreatePhoneFormEntidad, CreateEmailFormEntidad
-from .models import PhoneNumberPerson, EmailPerson, AddressPerson
-from .models import PhoneNumberEntidad, EmailEntidad, AddressEntidad
-
 from django.contrib.auth.decorators import login_required
-from crmapp.oncuba.models import Persona, Entidad, OnCubaUser
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseForbidden
+
 from django.views.generic import UpdateView
 from django.forms.models import model_to_dict
-
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
-from django.shortcuts import render, redirect
+import django.utils.timezone as t
 
 
-# Create your views here.
+from .forms import CreateContactForm, CreateAddressForm, CreatePhoneForm, CreateEmailForm,OnCubaUserForm,\
+                   CreateContactFormEntidad, CreateAddressFormEntidad, CreatePhoneFormEntidad, CreateEmailFormEntidad
+from .models import PhoneNumberPerson, EmailPerson, AddressPerson,Persona,\
+                PhoneNumberEntidad, EmailEntidad, AddressEntidad, Entidad, OnCubaUser
+from .utils import check_credentials
+
+
+
 @login_required()
 def create_persona(request, template="oncuba/create_contact_persona.html"):
     if request.method == 'POST':
@@ -372,3 +373,16 @@ def change_password(request):
     return render(request, 'oncuba/change_password.html', {
         'form': form
     })
+
+@login_required()
+def delete_contact(request, contact_id, is_persona):
+    contact = Persona.objects.get(pk = contact_id) if is_persona == 'True' else Entidad.objects.get(pk = contact_id)
+
+    if check_credentials(contact, request.user):
+        contact.marked_for_deletion = True;
+        contact.date_marked = t.now()
+        contact.save()
+    else:
+        return HttpResponseForbidden()
+    
+    return redirect('/')

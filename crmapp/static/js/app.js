@@ -21,6 +21,15 @@ function csrfSafeMethod(method) {
     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
 }
 
+function delete_contact() {
+
+    if (confirm('Está seguro que desea eliminar el contacto?')) {
+        $('#delete-contact-form').submit();
+    } else {
+        return false;
+    }
+}
+
 function sameOrigin(url) {
     // test that a given url is a same-origin URL
     // url could be relative or scheme relative or absolute
@@ -94,5 +103,7 @@ $(document).ready(function() {
 
     $('#id_phone_descripcion').prop('value', $('#phone-descr').text());
     $('#id_email_descripcion').prop('value', $('#email-descr').text());
+
+
 
 });

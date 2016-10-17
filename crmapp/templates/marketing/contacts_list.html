@@ -6,15 +6,13 @@
     <div class="table-row row contact">
         <div class="col-md-10 col-lg-10">
             <div class="contact-number-name">
-                <span class="contact-number">{{contact.index}}.</span> {% if contact.can_read %}
-                {% if contact.is_persona %}
+                <span class="contact-number">{{contact.index}}.</span> {% if contact.can_read %} {% if contact.is_persona %}
                 <a href="{% url 'view_persona' contact.id %}">
                 {% else %}
                 <a href="{% url 'view_entidad' contact.id %}">
                 {% endif %}
                     <span class="contact-name">{{contact.nombre}}</span>
-                </a>
-                {% else %}
+                </a> {% else %}
                 <span class="contact-name">{{contact.nombre}}</span> {% endif %}
             </div>
             <div class="occupation">{{contact.ocupacion}}</div>
@@ -26,13 +24,16 @@
             {% if contact.can_edit %} {% if contact.is_persona %}
             <span>
                     <a href="{% url 'editar_persona' contact.id %}"><i class="fa fa-pencil"></i></a>
-                </span> {% else %}
+            </span> {% else %}
             <span>
-                    <a href="{% url 'editar_entidad' contact.id %}"><i class="fa fa-pencil"></i></a>
-                </span> {% endif %}{% endif %} {% if contact.can_delete %}
+                <a href="{% url 'editar_entidad' contact.id %}"><i class="fa fa-pencil"></i></a>
+            </span> {% endif %} {% endif %} {% if contact.can_delete %}
             <span>
-            <span><a href="#"><i class="fa fa-times"></i></a>
-        </span>
+                <form id="delete-contact-form" action="{% url 'delete-contact' contact.id contact.is_persona %}" method="get">
+                    <button type="submit" class="delete-contact" onclick="delete_contact()">
+                        <i class="fa fa-trash-o"></i>
+                    </button>
+                </form>
             </span> {% endif %}
         </div>
         {% comment %}{{contact}}{% endcomment %}

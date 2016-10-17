@@ -165,6 +165,36 @@ form#form-search.navbar-form {
 #change-password {
     margin: 20px auto;
 }
-#change-password input{
+
+#change-password input {
     width: 200px;
+}
+
+h4#create-entidad,
+h4#create-contact {
+    display: inline;
+    padding-left: 0;
+}
+
+a#crear-persona {
+    padding-right: 5px;
+}
+
+#create-entidad:hover a {
+    color: #9ccbe4;
+}
+
+button.delete-contact {
+    display: inline;
+    background: transparent;
+    border: none;
+    outline: none;
+    line-height: normal;
+}
+
+form#delete-contact-form,
+form#delete-contact-form:focus {
+    display: inline;
+    border: none;
+    outline: none !important;
 }

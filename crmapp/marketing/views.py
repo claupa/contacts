@@ -8,15 +8,15 @@ from django.db.models import Q
 
 @login_required()
 def home_page(request, template='marketing/home.html'):
-    contact_person = Persona.objects.all()
-    contact_entidad = Entidad.objects.all()
+    contact_person = Persona.objects.filter(marked_for_deletion = False)
+    contact_entidad = Entidad.objects.filter(marked_for_deletion = False)
     s = ''
     if request.GET:
         s =request.GET['s']
          
-        contact_person = Persona.objects.filter(Q(nombre__icontains = s) | Q(apellidos__icontains=s) | Q(lugar_de_trabajo__icontains=s)\
+        contact_person = contact_person.filter(Q(nombre__icontains = s) | Q(apellidos__icontains=s) | Q(lugar_de_trabajo__icontains=s)\
         | Q(ocupacion__icontains=s))
-        contact_entidad = Entidad.objects.filter(Q(nombre__icontains = s) | Q(servicios__icontains=s) | Q(persona__icontains=s)\
+        contact_entidad = contact_entidad.filter(Q(nombre__icontains = s) | Q(servicios__icontains=s) | Q(persona__icontains=s)\
         | Q(cargo__icontains=s))
 
     if request.POST:
@@ -49,15 +49,15 @@ def home_page(request, template='marketing/home.html'):
 
 @login_required()
 def mis_contactos(request, template= "marketing/mis_contactos.html"):
-    db_personas= Persona.objects.filter(created_by__user__username=request.user.username)
-    db_entidades= Entidad.objects.filter(created_by__user__username=request.user.username)
+    db_personas= Persona.objects.filter(created_by__user__username=request.user.username).filter(marked_for_deletion = False)
+    db_entidades= Entidad.objects.filter(created_by__user__username=request.user.username).filter(marked_for_deletion = False)
 
     contacts = get_contact_info(db_personas, request.user)
     contacts.extend(get_contact_info(db_entidades, request.user, False))
 
     return render(request, template, {'contacts': contacts})
 
-
+# --------------------------------------------------- Utils -------------------------------------------------
 def check_list(categorias, proyectos, contacts):
     possible_contacts = []
     if categorias:
@@ -88,17 +88,17 @@ def get_contact_info(contacts, user, persona = True):
         creator = contact.created_by.user
         is_owner_or_admin = creator == user or user.is_superuser
         
-        contact = {'index' : index,
-                    'nombre' : fn(contact),
-                    'ocupacion': fn(contact),
+        new_contact = {'index' : index,
+                    'nombre' : fn(contact)[0],
+                    'ocupacion': fn(contact)[1],
                     'created_by': creator.username,
                     'can_read': check_credentials(contact, user),
                     'can_edit': is_owner_or_admin,
                     'can_delete': is_owner_or_admin,
-                    'is_persona': True }
-        if contact['can_read']:
-            contact['id'] = contact.pk
-        new_contacts.append(contact)
+                    'is_persona': persona}
+        if new_contact['can_read']:
+            new_contact['id'] = contact.pk
+        new_contacts.append(new_contact)
     return new_contacts
 
 def get_name_and_ocupation_of_persona(contact):
