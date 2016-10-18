@@ -100,8 +100,8 @@ class FilterForm(forms.Form):
   
     def __init__(self):
         super(FilterForm, self).__init__()
-        self.proyecto_choices = tuple([(proyecto.pk, proyecto.name) for proyecto in Proyecto.objects.all()])
-        self.categoria_choices = tuple([(categoria.pk, categoria.name) for categoria in Categoria.objects.all()])
+        self.proyecto_choices = (('1', 'Porlalivre'),)#tuple([(proyecto.pk, proyecto.name) for proyecto in Proyecto.objects.all()])
+        self.categoria_choices =(('1', 'Turoperador'),) #tuple([(categoria.pk, categoria.name) for categoria in Categoria.objects.all()])
         self.proyecto = forms.MultipleChoiceField(widget=forms.SelectMultiple,
                                          choices=self.proyecto_choices,
                                          required= False)
