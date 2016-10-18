@@ -45,7 +45,6 @@ urlpatterns = [
     url(r'^borrar-contacto/(?P<contact_id>.*)/(?P<is_persona>.*)$', delete_contact, name='delete-contact'),
     url(r'^password/$', change_password, name='change_password'),    
     url(r'^mis-contactos/$', mis_contactos, name='mis_contactos'),
-    url(r'^invitations/', include('invitations.urls', namespace='invitations')),
     
     # url(r'^contactos/(?P<contact_id>.*)/$', view_contact, name='view_contact'),
     

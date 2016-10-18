@@ -57,10 +57,6 @@ INSTALLED_APPS = [
     'crmapp.accounts',
     'crmapp.contact',
     'crmapp.oncuba',
-    'django.contrib.sites',
-    'invitations',
-    'allauth',
-    'allauth.account',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -154,4 +150,3 @@ STATICFILES_DIRS = (
 
 LOGIN_REDIRECT_URL = '/'
 HOME_URL = 'http://localhost:8000/'
-ACCOUNT_ADAPTER = 'invitations.models.InvitationsAdapter'
