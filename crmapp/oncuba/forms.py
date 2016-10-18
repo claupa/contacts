@@ -95,15 +95,20 @@ class FilterForm(forms.Form):
                                 initial='T',
                                 widget=forms.Select(choices = choices_tipo),
                                 )
-    proyecto_choices = tuple([(proyecto.pk, proyecto.name) for proyecto in Proyecto.objects.all()])
-    categoria_choices = tuple([(categoria.pk, categoria.name) for categoria in Categoria.objects.all()])
     
-    proyecto = forms.MultipleChoiceField(widget=forms.SelectMultiple,
-                                         choices=tuple(proyecto_choices),
+    
+  
+    def __init__(self):
+        super(FilterForm, self).__init__()
+        self.proyecto_choices = tuple([(proyecto.pk, proyecto.name) for proyecto in Proyecto.objects.all()])
+        self.categoria_choices = tuple([(categoria.pk, categoria.name) for categoria in Categoria.objects.all()])
+        self.proyecto = forms.MultipleChoiceField(widget=forms.SelectMultiple,
+                                         choices=self.proyecto_choices,
                                          required= False)
-    categoria = forms.MultipleChoiceField(widget=forms.SelectMultiple,
-                                         choices=tuple(categoria_choices),
+        self.categoria = forms.MultipleChoiceField(widget=forms.SelectMultiple,
+                                         choices=self.categoria_choices,
                                          required=False)
+
 
 class SubscriberForm(UserCreationForm):
     first_name = forms.CharField(
