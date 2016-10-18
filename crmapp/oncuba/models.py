@@ -52,14 +52,11 @@ class OnCubaUser(models.Model):
     def username(self):
         return self.user.username
 
-    def proyectos(self):
-        proyectos = ''
-        for proyecto in self.proyecto.all():
-            proyectos+= ', ' + proyecto.name
-        return proyectos[2:]
-
     def __unicode__(self):
         return u"%s" % (self.user.username) 
+
+    def nombre_completo(self):
+        return self.user.first_name + ' ' + self.user.last_name
 
 class Persona(models.Model):
     SEXO =(('F', 'Femenino'), ('M', 'Masculino'))
@@ -84,6 +81,8 @@ class Persona(models.Model):
     marked_for_deletion = models.BooleanField(default=False)
     date_marked = models.DateTimeField(blank = True, default =t.now)
 
+    def nombre_completo(self):
+        return u"%s %s" % (self.nombre, self.apellidos) 
 
     def __unicode__(self):
         return u"%s %s" % (self.nombre, self.apellidos) 
@@ -138,6 +137,8 @@ class Entidad(models.Model):
     marked_for_deletion = models.BooleanField(default = False)
     date_marked = models.DateTimeField(blank = True, default =t.now)
 
+    def nombre_completo(self):
+        return u"%s" % (self.nombre) 
     
 
     class Meta:
@@ -185,6 +186,25 @@ class UserTracker(models.Model):
     user = models.ForeignKey(User)
     action = models.CharField(max_length=1, choices = ACTIONS)
     fecha = models.DateTimeField(default =t.now)
+    entidad = models.ForeignKey(Entidad, null=True, blank = True)
+    persona = models.ForeignKey(Persona, null = True, blank= True)
+    created_user = models.ForeignKey(OnCubaUser, null = True, blank= True, verbose_name = 'Usuario Invitado')
+
+    class Meta:
+        verbose_name = 'Historial'
+        verbose_name_plural = "Historial"
+
+    def __unicode__(self):
+        acciones ={ 'C' : 'creó', 'M':'modificó', 'L': 'consultó', 'B':'borró' }
+        if self.action == 'C' or self.action=='M' or self.action=='L' or self.action=='B':
+            a = acciones[self.action]
+            return u'El usuario %s %s el contacto %s el día %s.' % \
+            ( self.user.username,a, self.entidad.nombre_completo() if self.entidad else self.persona.nombre_completo(),
+            self.fecha.strftime('%d/%m/%Y'))
+        if self.action =="A":
+            return u'El usuario %s accedió al sitio el día %s.' % ( self.user.username,  self.fecha.strftime('%d/%m/%Y'))
+        else:
+            return u'El usuario %s invitó al usuario %s el día %s.' % ( self.user.username, created_user.nombre_completo(), self.fecha.strftime('%d/%m/%Y'))
 
 class Staff(models.Model):
     nombre = models.CharField(max_length = 100,  verbose_name='Nombre(s)', default = " ")
@@ -199,3 +219,4 @@ class Staff(models.Model):
 
     def __unicode__(self):
         return u"%s %s" % (self.nombre, self.apellidos) 
+

@@ -15,7 +15,7 @@ import django.utils.timezone as t
 from .forms import CreateContactForm, CreateAddressForm, CreatePhoneForm, CreateEmailForm,OnCubaUserForm,\
                    CreateContactFormEntidad, CreateAddressFormEntidad, CreatePhoneFormEntidad, CreateEmailFormEntidad
 from .models import PhoneNumberPerson, EmailPerson, AddressPerson,Persona,\
-                PhoneNumberEntidad, EmailEntidad, AddressEntidad, Entidad, OnCubaUser
+                PhoneNumberEntidad, EmailEntidad, AddressEntidad, Entidad, OnCubaUser, UserTracker
 from .utils import check_credentials
 
 
@@ -75,6 +75,8 @@ def create_persona(request, template="oncuba/create_contact_persona.html"):
                                     , descripcion = form_address.cleaned_data['descripcion']) 
             address.save()
             
+            history = UserTracker(user = request.user, action= 'C', persona = persona, fecha = t.now() )
+            history.save()
             return HttpResponseRedirect('/')
     else:
         form_contact = CreateContactForm() 
@@ -145,6 +147,9 @@ def editar_persona(request, contact_id, template="oncuba/edit_contact.html"):
             address.municipio= form_address.cleaned_data['municipio']
             address.descripcion = form_address.cleaned_data['descripcion']
             address.save()
+        
+        history = UserTracker(user = request.user, action= 'M', persona = persona, fecha = t.now() )
+        history.save()
             
         return HttpResponseRedirect('/')
     else:
@@ -218,7 +223,9 @@ def editar_entidad(request, contact_id, template="oncuba/edit_entidad.html"):
             address.municipio= form_address.cleaned_data['municipio']
             address.descripcion = form_address.cleaned_data['descripcion']
             address.save()
-            
+        history = UserTracker(user = request.user, action= 'M', entidad = entidad, fecha = t.now() )
+        history.save()
+        
         return HttpResponseRedirect('/')
     else:
         form_contact = CreateContactFormEntidad(model_to_dict(entidad)) 
@@ -243,6 +250,8 @@ def view_persona(request, contact_id, template="oncuba/view_persona.html"):
     email = EmailPerson.objects.get(contact__pk = contact_id)
     phone = PhoneNumberPerson.objects.get(contact__pk= contact_id)
     address = AddressPerson.objects.get(contact__pk= contact_id)
+    history = UserTracker(user = request.user, action= 'L', persona = contact, fecha = t.now() )
+    history.save()
     
     return render(request, template, {'contact': contact, 'email': email , 'phone': phone, 'address': address})
 
@@ -252,6 +261,8 @@ def view_entidad(request, contact_id, template="oncuba/view_entidad.html"):
     email = EmailEntidad.objects.get(contact__pk = contact_id)
     phone = PhoneNumberEntidad.objects.get(contact__pk= contact_id)
     address = AddressEntidad.objects.get(contact__pk= contact_id)
+    history = UserTracker(user = request.user, action= 'L', entidad = contact, fecha = t.now() )
+    history.save()
     
     return render(request, template, {'contact': contact, 'email': email , 'phone': phone, 'address': address})
         
@@ -267,7 +278,7 @@ def create_entidad(request, template="oncuba/create_contact_entidad.html"):
         form_email.fields['email_descripcion'] = form_email.fields['descripcion']
         del form_email.fields['descripcion']
         
-        
+
         if form_contact.is_valid() and form_address.is_valid() and form_phone.is_valid() and form_email.is_valid():
             nombre = form_contact.cleaned_data['nombre']
             servicios = form_contact.cleaned_data['servicios']
@@ -305,6 +316,9 @@ def create_entidad(request, template="oncuba/create_contact_entidad.html"):
                                     provincia = form_address.cleaned_data['provincia'], municipio= form_address.cleaned_data['municipio']
                                     , descripcion = form_address.cleaned_data['descripcion']) 
             address.save()
+            history = UserTracker(user = request.user, action= 'C', entidad = entidad, fecha = t.now() )
+            history.save()
+            
             
             return HttpResponseRedirect('/')
     else:
@@ -382,6 +396,14 @@ def delete_contact(request, contact_id, is_persona):
         contact.marked_for_deletion = True;
         contact.date_marked = t.now()
         contact.save()
+        if is_persona:
+            history = UserTracker(user = request.user, action= 'L', persona = contact,fecha = t.now() )
+            history.save()
+        else:
+            history = UserTracker(user = request.user, action= 'L', entidad = contact, fecha = t.now() )
+            history.save()
+            
+        
     else:
         return HttpResponseForbidden()
     

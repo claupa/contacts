@@ -62,7 +62,8 @@ form#form-search.navbar-form {
 }
 
 .contact .created-by,
-.contact .occupation {
+.contact .occupation,
+.contact .email {
     font-size: 20px;
     color: #333;
 }

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
-from crmapp.oncuba.models import Categoria, Proyecto, Persona, Entidad 
+from crmapp.oncuba.models import Categoria, Proyecto, Persona, Entidad, Staff
 from crmapp.oncuba.utils import check_credentials
 from django.contrib.auth.decorators import login_required
 from crmapp.oncuba.forms import FilterForm
@@ -40,12 +40,14 @@ def home_page(request, template='marketing/home.html'):
     
     contacts = get_contact_info(contact_person, request.user, True)
     contacts.extend(get_contact_info(contact_entidad, request.user, False))
+    staff = get_staff_info()
 
     return render(request, template, {'s': s,
                                     'filter_form':filter_form, 
                                     'categorias' : Categoria.objects.all(),
                                     'proyectos': Proyecto.objects.all(),
-                                    'contacts': contacts})
+                                    'contacts': contacts,
+                                    'staff' : staff})
 
 @login_required()
 def mis_contactos(request, template= "marketing/mis_contactos.html"):
@@ -58,6 +60,20 @@ def mis_contactos(request, template= "marketing/mis_contactos.html"):
     return render(request, template, {'contacts': contacts})
 
 # --------------------------------------------------- Utils -------------------------------------------------
+def get_staff_info():
+    staff = []
+    index = 0
+    for s in Staff.objects.all():
+        index += 1 
+        staff.append({
+            'index' : index,
+            'nombre' : s.nombre + ' ' + s.apellidos,
+            'cargo' : s.cargo,
+            'email' : s.email 
+        })
+    return staff
+
+
 def check_list(categorias, proyectos, contacts):
     possible_contacts = []
     if categorias:
