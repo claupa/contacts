@@ -92,7 +92,7 @@ class CreateContactFormEntidad(forms.ModelForm):
 class FilterForm(forms.Form):
     choices_tipo = ((u'T' , u'Todos'),(u'P', u'Persona'),(u'E', u'Entidad')  )
     proyecto_choices = tuple([(proyecto.pk, proyecto.name) for proyecto in Proyecto.objects.all()])
-    categoria_choice= tuple([(categoria.pk, categoria.name) for categoria in Categoria.objects.all()])
+    categoria_choices= tuple([(categoria.pk, categoria.name) for categoria in Categoria.objects.all()])
     proyecto = forms.MultipleChoiceField(widget=forms.SelectMultiple,
                                          choices=proyecto_choices,
                                          required= False)
