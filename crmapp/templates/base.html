@@ -1,0 +1,95 @@
+{# HTML5 declaration #}
+<!DOCTYPE html>
+<html>
+{# Make modifiable head elements #}
+
+<head>
+    <title>{% block title %}Directorio OnCuba{% endblock title %}</title>
+    {% block head_favicon %}
+    <link rel="icon" type="image/png" href="{{ STATIC_URL }}images/favicon.ico"> {% endblock head_favicon %} {% block head_meta %} {% block head_meta_charset %}
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> {% endblock head_meta_charset %} {% block head_meta_contentlanguage %}
+    <meta http-equiv="Content-Language" value="en-US" /> {% endblock head_meta_contentlanguage %} {% block head_meta_viewport %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> {% endblock head_meta_viewport %} {% endblock head_meta %} {% block head_css %} {% block head_css_site %}
+    <link href="{{ STATIC_URL }}css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="{{ STATIC_URL }}css/oncubastyle.css" rel="stylesheet" media="screen">
+    <link href="{{ STATIC_URL }}css/app.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/font-awesome.min.css"> {% endblock head_css_site %} {% block head_css_section %} {% endblock head_css_section %} {% block head_css_page %} {% endblock head_css_page %} {% endblock head_css %}
+</head>
+
+<body>
+    {# Navigation Menu #}
+    <header>
+        <div id="nav1" class="main-menu navbar navbar-default navbar-static-top" role="navigation">
+            <div class="container main-menu-container">
+                <div class="navbar-header main-menu-header">
+                    <button type="button" class="navbar-toggle navbar-left" data-toggle="collapse" data-target="#main-nav-menu">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    <a class="navbar-brand" href="{% url 'home'%}">
+                        <img src="{{ STATIC_URL}}images/logo.png" class="text-center" />
+                    </a>
+                </div>
+                <div class="navbar-header header-search-header">
+                    <button data-target="#header-search-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                </div>
+                <div id="main-nav-menu" class="navbar-collapse collapse">
+                    <ul id="menu-main-english" class="nav navbar-nav">
+                        {% if user.is_authenticated %}
+                        <li><a href="{% url 'mis_contactos' %}" class="p-r-none">Mis Contactos</a></li>
+                        {% if user.is_superuser %}
+                        <li class="dropdown menu-more">
+                            <a class="dropdown-toggle" data-toggle="dropdown" data-target="#" href="#">Administrar 
+                                            <b class="caret"></b>
+                                        </a>
+                            <ul class="dropdown-menu">
+                                <li class="menu-roles"><a href="{% url 'admin:oncuba_role_changelist' %}">Roles</a></li>
+                                <li class="menu-usuarios"><a href="{{HOME_URL}}admin/oncuba/usuario/">Usuarios</a></li>
+                                <li class="menu-historial"><a href="{% url 'admin_history'%}">Historial</a></li>
+                                <li class="menu-categorias"><a href="{% url 'admin:oncuba_categoria_changelist' %}">Categorías</a></li>
+                                <li class="menu-categorias"><a href="{% url 'admin:oncuba_proyecto_changelist' %}">Proyecto</a></li>
+
+                            </ul>
+                        </li>
+                        {% endif %}
+                        <li class="dropdown menu-perfil">
+                            <a class="dropdown-toggle" data-toggle="dropdown" data-target="#" href="#">Mi Perfil 
+                                        <b class="caret"></b>
+                                    </a>
+                            <ul class="dropdown-menu">
+                                <li class="menu-perfil-editar"><a href="{% url 'view_perfil'%}">Editar</a></li>
+                                <li class="menu-cerrar-sesión"><a href="/logout/">Cerrar Sesión</a></li>
+                            </ul>
+                        </li>
+                        {% else %}
+                        <li><a href="/login/">Entrar</a></li>
+                        <li><a href="{% url 'sub_new' %}" class="p-r-none">Registrarse</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    {# The Document Body #}
+    <div id="site-wrapper" class="content">
+        {% block content %} if you see this, something is wrong! {% endblock content %}
+    </div>
+    {# The Footer #}
+    <div class="footer">
+        <div class="container">
+            <p class="text-center">© Copyright OnCuba, a Fuego Media Group/Fuego Enterprises Inc, Publication.</p>
+        </div>
+    </div>
+</body>
+{% block footer_javascript %} {% block footer_javascript_site %}
+<script src="{{ STATIC_URL }}js/jquery.min.js"></script>
+<script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
+<script src="{{ STATIC_URL }}js/app.js"></script> {% endblock footer_javascript_site %} {% block footer_javascript_section %}{% endblock footer_javascript_section %} {% block footer_javascript_page %}{% endblock footer_javascript_page %} {% endblock footer_javascript %}
+
+</html>

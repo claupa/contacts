@@ -1,0 +1,42 @@
+<div class="table" id="contact-table">
+    <div class="row-header-blue">
+        <h1 class="page-title" id="contacts-header">Lista de Contactos</h4>
+    </div>
+    {% for contact in contacts %}
+    <div class="table-row row contact">
+        <div class="col-md-10 col-lg-10">
+            <div class="contact-number-name">
+                <span class="contact-number">{{contact.index}}.</span> {% if contact.can_read %} {% if contact.is_persona %}
+                <a href="{% url 'view_persona' contact.id %}">
+                {% else %}
+                <a href="{% url 'view_entidad' contact.id %}">
+                {% endif %}
+                    <span class="contact-name">{{contact.nombre}}</span>
+                </a> {% else %}
+                <span class="contact-name">{{contact.nombre}}</span> {% endif %}
+            </div>
+            <div class="occupation">{{contact.ocupacion}}</div>
+            <div class="created-by">
+                <span class="created-by-text">Creado por: </span>{{contact.created_by}}
+            </div>
+        </div>
+        <div class="col-lg-2 modify">
+            {% if contact.can_edit %} {% if contact.is_persona %}
+            <span>
+                    <a href="{% url 'editar_persona' contact.id %}"><i class="fa fa-pencil"></i></a>
+            </span> {% else %}
+            <span>
+                <a href="{% url 'editar_entidad' contact.id %}"><i class="fa fa-pencil"></i></a>
+            </span> {% endif %} {% endif %} {% if contact.can_delete %}
+            <span>
+                <form id="delete-contact-form" action="{% url 'delete-contact' contact.id contact.is_persona %}" method="get">
+                    <button type="submit" class="delete-contact" onclick="delete_contact()">
+                        <i class="fa fa-trash-o"></i>
+                    </button>
+                </form>
+            </span> {% endif %}
+        </div>
+        {% comment %}{{contact}}{% endcomment %}
+    </div>
+    {% endfor %}
+</div>

@@ -1,0 +1,21 @@
+{% if staff %}
+<div class="table" id="staff-table">
+    <div class="row-header-blue">
+        <h1 class="page-title" id="contacts-header">Staff</h4>
+    </div>
+    {% for st in staff %}
+    <div class="table-row row contact">
+        <div class="col-md-10 col-lg-10">
+            <div class="contact-number-name">
+                <span class="contact-number">{{st.index}}.</span>
+                <span class="contact-name">{{st.nombre}}</span>
+            </div>
+            <div class="occupation">{{st.cargo}}</div>
+            <div class="email">
+                <span class="created-by-text">{{st.email}}</span>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}

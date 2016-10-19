@@ -1,0 +1,23 @@
+{% extends 'base.html' %} {% block title %}Solicitar Usuario{% endblock title %} {% block content %}
+<div id="content-container" class="container p-none">
+    <div class="side-p">
+        <h4 class="page-title sn-sh">Usuario</h4>
+        <form id="user-reg-form" action="." method="post">
+            {% csrf_token %} {# Username & Password Section #}
+            <!--<h3>Signup for a $15 Monthly Subscription</h3>-->
+            <h5 class="sn-sh">Solicitud de Registro</h5>
+            <div class="row create-contact-inputs">
+                <div class="col-lg-3">Nombre de usuario:</div>
+                <div class="col-lg-9">{{form.username}}</div>
+            </div>
+            <div class="row create-contact-inputs">
+                <div class="col-lg-3">Nombre(s):</div>
+                <div class="col-lg-9">{{form.first_name}}</div>
+            </div>
+            {# Billing Address Section #}
+            <input class="btn btn-primary" type="submit" value="submit">
+        </form>
+        {# Credit Card Section #}
+    </div>
+</div>
+{% endblock content %}

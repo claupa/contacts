@@ -1,0 +1,15 @@
+{% extends 'base.html' %} {% block title %}Actualizar Contacto{% endblock title %} {% block content %}
+<div id="content-container" class="container p-none">
+    <div class="side-p">
+        <form id="contact-persona-form" action="{% url 'editar_persona' contact_id%}" method="post">
+            {% csrf_token %}
+            <h4 class="page-title sn-sh">Actualizar Contacto: Persona</h4>
+            {% include 'oncuba/persona_form.html'%}
+            <span id="phone-descr" style="display:none;">{{phone_description}}</span>
+            <span id="email-descr" style="display:none;">{{email_description}}</span>
+
+            <input class="btn btn-primary create-contact-submit" type="submit" value="Actualizar Contacto">
+        </form>
+    </div>
+</div>
+{% endblock content %}

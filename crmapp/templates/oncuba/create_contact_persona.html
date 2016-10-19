@@ -1,0 +1,13 @@
+{% extends 'base.html' %} {% block title %}Crear Contacto: Persona{% endblock title %} {% block content %}
+<div id="content-container" class="container p-none">
+    <div class="side-p">
+        <form id="contact-persona-form" action="{% url 'create_contact_persona'%}" method="post">
+            {% csrf_token %}
+            <h4 class="page-title sn-sh">Crear Nuevo Contacto: Persona</h4>
+            {% include 'oncuba/persona_form.html'%}
+
+            <input class="btn btn-primary create-contact-submit" type="submit" value="Crear Contacto">
+        </form>
+    </div>
+</div>
+{% endblock content %}
