@@ -91,24 +91,18 @@ class CreateContactFormEntidad(forms.ModelForm):
 
 class FilterForm(forms.Form):
     choices_tipo = ((u'T' , u'Todos'),(u'P', u'Persona'),(u'E', u'Entidad')  )
+    proyecto_choices = tuple([(proyecto.pk, proyecto.name) for proyecto in Proyecto.objects.all()])
+    categoria_choices= tuple([(categoria.pk, categoria.name) for categoria in Categoria.objects.all()])
+    proyecto = forms.MultipleChoiceField(widget=forms.SelectMultiple,
+                                         choices=proyecto_choices,
+                                         required= False)
+    categoria = forms.MultipleChoiceField(widget=forms.SelectMultiple,
+                                         choices=categoria_choices,
+                                         required=False)
     tipos = forms.CharField(label="Tipos de Contacto",
                                 initial='T',
                                 widget=forms.Select(choices = choices_tipo),
                                 )
-    
-    
-  
-    def __init__(self):
-        super(FilterForm, self).__init__()
-        self.proyecto_choices = tuple([(proyecto.pk, proyecto.name) for proyecto in Proyecto.objects.all()])
-        self.categoria_choices = tuple([(categoria.pk, categoria.name) for categoria in Categoria.objects.all()])
-        self.proyecto = forms.MultipleChoiceField(widget=forms.SelectMultiple,
-                                         choices=self.proyecto_choices,
-                                         required= False)
-        self.categoria = forms.MultipleChoiceField(widget=forms.SelectMultiple,
-                                         choices=self.categoria_choices,
-                                         required=False)
-
 
 class SubscriberForm(UserCreationForm):
     first_name = forms.CharField(
