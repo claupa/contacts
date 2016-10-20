@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.views.generic.base import TemplateView
 from crmapp.oncuba.models import Categoria, Proyecto, Persona, Entidad, Staff
 from crmapp.oncuba.utils import check_credentials
@@ -6,8 +6,10 @@ from django.contrib.auth.decorators import login_required
 from crmapp.oncuba.forms import FilterForm
 from django.db.models import Q
 
-@login_required()
+
 def home_page(request, template='marketing/home.html'):
+    if request.user.is_anonymous():
+        return redirect('/entrar/')
     contact_person = Persona.objects.filter(marked_for_deletion = False)
     contact_entidad = Entidad.objects.filter(marked_for_deletion = False)
     s = ''

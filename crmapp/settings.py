@@ -148,7 +148,7 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '../'
 HOME_URL = 'http://localhost:8000/'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com' 

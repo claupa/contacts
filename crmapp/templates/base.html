@@ -50,7 +50,7 @@
                             <ul class="dropdown-menu">
                                 <li class="menu-roles"><a href="{% url 'admin:oncuba_role_changelist' %}">Roles</a></li>
                                 <li class="menu-usuarios"><a href="{{HOME_URL}}admin/oncuba/usuario/">Usuarios</a></li>
-                                <li class="menu-historial"><a href="{% url 'admin_history'%}">Historial</a></li>
+                                <li class="menu-historial"><a href="{% url 'admin:oncuba_usertracker_changelist'%}">Historial</a></li>
                                 <li class="menu-categorias"><a href="{% url 'admin:oncuba_categoria_changelist' %}">Categorías</a></li>
                                 <li class="menu-categorias"><a href="{% url 'admin:oncuba_proyecto_changelist' %}">Proyecto</a></li>
 
@@ -67,8 +67,8 @@
                             </ul>
                         </li>
                         {% else %}
-                        <li><a href="/login/">Entrar</a></li>
-                        <li><a href="{% url 'sub_new' %}" class="p-r-none">Registrarse</a></li>
+                        <li><a href="entrar/">Entrar</a></li>
+                        <li><a href="#" class="p-r-none">Registrarse</a></li>
                         {% endif %}
                     </ul>
                 </div>

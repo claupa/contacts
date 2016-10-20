@@ -31,7 +31,6 @@ urlpatterns = [
     url(r'^$', home_page, name="home"),
 
     # Subscriber related URLs
-    # url(r'^signup/$', subscriber_new, name='sub_new'),
     url(r'^nueva-persona/?$', create_persona, name='create_contact_persona'),
     url(r'^nueva-entidad/?$', create_entidad, name='create_contact_entidad'),
     url(r'^editar-persona/(?P<contact_id>.*)/?$', editar_persona, name='editar_persona'),
@@ -46,7 +45,7 @@ urlpatterns = [
     url(r'^invitar-usuario/?$', invitar_usuario, name='invitar-usuario'),
     url(r'^aceptar-invitacion/(?P<o_id>.*)/?$', aceptar_invitacion, name='aceptar-invitacion'),
 
-    url(r'^entrar/?$', djauth.login, {'template_name': 'login.html'}, name ='login'),
-    url(r'^logout/?$',djauth.logout, {'next_page': '/entrar/'}),
+    url(r'^entrar/?$', djauth.login, {'template_name': 'login.html'}),
+    url(r'^logout/?$', djauth.logout, {'next_page': '/entrar/'}),
 
 ]
