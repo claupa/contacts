@@ -2,21 +2,28 @@ from django.contrib import admin
 from .models import Categoria, Proyecto,Role, Persona, Entidad, PhoneNumberEntidad, PhoneNumberPerson,\
 EmailEntidad, EmailPerson, AddressEntidad, AddressPerson, OnCubaUser, Staff, UserTracker, Invitacion
 from django.contrib.auth.models import User
+from django.contrib.auth.admin import UserAdmin
 
 admin.site.register(Categoria)
 admin.site.register(Proyecto)
 admin.site.register(Role)
 
-# class InlineUser(admin.StackedInline):
-    # model = User
+class InlineOnCubaUser(admin.StackedInline):
+    model = OnCubaUser
+    extra = 0
+    max_num =1
+    min_num = 1
+    can_delete= False
 
-class OnCubaUserAdmin(admin.ModelAdmin):
-    list_display = ('user', 'cargo')
-    search_fields = ['user__username', 'cargo']
-    # inlines = (InlineUser,)
+# class OnCubaUserAdmin(admin.ModelAdmin):
+#     list_display = ('username',)
+#     # search_fields = ['user__username', 'cargo']
+#     inlines = (InlineOnCubaUser,)
 
-admin.site.register(OnCubaUser, OnCubaUserAdmin)
+UserAdmin.inlines = (InlineOnCubaUser,)
 
+admin.site.unregister(User)
+admin.site.register(User,UserAdmin)
 
 class InlinePhone(admin.StackedInline):
     model = PhoneNumberEntidad

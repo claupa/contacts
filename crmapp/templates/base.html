@@ -43,13 +43,14 @@
                         {% if user.is_authenticated %}
                         <li><a href="{% url 'mis_contactos' %}" class="p-r-none">Mis Contactos</a></li>
                         {% if user.is_superuser %}
+                        <li><a href="{% url 'invitar-usuario' %}" class="p-r-none">Invitar usuario</a></li>
                         <li class="dropdown menu-more">
                             <a class="dropdown-toggle" data-toggle="dropdown" data-target="#" href="#">Administrar 
                                             <b class="caret"></b>
                                         </a>
                             <ul class="dropdown-menu">
                                 <li class="menu-roles"><a href="{% url 'admin:oncuba_role_changelist' %}">Roles</a></li>
-                                <li class="menu-usuarios"><a href="{{HOME_URL}}admin/oncuba/usuario/">Usuarios</a></li>
+                                <li class="menu-usuarios"><a href="{% url 'admin:auth_user_changelist'%}">Usuarios</a></li>
                                 <li class="menu-historial"><a href="{% url 'admin:oncuba_usertracker_changelist'%}">Historial</a></li>
                                 <li class="menu-categorias"><a href="{% url 'admin:oncuba_categoria_changelist' %}">Categorías</a></li>
                                 <li class="menu-categorias"><a href="{% url 'admin:oncuba_proyecto_changelist' %}">Proyecto</a></li>
