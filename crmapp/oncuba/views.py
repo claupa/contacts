@@ -10,13 +10,16 @@ from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 import django.utils.timezone as t
-
+from django.core.mail import send_mail
 
 from .forms import CreateContactForm, CreateAddressForm, CreatePhoneForm, CreateEmailForm,OnCubaUserForm,\
-                   CreateContactFormEntidad, CreateAddressFormEntidad, CreatePhoneFormEntidad, CreateEmailFormEntidad
+                   CreateContactFormEntidad, CreateAddressFormEntidad, CreatePhoneFormEntidad, CreateEmailFormEntidad,\
+                   InvitationForm, CrearUsuario
 from .models import PhoneNumberPerson, EmailPerson, AddressPerson,Persona,\
-                PhoneNumberEntidad, EmailEntidad, AddressEntidad, Entidad, OnCubaUser, UserTracker
+                PhoneNumberEntidad, EmailEntidad, AddressEntidad, Entidad, OnCubaUser, UserTracker, Invitacion, Role
 from .utils import check_credentials
+from django.contrib.auth.models import User
+
 
 
 
@@ -408,3 +411,74 @@ def delete_contact(request, contact_id, is_persona):
         return HttpResponseForbidden()
     
     return redirect('/')
+
+@login_required()
+def invitar_usuario(request, template="oncuba/invitar_usuarios.html"):
+    if request.POST:
+        form = InvitationForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            first_name = form.cleaned_data['first_name']
+            last_name = form.cleaned_data['last_name']
+            email = form.cleaned_data['email']
+            phone_number = form.cleaned_data['phone_number']
+            cargo = form.cleaned_data['cargo']
+            role = Role.objects.get(pk = form.cleaned_data['role'])
+            
+            invitacion = Invitacion(username = username, first_name = first_name, last_name=last_name,
+                                    email = email, phone_number = phone_number, cargo = cargo, role = role)
+            invitacion.save()
+            
+            url =  request.build_absolute_uri('../aceptar-invitacion/' + str(invitacion.pk))
+            text = """Hola,
+  Has recibido una invitación para acceder al sitio de contactos de OnCuba. Para crear tu cuenta de usuario accede a:
+  %s
+            """ % url
+            try:
+                send_mail('Invitacion Sitio de Contacto OnCuba', text,'crmoncuba@gmail.com',[email], fail_silently=False)
+            except:
+                return render(request, template,{'form':form, 'error': 'El correo electrónico no funcionó'})                
+            history = UserTracker(user = request.user, action= 'I', created_user = invitacion, fecha = t.now() )
+            history.save()   
+            
+            return redirect('/')
+    else:
+        form = InvitationForm()
+    
+    return render(request, template, {'form': form})
+
+from django.contrib.auth import logout
+def aceptar_invitacion(request, o_id, template="oncuba/aceptar_invitacion.html"):
+    invitacion = Invitacion.objects.get(pk=o_id)
+    if invitacion.usada:
+        return render(request, "oncuba/solicitar_usuario.html", {'error': error})
+    if request.POST:
+        form = CrearUsuario(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            email = form.cleaned_data['email']
+            first_name = form.cleaned_data['first_name']
+            last_name = form.cleaned_data['last_name']
+            user = User(username=username, email=email,
+                        first_name=first_name, last_name=last_name)
+            user.set_password(password)
+            user.save()
+
+            cargo = form.cleaned_data['cargo']
+            phone_number = form.cleaned_data['phone_number']
+            role = invitacion.role
+            oncubauser = OnCubaUser(user = user, cargo = cargo, phone_number = phone_number, role = role)
+            oncubauser.save()
+
+            invitacion.usada = True
+            invitacion.save() 
+            if request.user.is_authenticated:
+                logout(request)
+            return redirect('/entrar/')
+    else:        
+        form_dict = model_to_dict(invitacion)
+        form_dict.pop('role')
+        form = CrearUsuario(form_dict)       
+
+    return render(request, template, {'form': form, 'id': o_id})

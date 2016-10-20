@@ -10,10 +10,10 @@ def check_credentials(contact, user):
     if not oncubauser.role:
         return False
     role = oncubauser.role
-    for categoria in role.categoria.all():
-        if categoria in contact.categoria:
+    for categoria in role.categories.all():
+        if categoria in contact.categoria.all():
             return True
-    for proyecto in role.proyecto.all():
+    for proyecto in role.proyectos.all():
         if proyecto in contact.proyecto.all():
             return True
     return False

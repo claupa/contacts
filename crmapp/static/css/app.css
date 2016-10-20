@@ -199,3 +199,23 @@ form#delete-contact-form:focus {
     border: none;
     outline: none !important;
 }
+
+#user-reg-form {
+    margin: 20px auto;
+    padding: 0;
+}
+
+#user-reg-form .create-contact-inputs {
+    margin: 20px 0;
+}
+
+#user-reg-form input,
+#user-reg-form select {
+    min-width: 250px;
+}
+
+#user-reg-form input.invitar {
+    width: auto;
+    min-width: 0;
+    text-transform: uppercase;
+}

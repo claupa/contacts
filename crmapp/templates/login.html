@@ -1,7 +1,7 @@
 {% extends 'base.html' %} {% block title %}Entrar{% endblock %} {% block content %}
 <div id="content-container" class="container p-none">
     <div class="lgn-container col-lg-8">
-        <form id="login-form" method="post" action="{% url 'django.contrib.auth.views.login' %}">
+        <form id="login-form" method="post" style="min-height:500px;" action="{% url 'django.contrib.auth.views.login' %}">
             {% csrf_token %}
             <div class="row create-contact-inputs">
                 <div class="col-lg-3">Nombre de Usuario:</div>
@@ -19,7 +19,6 @@
             </div>
 
             <input type="submit" value="Login" class="btn btn-primary pull-right" />
-            <input type="hidden" name="next" value="{{ next }}" />
         </form>
     </div>
 </div>

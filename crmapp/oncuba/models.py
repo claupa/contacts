@@ -181,6 +181,23 @@ class AddressEntidad(models.Model):
         verbose_name_plural = 'Direcciones Disponibles'
         verbose_name =  "Dirección"
 
+
+class Invitacion(models.Model):
+    username = models.CharField(max_length = 50, verbose_name='Nombre de Usuario', blank=True, null=True)
+    first_name = models.CharField(max_length = 100,  verbose_name='Nombre(s)', default = " ", blank=True, null=True)
+    last_name = models.CharField(max_length = 100, verbose_name='Apellido(s)', default = " ", blank=True, null=True)
+    email = models.EmailField(unique= True, verbose_name = 'Correo Electrónico')
+    phone_number = models.CharField(max_length = 15, blank=True, null=True)
+    cargo = models.CharField(max_length= 200, blank=True, null=True)
+    role = models.ForeignKey(Role)
+    usada = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name_plural = 'Invitaciones'
+
+    def __unicode__(self):
+        return u"%s" % (self.email) 
+
 class UserTracker(models.Model):
     ACTIONS = (('C', 'Creado'),('M', 'Modificado'),('B', 'Borrado'), ('I','Invitado'), ('L', 'Leido'),('A', 'Accedido'))
     user = models.ForeignKey(User)
@@ -188,7 +205,7 @@ class UserTracker(models.Model):
     fecha = models.DateTimeField(default =t.now)
     entidad = models.ForeignKey(Entidad, null=True, blank = True)
     persona = models.ForeignKey(Persona, null = True, blank= True)
-    created_user = models.ForeignKey(OnCubaUser, null = True, blank= True, verbose_name = 'Usuario Invitado')
+    created_user = models.ForeignKey(Invitacion, null = True, blank= True, verbose_name = 'Usuario Invitado')
 
     class Meta:
         verbose_name = 'Historial'
@@ -204,7 +221,7 @@ class UserTracker(models.Model):
         if self.action =="A":
             return u'El usuario %s accedió al sitio el día %s.' % ( self.user.username,  self.fecha.strftime('%d/%m/%Y'))
         else:
-            return u'El usuario %s invitó al usuario %s el día %s.' % ( self.user.username, created_user.nombre_completo(), self.fecha.strftime('%d/%m/%Y'))
+            return u'El usuario %s invitó al usuario %s el día %s.' % ( self.user.username, self.created_user.email, self.fecha.strftime('%d/%m/%Y'))
 
 class Staff(models.Model):
     nombre = models.CharField(max_length = 100,  verbose_name='Nombre(s)', default = " ")
@@ -220,3 +237,5 @@ class Staff(models.Model):
     def __unicode__(self):
         return u"%s %s" % (self.nombre, self.apellidos) 
 
+
+    

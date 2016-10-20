@@ -150,3 +150,8 @@ STATICFILES_DIRS = (
 
 LOGIN_REDIRECT_URL = '/'
 HOME_URL = 'http://localhost:8000/'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com' 
+EMAIL_HOST_USER = 'crmoncuba@gmail.com' 
+EMAIL_HOST_PASSWORD = 'crm0ncub4' 
+EMAIL_PORT = 587

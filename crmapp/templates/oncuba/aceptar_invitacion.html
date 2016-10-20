@@ -1,0 +1,68 @@
+{% extends 'base.html' %} {% block title %}Solicitar Usuario{% endblock title %} {% block content %}
+<div id="content-container" class="container p-none">
+    <div class="side-p">
+        <h4 class="page-title sn-sh">Invitación Aceptada</h4>
+        <form id="user-reg-form" class="aceptar-invitacion" action="{% url 'aceptar-invitacion' id %}" method="post">
+            {% csrf_token %}
+            <h5 class="sn-sh">Introduzca su información para completar el proceso de creación de usuario:</h5>
+            <div class="row create-contact-inputs">
+                <div class="col-lg-3">Nombre de usuario:</div>
+                <div class="col-lg-9">{{form.username}}</div>
+            </div>
+            <div class="row create-contact-errors">
+                <div class="col-lg-12">{{form.username.errors}}</div>
+            </div>
+            <div class="row create-contact-inputs">
+                <div class="col-lg-3">Contraseña Nueva:</div>
+                <div class="col-lg-9">{{form.password1}}</div>
+            </div>
+            <div class="row create-contact-errors">
+                <div class="col-lg-12">{{form.password1.errors}}</div>
+            </div>
+            <div class="row create-contact-inputs">
+                <div class="col-lg-3">Confirmar Contraseña Nueva:</div>
+                <div class="col-lg-9">{{form.password2}}</div>
+            </div>
+            <div class="row create-contact-errors">
+                <div class="col-lg-12">{{form.password2.errors}}</div>
+            </div>
+            <div class="row create-contact-inputs">
+                <div class="col-lg-3">Nombre(s):</div>
+                <div class="col-lg-9">{{form.first_name}}</div>
+            </div>
+            <div class="row create-contact-errors">
+                <div class="col-lg-12">{{form.first_name.errors}}</div>
+            </div>
+            <div class="row create-contact-inputs">
+                <div class="col-lg-3">Apellido(s):</div>
+                <div class="col-lg-9">{{form.last_name}}</div>
+            </div>
+            <div class="row create-contact-errors">
+                <div class="col-lg-12">{{form.last_name.errors}}</div>
+            </div>
+            <div class="row create-contact-inputs">
+                <div class="col-lg-3">Correo Electrónico:</div>
+                <div class="col-lg-9">{{form.email}}</div>
+            </div>
+            <div class="row create-contact-errors">
+                <div class="col-lg-12">{{form.email.errors}}</div>
+            </div>
+            <div class="row create-contact-inputs">
+                <div class="col-lg-3">Teléfono:</div>
+                <div class="col-lg-9">{{form.phone_number}}</div>
+            </div>
+            <div class="row create-contact-errors">
+                <div class="col-lg-12">{{form.phone_number.errors}}</div>
+            </div>
+            <div class="row create-contact-inputs">
+                <div class="col-lg-3">Cargo:</div>
+                <div class="col-lg-9">{{form.cargo}}</div>
+            </div>
+            <div class="row create-contact-errors">
+                <div class="col-lg-12">{{form.cargo.errors}}</div>
+            </div>
+            <input class="btn btn-primary" type="submit" value="Crear Usuario">
+        </form>
+    </div>
+</div>
+{% endblock content %}

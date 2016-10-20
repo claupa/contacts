@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Categoria, Proyecto,Role, Persona, Entidad, PhoneNumberEntidad, PhoneNumberPerson,\
-EmailEntidad, EmailPerson, AddressEntidad, AddressPerson, OnCubaUser, Staff, UserTracker
+EmailEntidad, EmailPerson, AddressEntidad, AddressPerson, OnCubaUser, Staff, UserTracker, Invitacion
 from django.contrib.auth.models import User
 
 admin.site.register(Categoria)
@@ -57,6 +57,8 @@ class PersonaAdmin(admin.ModelAdmin):
 admin.site.register(Persona, PersonaAdmin)
 
 admin.site.register(Staff)
+admin.site.register(Invitacion)
+
 class UserTrackerAdmin(admin.ModelAdmin):
     list_filter =('action',)
 admin.site.register(UserTracker, UserTrackerAdmin)
