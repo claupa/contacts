@@ -44,6 +44,11 @@ def home_page(request, template='marketing/home.html'):
     contacts.extend(get_contact_info(contact_entidad, request.user, False))
     staff = get_staff_info()
 
+    index = 0
+    for contact in contacts:
+        index += 1
+        contact['index'] = index
+
     return render(request, template, {'s': s,
                                     'filter_form':filter_form, 
                                     'categorias' : Categoria.objects.all(),
@@ -58,6 +63,10 @@ def mis_contactos(request, template= "marketing/mis_contactos.html"):
 
     contacts = get_contact_info(db_personas, request.user)
     contacts.extend(get_contact_info(db_entidades, request.user, False))
+    index = 0
+    for contact in contacts:
+        index += 1
+        contact['index'] = index
 
     return render(request, template, {'contacts': contacts})
 
