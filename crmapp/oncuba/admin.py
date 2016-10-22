@@ -15,11 +15,6 @@ class InlineOnCubaUser(admin.StackedInline):
     min_num = 1
     can_delete= False
 
-# class OnCubaUserAdmin(admin.ModelAdmin):
-#     list_display = ('username',)
-#     # search_fields = ['user__username', 'cargo']
-#     inlines = (InlineOnCubaUser,)
-
 UserAdmin.inlines = (InlineOnCubaUser,)
 
 admin.site.unregister(User)
@@ -28,14 +23,17 @@ admin.site.register(User,UserAdmin)
 class InlinePhone(admin.StackedInline):
     model = PhoneNumberEntidad
     extra = 0
+    min_num=1
 
 class InlineEmail(admin.StackedInline):
     model = EmailEntidad
     extra = 0
+    min_num=1
 
 class InlineAddress(admin.StackedInline):
     model = AddressEntidad
     extra = 0
+    min_num=0
 
 class EntidadAdmin(admin.ModelAdmin):
     inlines = (InlinePhone, InlineEmail, InlineAddress )
@@ -47,14 +45,17 @@ admin.site.register(Entidad, EntidadAdmin)
 class InlinePhoneP(admin.StackedInline):
     model = PhoneNumberPerson
     extra = 0
+    min_num = 1
 
 class InlineEmailP(admin.StackedInline):
     model = EmailPerson
     extra = 0
+    min_num = 1
 
 class InlineAddressP(admin.StackedInline):
     model = AddressPerson
     extra = 0
+    min_num = 0
 
 class PersonaAdmin(admin.ModelAdmin):
     inlines = (InlinePhoneP, InlineEmailP, InlineAddressP )
