@@ -123,11 +123,11 @@ class CrearUsuario(UserCreationForm):
     phone_number = forms.CharField(required= False, widget=forms.TextInput(attrs={'class':'form-control'}))
         
 class OnCubaUserForm(forms.ModelForm):
-    username = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
-    first_name = forms.CharField(required=False, widget=forms.TextInput(attrs={'class':'form-control'}))
-    last_name = forms.CharField(required=False, widget=forms.TextInput(attrs={'class':'form-control'}))
-    email = forms.EmailField(required=True, widget=forms.TextInput(attrs={'class':'form-control'}))
-    
+    username = forms.CharField(widget=forms.TextInput())
+    first_name = forms.CharField(required=False, widget=forms.TextInput())
+    last_name = forms.CharField(required=False, widget=forms.TextInput())
+    email = forms.EmailField(required=True, widget=forms.TextInput())
+    phone_number = forms.CharField(required= False, widget=forms.TextInput())
 
     class Meta:
         model = OnCubaUser
@@ -162,7 +162,7 @@ class InvitationForm(forms.Form):
     last_name = forms.CharField(required=False, widget=forms.TextInput())
     email = forms.EmailField(required=True, widget=forms.TextInput())
     username = forms.CharField(required= False, widget=forms.TextInput())
-    cargo = forms.CharField(required= False, widget=forms.TextInput())
+    cargo = forms.CharField(required= True, widget=forms.TextInput())
     phone_number = forms.CharField(required= False, widget=forms.TextInput())
     
     role_choices =tuple([(x.pk,x.name) for x in Role.objects.all()])

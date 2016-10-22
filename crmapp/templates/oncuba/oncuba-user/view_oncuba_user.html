@@ -1,0 +1,42 @@
+{% extends 'base.html' %} {% block title %}Mi Perfil{% endblock title %} {% block content %}
+<div id="oncubauser-view" class="container p-none">
+    <div class="side-p">
+        <h4 class="page-title sn-sh">Usuario</h4>
+        <div class="row create-contact-inputs">
+            <div class="col-xs-12 col-md-3 col-lg-3">Nombre de usuario:</div>
+            <div class="col-lg-9 col-md-9 col-xs-12">{{oncubauser.user.username}}</div>
+        </div>
+        <div class="row create-contact-inputs">
+            <div class="col-xs-12 col-md-3 col-lg-3">Nombre:</div>
+            <div class="col-lg-9 col-md-9 col-xs-12">{{oncubauser.user.first_name}}</div>
+        </div>
+        <div class="row create-contact-inputs">
+            <div class="col-xs-12 col-md-3 col-lg-3">Apellido(s):</div>
+            <div class="col-lg-9 col-md-9 col-xs-12">{{oncubauser.user.last_name}}</div>
+        </div>
+        <div class="row create-contact-inputs">
+            <div class="col-xs-12 col-md-3 col-lg-3">Correo Electrónico:</div>
+            <div class="col-lg-9 col-md-9 col-xs-12">{{oncubauser.user.email}}</div>
+        </div>
+        <div class="row create-contact-inputs">
+            <div class="col-xs-12 col-md-3 col-lg-3">Teléfono:</div>
+            <div class="col-lg-9 col-md-9 col-xs-12">{{oncubauser.phone_number}}</div>
+        </div>
+        <div class="row create-contact-inputs">
+            <div class="col-xs-12 col-md-3 col-lg-3">Cargo:</div>
+            <div class="col-lg-9 col-md-9 col-xs-12">{{oncubauser.cargo}}</div>
+        </div>
+
+    </div>
+    <div class="edit-container">
+        <a href="{% url 'editar-perfil'%}">
+            <button class="btn btn-primary submit-button">Editar</button>
+        </a>
+    </div>
+    <div class="change-passwd-container">
+        <a href="{% url 'change_password'%}">
+            <button class="btn btn-primary submit-button">Cambiar Contraseña</button>
+        </a>
+    </div>
+</div>
+{% endblock content %}

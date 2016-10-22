@@ -4,50 +4,48 @@
         <form method="post" id="editar-perfil" action="{% url 'editar-perfil'%}">
             {% csrf_token %}
             <div class="row create-contact-inputs">
-                <div class="col-lg-3">{{form.username.label}}</div>
-                <div class="col-lg-9">{{form.username}}</div>
+                <div class="col-xs-12 col-md-3 col-lg-3">{{form.username.label}}</div>
+                <div class="col-xs-12 col-md-9 col-lg-9">{{form.username}}</div>
             </div>
             <div class="row create-contact-errors">
                 <div class="col-lg-12">{{form.username.errors}}</div>
             </div>
             <div class="row create-contact-inputs">
-                <div class="col-lg-3">Nombre(s):</div>
-                <div class="col-lg-9">{{form.first_name}}</div>
+                <div class="col-xs-12 col-md-3 col-lg-3">Nombre(s):</div>
+                <div class="col-xs-12 col-md-9 col-lg-9">{{form.first_name}}</div>
             </div>
             <div class="row create-contact-errors">
                 <div class="col-lg-12">{{form.first_name.errors}}</div>
             </div>
 
             <div class="row create-contact-inputs">
-                <div class="col-lg-3">Apellido(s):</div>
-                <div class="col-lg-9">{{form.last_name}}</div>
+                <div class="col-xs-12 col-md-3 col-lg-3">Apellido(s):</div>
+                <div class="col-xs-12 col-md-9 col-lg-9">{{form.last_name}}</div>
             </div>
             <div class="row create-contact-errors">
                 <div class="col-lg-12">{{form.last_name.errors}}</div>
             </div>
             <div class="row create-contact-inputs">
-                <div class="col-lg-3">Correo Electrónico:</div>
-                <div class="col-lg-9">{{form.email}}</div>
+                <div class="col-xs-12 col-md-3 col-lg-3">Correo Electrónico:</div>
+                <div class="col-xs-12 col-md-9 col-lg-9">{{form.email}}</div>
             </div>
             <div class="row create-contact-errors">
                 <div class="col-lg-12">{{form.email.errors}}</div>
             </div>
-
             <div class="row create-contact-inputs">
-                <div class="col-lg-3">Cargo:</div>
-                <div class="col-lg-9">{{form.cargo}}</div>
+                <div class="col-xs-12 col-md-3 col-lg-3">Teléfono:</div>
+                <div class="col-lg-9 col-md-9 col-xs-12">{{form.phone_number}}</div>
             </div>
             <div class="row create-contact-errors">
                 <div class="col-lg-12">{{form.cargo.errors}}</div>
             </div>
-            {% comment %}
             <div class="row create-contact-inputs">
-                <div class="col-lg-3">Proyecto(s):</div>
-                <div class="col-lg-9">{{form.proyecto}}</div>
+                <div class="col-xs-12 col-md-3 col-lg-3">Cargo:</div>
+                <div class="col-xs-12 col-md-9 col-lg-9">{{form.cargo}}</div>
             </div>
             <div class="row create-contact-errors">
-                <div class="col-lg-12">{{form.proyecto.errors}}</div>
-            </div>{% endcomment %}
+                <div class="col-lg-12">{{form.cargo.errors}}</div>
+            </div>
             <input class="btn btn-primary create-contact-submit" type="submit" value="Actualizar Perfil">
         </form>
     </div>

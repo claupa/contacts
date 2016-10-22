@@ -341,7 +341,7 @@ def create_entidad(request, template="oncuba/create_contact_entidad.html"):
 def create_oncuba_user(render, template="oncuba/create_oncuba_user.html"):
     pass
 
-def edit_oncuba_user(request, template="oncuba/oncuba_user_form.html"):
+def edit_oncuba_user(request, template="oncuba/oncuba-user/oncuba_user_form.html"):
     oncubauser = OnCubaUser.objects.get(user__pk = request.user.pk)
     if request.POST:
         form = OnCubaUserForm(request.POST)
@@ -371,7 +371,7 @@ def edit_oncuba_user(request, template="oncuba/oncuba_user_form.html"):
     return render(request, template, {'form': form})
 
 @login_required()
-def view_oncuba_user(request, template="oncuba/view_oncuba_user.html"):
+def view_oncuba_user(request, template="oncuba/oncuba-user/view_oncuba_user.html"):
     oncubauser= OnCubaUser.objects.get(user = request.user)
     return render(request, template, {'oncubauser': oncubauser})
 
@@ -387,7 +387,7 @@ def change_password(request):
             messages.error(request, 'Please correct the error below.')
     else:
         form = PasswordChangeForm(request.user)
-    return render(request, 'oncuba/change_password.html', {
+    return render(request, 'oncuba/oncuba-user/change_password.html', {
         'form': form
     })
 
