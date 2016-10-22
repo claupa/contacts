@@ -219,3 +219,101 @@ form#delete-contact-form:focus {
     min-width: 0;
     text-transform: uppercase;
 }
+
+#login-container {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    background: white;
+}
+
+#login-container .smaller-login {
+    float: none;
+    margin: auto;
+    font-size: 17px;
+}
+
+#login-container input {
+    border-radius: 4px;
+    padding: 2px 10px;
+    font-size: 17px;
+}
+
+#login-container div.create-contact-inputs {
+    margin: 15px 0;
+}
+
+#login-container .submit-button {
+    text-transform: uppercase;
+    border-radius: 0;
+    float: none;
+    margin: auto;
+    text-align: center;
+    padding: 5px;
+    min-width: 150px;
+}
+
+#login-container div.submit-button {
+    padding: 10px 0;
+    margin-top: 20px;
+}
+
+.text-xs-left {
+    text-align: left;
+}
+
+.text-xs-right {
+    text-align: right;
+}
+
+.text-xs-center {
+    text-align: center;
+}
+
+.text-xs-justify {
+    text-align: justify;
+}
+
+@media (min-width: 768px) {
+    .text-sm-left {
+        text-align: left;
+    }
+    .text-sm-right {
+        text-align: right;
+    }
+    .text-sm-center {
+        text-align: center;
+    }
+    .text-sm-justify {
+        text-align: justify;
+    }
+}
+
+@media (min-width: 992px) {
+    .text-md-left {
+        text-align: left;
+    }
+    .text-md-right {
+        text-align: right;
+    }
+    .text-md-center {
+        text-align: center;
+    }
+    .text-md-justify {
+        text-align: justify;
+    }
+}
+
+@media (min-width: 1200px) {
+    .text-lg-left {
+        text-align: left;
+    }
+    .text-lg-right {
+        text-align: right;
+    }
+    .text-lg-center {
+        text-align: center;
+    }
+    .text-lg-justify {
+        text-align: justify;
+    }
+}

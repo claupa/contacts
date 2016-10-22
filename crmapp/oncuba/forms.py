@@ -101,8 +101,16 @@ class FilterForm(forms.Form):
                                          required=False)
     tipos = forms.CharField(label="Tipos de Contacto",
                                 initial='T',
-                                widget=forms.Select(choices = choices_tipo),
+                                widget=forms.Select(choices = choices_tipo)
                                 )
+    def __init__(self):
+        super(FilterForm, self).__init__()
+        self.fields['proyecto'] =  forms.MultipleChoiceField(widget=forms.SelectMultiple,
+                                         choices=tuple([(proyecto.pk, proyecto.name) for proyecto in Proyecto.objects.all()]),
+                                         required= False)
+        self.fields['categoria'] = forms.MultipleChoiceField(widget=forms.SelectMultiple,
+                                         choices=tuple([(categoria.pk, categoria.name) for categoria in Categoria.objects.all()]),
+                                         required=False)                            
 
 class CrearUsuario(UserCreationForm):
     first_name = forms.CharField(required=False, widget=forms.TextInput(attrs={'class':'form-control'}))
@@ -160,4 +168,9 @@ class InvitationForm(forms.Form):
     role_choices =tuple([(x.pk,x.name) for x in Role.objects.all()])
     role = forms.ChoiceField(widget=forms.Select(),
                                          choices=role_choices,
+                                         required= True)
+    def __init__(self):
+        super(InvitationForm, self).__init__()
+        role = forms.ChoiceField(widget=forms.Select(),
+                                         choices=tuple([(x.pk,x.name) for x in Role.objects.all()]),
                                          required= True)
