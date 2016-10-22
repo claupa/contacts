@@ -400,10 +400,10 @@ def delete_contact(request, contact_id, is_persona):
         contact.date_marked = t.now()
         contact.save()
         if is_persona:
-            history = UserTracker(user = request.user, action= 'L', persona = contact,fecha = t.now() )
+            history = UserTracker(user = request.user, action= 'B', persona = contact,fecha = t.now() )
             history.save()
         else:
-            history = UserTracker(user = request.user, action= 'L', entidad = contact, fecha = t.now() )
+            history = UserTracker(user = request.user, action= 'B', entidad = contact, fecha = t.now() )
             history.save()
             
         
