@@ -255,8 +255,11 @@ def view_persona(request, contact_id, template="oncuba/view_persona.html"):
     address = AddressPerson.objects.get(contact__pk= contact_id)
     history = UserTracker(user = request.user, action= 'L', persona = contact, fecha = t.now() )
     history.save()
+
+    creator = contact.created_by.user
+    is_owner_or_admin = creator == request.user or request.user.is_superuser
     
-    return render(request, template, {'contact': contact, 'email': email , 'phone': phone, 'address': address})
+    return render(request, template, {'contact_id':contact_id , 'can_delete': is_owner_or_admin,'contact': contact, 'email': email , 'phone': phone, 'address': address})
 
 def view_entidad(request, contact_id, template="oncuba/view_entidad.html"):
     # Si tienes los permisos
@@ -267,7 +270,11 @@ def view_entidad(request, contact_id, template="oncuba/view_entidad.html"):
     history = UserTracker(user = request.user, action= 'L', entidad = contact, fecha = t.now() )
     history.save()
     
-    return render(request, template, {'contact': contact, 'email': email , 'phone': phone, 'address': address})
+    creator = contact.created_by.user
+    is_owner_or_admin = creator == request.user or request.user.is_superuser
+    
+    return render(request, template, {'contact_id':contact_id , 'can_delete': is_owner_or_admin ,
+                                    'contact': contact, 'email': email , 'phone': phone, 'address': address})
         
 @login_required()
 def create_entidad(request, template="oncuba/create_contact_entidad.html"):

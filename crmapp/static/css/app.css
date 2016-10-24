@@ -330,8 +330,14 @@ form#delete-contact-form:focus {
     text-transform: uppercase;
 }
 
-.change-passwd-container {
+.change-passwd-container,
+.borrar-container {
     margin-left: 10px;
+}
+
+.borrar-container .submit-button{
+    margin: 10px;
+    text-transform: uppercase;
 }
 
 #oncubauser-view div.create-contact-inputs {

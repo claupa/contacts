@@ -29,8 +29,8 @@
                 <a href="{% url 'editar_entidad' contact.id %}"><i class="fa fa-pencil"></i></a>
             </span> {% endif %} {% endif %} {% if contact.can_delete %}
             <span>
-                <form id="delete-contact-form" action="{% url 'delete-contact' contact.id contact.is_persona %}" method="get">
-                    <button type="submit" class="delete-contact" onclick="delete_contact()">
+                <form id="delete-contact-form" onsubmit="return delete_contact()" action="{% url 'delete-contact' contact.id contact.is_persona %}" method="get">
+                    <button type="submit" class="delete-contact">
                         <i class="fa fa-trash-o"></i>
                     </button>
                 </form>

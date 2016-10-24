@@ -22,9 +22,11 @@ function csrfSafeMethod(method) {
 }
 
 function delete_contact() {
-
-    if (confirm('Está seguro que desea eliminar el contacto?')) {
-        $('#delete-contact-form').submit();
+    var result = confirm('Está seguro que desea eliminar el contacto?');
+    console.log(result);
+    if (result) {
+        // $('#delete-contact-form').submit();
+        return true;
     } else {
         return false;
     }
