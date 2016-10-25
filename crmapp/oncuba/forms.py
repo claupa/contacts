@@ -9,20 +9,18 @@ from django.contrib.auth.forms import UserCreationForm
 
 class CreateContactForm(forms.ModelForm):
     YEARS = range(1900,2017)
-    fecha_nac = forms.DateField(widget=forms.SelectDateWidget(years=tuple(YEARS[-1::-1])))   
-     
+    fecha_nac = forms.DateField(widget=forms.SelectDateWidget(years=tuple(YEARS[-1::-1])))    
 
     class Meta:
         model = Persona
-        fields = ('nombre', 'apellidos',
-                  'lugar_de_trabajo', 'ocupacion', 'pais',
+        fields = ('nombre', 'lugar_de_trabajo', 'ocupacion', 'nacionalidad',
                   'sexo', 'estado_civil', 'hijos', 'observaciones',
                   'sitio_web', 'categoria', 'proyecto')
 
 class CreateAddressForm(forms.ModelForm):
     class Meta:
         model = AddressPerson
-        fields = ('address_one', 'provincia', 'municipio', 'descripcion')
+        fields = ('address_one', 'provincia', 'municipio', 'pais')
 
 class CreatePhoneForm(forms.ModelForm):
     modification = False
@@ -35,7 +33,7 @@ class CreatePhoneForm(forms.ModelForm):
     
     class Meta:
         model = PhoneNumberPerson
-        fields = ('number', 'descripcion')
+        fields = ('number',)
 
 class CreateEmailForm(forms.ModelForm):
     modification = False
@@ -48,12 +46,12 @@ class CreateEmailForm(forms.ModelForm):
             
     class Meta:
         model = EmailPerson
-        fields = ('email', 'descripcion')
+        fields = ('email',)
 
 class CreateAddressFormEntidad(forms.ModelForm):
     class Meta:
         model = AddressEntidad
-        fields = ('address_one', 'provincia', 'municipio', 'descripcion')
+        fields = ('address_one', 'provincia', 'municipio', 'pais')
 
 class CreatePhoneFormEntidad(forms.ModelForm):
     modification = False
@@ -64,7 +62,7 @@ class CreatePhoneFormEntidad(forms.ModelForm):
             return super(CreatePhoneFormEntidad, self).validate_unique()
     class Meta:
         model = PhoneNumberEntidad
-        fields = ('number', 'descripcion')
+        fields = ('number',)
 
 class CreateEmailFormEntidad(forms.ModelForm):
     modification = False
@@ -76,7 +74,7 @@ class CreateEmailFormEntidad(forms.ModelForm):
             return super(CreateEmailFormEntidad, self).validate_unique()
     class Meta:
         model = EmailEntidad
-        fields = ('email', 'descripcion')
+        fields = ('email',)
 
 class CreateContactFormEntidad(forms.ModelForm):
     YEARS = range(1900,2017)
@@ -87,7 +85,7 @@ class CreateContactFormEntidad(forms.ModelForm):
     class Meta:
         model = Entidad
         fields = ('nombre', 'servicios', 'persona' , 'cargo',
-                 'pais',  'observaciones','sitio_web', 'categoria', 'proyecto')
+                 'nacionalidad',  'observaciones','sitio_web', 'categoria', 'proyecto')
 
 class FilterForm(forms.Form):
     choices_tipo = ((u'T' , u'Todos'),(u'P', u'Persona'),(u'E', u'Entidad')  )
