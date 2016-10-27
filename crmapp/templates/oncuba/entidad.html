@@ -57,47 +57,48 @@
         </div>
         {% comment %}{% endfor %}{% endcomment %}
     </div>
-    {% comment %}
-    <div class="row create-contact-inputs">
-        <div class="col-lg-3">
-            <a id="anadir-direccion" href="#"><i class="fa fa-plus-circle"></i> Añadir Dirección</a>
-        </div>
-    </div>{% endcomment %}
+</div>
+{% comment %}
+<div class="row create-contact-inputs">
+    <div class="col-lg-3">
+        <a id="anadir-direccion" href="#"><i class="fa fa-plus-circle"></i> Añadir Dirección</a>
+    </div>
+</div>{% endcomment %}
 
-    <div class="row create-contact-inputs">
-        <div class="col-lg-3">País</div>
-        <div class="col-lg-9">{{contact.pais}}</div>
-    </div>
-    <div class="row create-contact-inputs">
-        <div class="col-lg-3">Sitio Web</div>
-        <div class="col-lg-9">{{contact.sitio_web}}</div>
-    </div>
+<div class="row create-contact-inputs">
+    <div class="col-lg-3">País</div>
+    <div class="col-lg-9">{{contact.pais}}</div>
+</div>
+<div class="row create-contact-inputs">
+    <div class="col-lg-3">Sitio Web</div>
+    <div class="col-lg-9">{{contact.sitio_web}}</div>
+</div>
 
-    <div class="row create-contact-inputs">
-        <div class="col-lg-3">Aniversario</div>
-        <div class="col-lg-9">{{contact.aniversario}}</div>
-    </div>
+<div class="row create-contact-inputs">
+    <div class="col-lg-3">Aniversario</div>
+    <div class="col-lg-9">{{contact.aniversario}}</div>
+</div>
 
-    <div class="row create-contact-inputs">
-        <div class="col-lg-3">Fiesta Nacional</div>
-        <div class="col-lg-9">{{contact.fiesta}}</div>
-    </div>
+<div class="row create-contact-inputs">
+    <div class="col-lg-3">Fiesta Nacional</div>
+    <div class="col-lg-9">{{contact.fiesta}}</div>
+</div>
 
-    <div class="row create-contact-inputs">
-        <div class="col-lg-3">Categoría(s)</div>
-        <div class="col-lg-9">
-            {% for categoria in contact.categoria.all%}
-            <span><i class="fa fa-circle-o" style="font-size:0.5em;"></i> {{categoria.name}}</span><br/> {% endfor %}
-        </div>
+<div class="row create-contact-inputs">
+    <div class="col-lg-3">Categoría(s)</div>
+    <div class="col-lg-9">
+        {% for categoria in contact.categoria.all%}
+        <span><i class="fa fa-circle-o" style="font-size:0.5em;"></i> {{categoria.name}}</span><br/> {% endfor %}
     </div>
-    <div class="row create-contact-inputs">
-        <div class="col-lg-3">Proyecto(s)</div>
-        <div class="col-lg-9">
-            {% for proyecto in contact.proyecto.all %}
-            <span><i class="fa fa-circle-o" style="font-size:0.5em;"></i> {{proyecto.name}}</span><br/> {% endfor %}</div>
-    </div>
+</div>
+<div class="row create-contact-inputs">
+    <div class="col-lg-3">Proyecto(s)</div>
+    <div class="col-lg-9">
+        {% for proyecto in contact.proyecto.all %}
+        <span><i class="fa fa-circle-o" style="font-size:0.5em;"></i> {{proyecto.name}}</span><br/> {% endfor %}</div>
+</div>
 
-    <div class="row create-contact-inputs">
-        <div class="col-lg-3">Observaciones</div>
-        <div class="col-lg-9">{{contact.observaciones}}</div>
-    </div>
+<div class="row create-contact-inputs">
+    <div class="col-lg-3">Observaciones</div>
+    <div class="col-lg-9">{{contact.observaciones}}</div>
+</div>

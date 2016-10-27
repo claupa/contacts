@@ -1,15 +1,20 @@
 #-*- coding: utf8 -*-
 from django import forms
+from django.forms import  formsets
 
 from .models import Persona, AddressPerson, PhoneNumberPerson, EmailPerson
 from .models import Entidad, AddressEntidad, PhoneNumberEntidad, EmailEntidad
 from .models import Proyecto, Categoria, OnCubaUser,Role
 from django.contrib.auth.forms import UserCreationForm
+from django.core.validators import validate_email
+from django.core import validators
+from django.core.exceptions import ValidationError
+
 
 
 class CreateContactForm(forms.ModelForm):
     YEARS = range(1900,2017)
-    fecha_nac = forms.DateField(widget=forms.SelectDateWidget(years=tuple(YEARS[-1::-1])))    
+    fecha_nac = forms.DateField(widget=forms.SelectDateWidget(years=tuple(YEARS[-1::-1])))  
 
     class Meta:
         model = Persona
@@ -17,41 +22,80 @@ class CreateContactForm(forms.ModelForm):
                   'sexo', 'estado_civil', 'hijos', 'observaciones',
                   'sitio_web', 'categoria', 'proyecto')
 
+class MinLengthValidator(validators.MinLengthValidator):
+    message = 'Ensure this value has at least %(limit_value)d elements (it has %(show_value)d).'
+
+class MaxLengthValidator(validators.MaxLengthValidator):
+    message = 'Ensure this value has at most %(limit_value)d elements (it has %(show_value)d).'
+
+class CommaSeparatedCharField(forms.Field):
+    def __init__(self, dedup=True, max_length=None, min_length=None, *args, **kwargs):
+        self.dedup, self.max_length, self.min_length = dedup, max_length, min_length
+        super(CommaSeparatedCharField, self).__init__(*args, **kwargs)
+        if min_length is not None:
+            self.validators.append(MinLengthValidator(min_length))
+        if max_length is not None:
+            self.validators.append(MaxLengthValidator(max_length))
+
+    def to_python(self, value):
+        if value in validators.EMPTY_VALUES:
+            return []
+
+        value = [item.strip() for item in value.split(',') if item.strip()]
+        if self.dedup:
+            value = list(set(value))
+
+        return value
+
+    def clean(self, value):
+        value = self.to_python(value)
+        self.validate(value)
+        self.run_validators(value)
+        return value
+
 class CreateAddressForm(forms.ModelForm):
+    address = CommaSeparatedCharField()
+
     class Meta:
         model = AddressPerson
-        fields = ('address_one', 'provincia', 'municipio', 'pais')
+        fields = ('pais',)
+
+AddressFormSet = formsets.formset_factory(CreateAddressForm, extra=0, min_num=0)
+
 
 class CreatePhoneForm(forms.ModelForm):
-    modification = False
-
-    def validate_unique(self):
-        if self.modification:
-            return True
-        else: 
-            return super(CreatePhoneForm, self).validate_unique()
-    
     class Meta:
         model = PhoneNumberPerson
         fields = ('number',)
+    def __init__(self , *args, **kwargs):
+        super(CreatePhoneForm, self).__init__( *args, **kwargs)
+        self.fields['number'].widget.attrs.update({
+                'placeholder': '+53 55555555 (casa)',
+            })
+
+PhoneFormSet = formsets.formset_factory(CreatePhoneForm, min_num=1, extra=0)
+
 
 class CreateEmailForm(forms.ModelForm):
-    modification = False
-
-    def validate_unique(self):
-        if self.modification:
-            return True
-        else: 
-            return super(CreateEmailForm, self).validate_unique()
-            
     class Meta:
         model = EmailPerson
         fields = ('email',)
+
+    def __init__(self, *args, **kwargs):
+        super(CreateEmailForm, self).__init__(*args, **kwargs)
+        
+        self.fields['email'].widget.attrs.update({'placeholder':'correo@algo.com'})
+
+EmailFormSet = formsets.formset_factory(CreateEmailForm, min_num =1, extra= 0)
+
+
 
 class CreateAddressFormEntidad(forms.ModelForm):
     class Meta:
         model = AddressEntidad
         fields = ('address_one', 'provincia', 'municipio', 'pais')
+
+
 
 class CreatePhoneFormEntidad(forms.ModelForm):
     modification = False

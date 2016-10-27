@@ -7,6 +7,11 @@ from django.contrib.auth.admin import UserAdmin
 admin.site.register(Categoria)
 admin.site.register(Proyecto)
 admin.site.register(Role)
+admin.site.register(PhoneNumberPerson)
+admin.site.register(AddressPerson)
+admin.site.register(EmailPerson)
+
+
 
 class InlineOnCubaUser(admin.StackedInline):
     model = OnCubaUser

@@ -335,7 +335,7 @@ form#delete-contact-form:focus {
     margin-left: 10px;
 }
 
-.borrar-container .submit-button{
+.borrar-container .submit-button {
     margin: 10px;
     text-transform: uppercase;
 }
@@ -364,4 +364,21 @@ form#delete-contact-form:focus {
 #content-container {
     padding-top: 20px;
     padding-bottom: 20px;
+}
+
+#telefonos-table {
+    width: 100%;
+}
+
+#content-container div.add-phone {
+    margin-top: 0;
+}
+
+#contact-persona-form .form-input {
+    width: 80%;
+    float: left;
+}
+
+#contact-persona-form .form-input input {
+    width: 100%;
 }

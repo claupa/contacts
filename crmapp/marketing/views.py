@@ -16,7 +16,7 @@ def home_page(request, template='marketing/home.html'):
     if request.GET:
         s =request.GET['s']
          
-        contact_person = contact_person.filter(Q(nombre__icontains = s) | Q(apellidos__icontains=s) | Q(lugar_de_trabajo__icontains=s)\
+        contact_person = contact_person.filter(Q(nombre__icontains = s) | Q(lugar_de_trabajo__icontains=s)\
         | Q(ocupacion__icontains=s))
         contact_entidad = contact_entidad.filter(Q(nombre__icontains = s) | Q(servicios__icontains=s) | Q(persona__icontains=s)\
         | Q(cargo__icontains=s))
@@ -129,7 +129,7 @@ def get_contact_info(contacts, user, persona = True):
     return new_contacts
 
 def get_name_and_ocupation_of_persona(contact):
-    return (contact.nombre + ' ' + contact.apellidos , contact.ocupacion+'/'+contact.lugar_de_trabajo)
+    return (contact.nombre, contact.ocupacion+'/'+contact.lugar_de_trabajo)
 
 def get_name_and_ocupation_of_entidad(contact):
     return (contact.nombre, contact.servicios)

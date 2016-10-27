@@ -23,7 +23,6 @@ function csrfSafeMethod(method) {
 
 function delete_contact() {
     var result = confirm('Está seguro que desea eliminar el contacto?');
-    console.log(result);
     if (result) {
         // $('#delete-contact-form').submit();
         return true;
@@ -66,6 +65,13 @@ function resetForm($form) {
 // Main App
 $(document).ready(function() {
 
+    // $('#id_estado_civil option').each(function(index) {
+    //     if (index != 0) {
+    //         this.label = this.label + 'o';
+    //     }
+    // });
+    // $('#id_sexo').click(function(e) {});
+
     // Account - Use AJAX to get the Account Edit form and
     // display it on the page w/out a refresh
     $('#gi-container').delegate('.edit-account', 'click', function(e) {
@@ -73,39 +79,146 @@ $(document).ready(function() {
         $('#gi-container').load($(this).attr('href'));
     });
 
-    var address_index = 0;
-    $('#anadir-direccion').click(function(e) {
-        e.preventDefault();
-        if (address_index == 0) {
-            $('#anadir-direccion').hide();
-        }
-        $('.new-address-' + address_index).fadeIn(100);
-        address_index++;
-        console.log(address_index);
+    // ------------- ADD  PHONE NUMBER ------------------------------------------------------------
 
-    });
-    $('.delete-address').click(function(e) {
-        e.preventDefault();
-        address_index--;
-        $('.new-address-' + address_index).hide();
-        $('#anadir-direccion').show();
-        $('.new-address-' + address_index + ' input').prop('value', '');
-    });
+    $('.delete-phone-holder').each(function(index) {
+        var e = $(this);
 
-    $('#id_estado_civil option').each(function(index) {
-        if (index != 0) {
-            console.log(this.label);
-            this.label = this.label + 'o';
+        e.attr('id', e.attr('id') + index);
+        if (index == 0) {
+            e.parents('#telefonos-table>div').children('.label-phone').text('Número de Teléfono*:');
         }
     });
-    $('#id_sexo').click(function(e) {
-        console.log(e);
+    $('.delete-phone-holder').last().show();
+    $('.delete-phone-holder').first().hide();
+
+    var phone_index = $('.delete-phone-holder').length;
+    $('#anadir-phone').click(function(e) {
+        e.preventDefault();
+        var new_phone = '<div class="row create-contact-inputs">' +
+            '<div class="col-xs-12 col-md-3 col-lg-3 label-phone">Número de Teléfono:</div>' +
+            '<div class="col-xs-12 col-md-9 col-lg-9">' +
+            '<div class="text-left form-input">' +
+            '<input id="id_form-' + phone_index + '-number" maxlength="100" name="form-' + phone_index + '-number" placeholder="+53 55555555 (casa)" type="text" value="">' +
+            '</div>' +
+            '<div class="text-right col-xs-12 col-md-2 col-lg-2" id="delete-phone-' + phone_index + '">' +
+            ' <a href="#" class="delete-phone">Eliminar <i class="fa fa-times"></i></a>' +
+            '</div>' +
+            '</div>' +
+            '</div>';
+        $('#telefonos-table').append(new_phone);
+        $('#telefonos-persona #id_form-TOTAL_FORMS').val(phone_index + 1);
+        if (phone_index - 1 > 0)
+            $('#delete-phone-' + (phone_index - 1)).hide();
+        phone_index++;
 
     });
 
-    $('#id_phone_descripcion').prop('value', $('#phone-descr').text());
-    $('#id_email_descripcion').prop('value', $('#email-descr').text());
+    $('#telefonos-table').on('click', '.delete-phone', function(e) {
+        e.preventDefault();
+        phone_index--;
+        if (phone_index - 1 > 0)
+            $('#delete-phone-' + (phone_index - 1)).show();
+        $(e.currentTarget.parentElement.parentElement.parentElement).detach();
+        $('#telefonos-persona #id_form-TOTAL_FORMS').val(phone_index);
+
+    });
+
+    // ------------- ADD   EMAIL ------------------------------------------------------------
+    $('.delete-email-holder').each(function(index) {
+        var e = $(this);
+        e.attr('id', e.attr('id') + index);
+        if (index == 0) {
+            e.parents('#emails-table>div').children('.label-email').text('Correo Electrónico*:');
+        }
+    });
+    $('.delete-email-holder').last().show();
+    $('.delete-email-holder').first().hide();
 
 
+    var email_index = $('.delete-email-holder').length;
+    $('#anadir-email').click(function(e) {
+        e.preventDefault();
+        var new_email = '<div class="row create-contact-inputs">' +
+            '<div class="col-xs-12 col-md-3 col-lg-3 label-email">Correo Electrónico:</div>' +
+            '<div class="col-xs-12 col-md-9 col-lg-9">' +
+            '<div class="text-left form-input">' +
+            '<input id="id_form-' + email_index + '-email" maxlength="100" name="form-' + email_index + '-email" placeholder="correo@algo.com" type="text" value="">' +
+            '</div>' +
+            '<div class="text-right col-xs-12 col-md-2 col-lg-2 delete-email-holder" id="delete-email-' + email_index + '">' +
+            ' <a href="#" class="delete-email">Eliminar <i class="fa fa-times"></i></a>' +
+            '</div>' +
+            '</div>' +
+            '</div>';
+        $('#emails-table').append(new_email);
+        $('#email-group #id_form-TOTAL_FORMS').val(email_index + 1);
+        if (email_index - 1 > 0)
+            $('#delete-email-' + (email_index - 1)).hide();
+        email_index++;
 
+    });
+    $('#emails-table').on('click', '.delete-email', function(e) {
+        e.preventDefault();
+        email_index--;
+        if (email_index - 1 > 0)
+            $('#delete-email-' + (email_index - 1)).show();
+        $(e.currentTarget.parentElement.parentElement.parentElement).detach();
+        $('#email-group #id_form-TOTAL_FORMS').val(email_index);
+    });
+
+    // ------------- ADD   Address ------------------------------------------------------------
+
+    $('.delete-addr-holder').each(function(index) {
+        var e = $(this);
+        e.attr('id', e.attr('id') + index);
+        if (index == 0) {
+            e.parents('#addrs-table>div').children('.label-addr').text('Dirección*:');
+        }
+    });
+    $('.delete-addr-holder').last().show();
+    $('.delete-addr-holder').first().hide();
+
+
+    var addr_index = $('.delete-addr-holder').length;
+    $('#anadir-addr').click(function(e) {
+        e.preventDefault();
+        var new_addr = '<div class="addr">' +
+            '<div class="row create-contact-inputs">' +
+            '<div class="col-xs-12 col-md-3 col-lg-3 label-addr">Dirección:</div>' +
+            '<div class="col-xs-12 col-md-9 col-lg-9">' +
+            '<div class="text-left form-input">' +
+            '<input id="id_form-' + addr_index + '-address" maxlength="200" name="form-' + addr_index + '-address" type="text">' +
+            '</div>' +
+            '<div class="text-right col-xs-12 col-md-2 col-lg-2 delete-addr-holder" id="delete-addr-">' +
+            '<a href="#" class="delete-addr">Eliminar<i class="fa fa-times"></i></a>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '<div class="row create-contact-inputs">' +
+            '<div class="col-xs-12 col-md-3 col-lg-3 label-addr">País:</div>' +
+            '<div class="col-xs-12 col-md-9 col-lg-9">' +
+            '<div class="text-left form-input">' +
+            '<input id="id_form-' + addr_index + '-pais" maxlength="50" name="form-' + addr_index + '-pais" type="text" value="Cuba">' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>';
+
+        $('#addrs-table').append(new_addr);
+
+        $('#addr-group #id_form-TOTAL_FORMS').val(addr_index + 1);
+        if (addr_index - 1 > 0)
+            $('#delete-addr-' + (addr_index - 1)).hide();
+        addr_index++;
+
+    });
+    $('#addrs-table').on('click', '.delete-addr', function(e) {
+        e.preventDefault();
+        addr_index--;
+        if (addr_index - 1 > 0)
+            $('#delete-addr-' + (addr_index - 1)).show();
+        $(e.currentTarget.parentElement.parentElement.parentElement.parentElement).detach();
+        $('#addr-group #id_form-TOTAL_FORMS').val(addr_index);
+
+    });
 });

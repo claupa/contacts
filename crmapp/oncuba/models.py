@@ -65,7 +65,7 @@ class Persona(models.Model):
     nombre = models.CharField(max_length = 200,  verbose_name='Nombre(s) y Apellido(s)', default = " ")
     lugar_de_trabajo = models.CharField(max_length=50, verbose_name='Lugar de Trabajo')
     ocupacion = models.CharField(max_length = 50,verbose_name='Ocupación')    
-    nacionalidad = models.CharField(max_length=50,  verbose_name='País', default="Cuba")
+    nacionalidad = models.CharField(max_length=50,  verbose_name='nacionalidad', default="Cubana")
 
     fecha_de_nacimiento = models.DateField(verbose_name = 'Fecha de Nacimiento',blank = True)
     sexo = models.CharField(max_length = 1, choices = SEXO,blank = True)
@@ -111,6 +111,15 @@ class AddressPerson(models.Model):
         verbose_name_plural = 'Direcciones'
         verbose_name =  "Dirección"
     
+    def address(self):
+        l = [self.address_one,]
+        if self.municipio:
+            l.append(self.municipio)
+        if self.provincia:
+            l.append(self.provincia)
+            
+        return ', '.join(l)
+
 class Entidad(models.Model):
     SEXO =(('F', 'Femenino'), ('M', 'Masculino'))
     ESTADO_CIVIL = (('S', 'Solter'),('C','Casad'), ('V', 'Viud'), ('D', 'Divorciad'))
@@ -120,7 +129,7 @@ class Entidad(models.Model):
     persona = models.CharField(max_length = 200 , verbose_name = 'Nombre de Persona de Contacto')
     cargo = models.CharField(max_length = 100 , verbose_name = 'Cargo de Persona de Contacto')   
 
-    nacionalidad = models.CharField(max_length=50,  verbose_name='País', default="Cuba")
+    nacionalidad = models.CharField(max_length=50,  verbose_name='Nacionalidad', default="Cubana")
     
     aniversario = models.DateField(blank = True)
     fiesta = models.DateField(verbose_name='Fiesta Nacional',blank = True)
