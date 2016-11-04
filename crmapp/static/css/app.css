@@ -152,6 +152,7 @@ form#form-search.navbar-form {
     line-height: 100px;
     text-align: right;
     padding-right: 15px;
+    float: right;
 }
 
 .container .modify span {
