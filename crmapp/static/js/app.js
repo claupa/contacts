@@ -91,6 +91,7 @@ $(document).ready(function() {
     });
     $('.delete-phone-holder').last().show();
     $('.delete-phone-holder').first().hide();
+    $('#telefonos-persona #id_phones-TOTAL_FORMS').val($('.delete-phone-holder').length);
 
     var phone_index = $('.delete-phone-holder').length;
     $('#anadir-phone').click(function(e) {
@@ -99,7 +100,7 @@ $(document).ready(function() {
             '<div class="col-xs-12 col-md-3 col-lg-3 label-phone">Número de Teléfono:</div>' +
             '<div class="col-xs-12 col-md-9 col-lg-9">' +
             '<div class="text-left form-input">' +
-            '<input id="id_form-' + phone_index + '-number" maxlength="100" name="form-' + phone_index + '-number" placeholder="+53 55555555 (casa)" type="text" value="">' +
+            '<input id="id_phones-' + phone_index + '-number" maxlength="100" name="phones-' + phone_index + '-number" placeholder="+53 55555555 (casa)" type="text" value="">' +
             '</div>' +
             '<div class="text-right col-xs-12 col-md-2 col-lg-2" id="delete-phone-' + phone_index + '">' +
             ' <a href="#" class="delete-phone">Eliminar <i class="fa fa-times"></i></a>' +
@@ -107,7 +108,7 @@ $(document).ready(function() {
             '</div>' +
             '</div>';
         $('#telefonos-table').append(new_phone);
-        $('#telefonos-persona #id_form-TOTAL_FORMS').val(phone_index + 1);
+        $('#telefonos-persona #id_phones-TOTAL_FORMS').val(phone_index + 1);
         if (phone_index - 1 > 0)
             $('#delete-phone-' + (phone_index - 1)).hide();
         phone_index++;
@@ -120,7 +121,7 @@ $(document).ready(function() {
         if (phone_index - 1 > 0)
             $('#delete-phone-' + (phone_index - 1)).show();
         $(e.currentTarget.parentElement.parentElement.parentElement).detach();
-        $('#telefonos-persona #id_form-TOTAL_FORMS').val(phone_index);
+        $('#telefonos-persona #id_phones-TOTAL_FORMS').val(phone_index);
 
     });
 
@@ -143,7 +144,7 @@ $(document).ready(function() {
             '<div class="col-xs-12 col-md-3 col-lg-3 label-email">Correo Electrónico:</div>' +
             '<div class="col-xs-12 col-md-9 col-lg-9">' +
             '<div class="text-left form-input">' +
-            '<input id="id_form-' + email_index + '-email" maxlength="100" name="form-' + email_index + '-email" placeholder="correo@algo.com" type="text" value="">' +
+            '<input id="id_email-' + email_index + '-email" maxlength="100" name="email-' + email_index + '-email" placeholder="correo@algo.com" type="text" value="">' +
             '</div>' +
             '<div class="text-right col-xs-12 col-md-2 col-lg-2 delete-email-holder" id="delete-email-' + email_index + '">' +
             ' <a href="#" class="delete-email">Eliminar <i class="fa fa-times"></i></a>' +
@@ -151,7 +152,7 @@ $(document).ready(function() {
             '</div>' +
             '</div>';
         $('#emails-table').append(new_email);
-        $('#email-group #id_form-TOTAL_FORMS').val(email_index + 1);
+        $('#email-group #id_email-TOTAL_FORMS').val(email_index + 1);
         if (email_index - 1 > 0)
             $('#delete-email-' + (email_index - 1)).hide();
         email_index++;
@@ -163,7 +164,7 @@ $(document).ready(function() {
         if (email_index - 1 > 0)
             $('#delete-email-' + (email_index - 1)).show();
         $(e.currentTarget.parentElement.parentElement.parentElement).detach();
-        $('#email-group #id_form-TOTAL_FORMS').val(email_index);
+        $('#email-group #id_email-TOTAL_FORMS').val(email_index);
     });
 
     // ------------- ADD   Address ------------------------------------------------------------
@@ -187,7 +188,7 @@ $(document).ready(function() {
             '<div class="col-xs-12 col-md-3 col-lg-3 label-addr">Dirección:</div>' +
             '<div class="col-xs-12 col-md-9 col-lg-9">' +
             '<div class="text-left form-input">' +
-            '<input id="id_form-' + addr_index + '-address" maxlength="200" name="form-' + addr_index + '-address" type="text">' +
+            '<input id="id_addr-' + addr_index + '-address" maxlength="200" name="addr-' + addr_index + '-address" placeholder="Calle 0 e/ 0 y 0 #000, Municipio, Provincia" type="text">' +
             '</div>' +
             '<div class="text-right col-xs-12 col-md-2 col-lg-2 delete-addr-holder" id="delete-addr-">' +
             '<a href="#" class="delete-addr">Eliminar<i class="fa fa-times"></i></a>' +
@@ -198,7 +199,7 @@ $(document).ready(function() {
             '<div class="col-xs-12 col-md-3 col-lg-3 label-addr">País:</div>' +
             '<div class="col-xs-12 col-md-9 col-lg-9">' +
             '<div class="text-left form-input">' +
-            '<input id="id_form-' + addr_index + '-pais" maxlength="50" name="form-' + addr_index + '-pais" type="text" value="Cuba">' +
+            '<input id="id_addr-' + addr_index + '-pais" maxlength="50" name="addr-' + addr_index + '-pais" type="text" value="Cuba">' +
             '</div>' +
             '</div>' +
             '</div>' +
@@ -206,7 +207,7 @@ $(document).ready(function() {
 
         $('#addrs-table').append(new_addr);
 
-        $('#addr-group #id_form-TOTAL_FORMS').val(addr_index + 1);
+        $('#addr-group #id_addr-TOTAL_FORMS').val(addr_index + 1);
         if (addr_index - 1 > 0)
             $('#delete-addr-' + (addr_index - 1)).hide();
         addr_index++;
@@ -218,7 +219,7 @@ $(document).ready(function() {
         if (addr_index - 1 > 0)
             $('#delete-addr-' + (addr_index - 1)).show();
         $(e.currentTarget.parentElement.parentElement.parentElement.parentElement).detach();
-        $('#addr-group #id_form-TOTAL_FORMS').val(addr_index);
+        $('#addr-group #id_addr-TOTAL_FORMS').val(addr_index);
 
     });
 });

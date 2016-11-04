@@ -186,6 +186,15 @@ class AddressEntidad(models.Model):
         verbose_name_plural = 'Direcciones Disponibles'
         verbose_name =  "Dirección"
 
+    def address(self):
+        l = [self.address_one,]
+        if self.municipio:
+            l.append(self.municipio)
+        if self.provincia:
+            l.append(self.provincia)
+            
+        return ', '.join(l)
+
 
 class Invitacion(models.Model):
     username = models.CharField(max_length = 50, verbose_name='Nombre de Usuario', blank=True, null=True)

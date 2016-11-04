@@ -14,60 +14,37 @@
     <div class="col-lg-3">Cargo de Persona de Contacto</div>
     <div class="col-lg-9">{{contact.cargo}}</div>
 </div>
+{% for p in phone%}
 <div class="row create-contact-inputs">
     <div class="col-lg-3">Número de Teléfono</div>
-    <div class="col-lg-9">{{phone.number}}</div>
+    <div class="col-lg-9">{{p.number}}</div>
 </div>
-<div class="row create-contact-inputs">
-    <div class="col-lg-3">Descripción</div>
-    <div class="col-lg-9">{{phone.descripcion}}</div>
-</div>
-
+{% endfor %} {% for e in email%}
 <div class="row create-contact-inputs">
     <div class="col-lg-3">Correo Electrónico</div>
-    <div class="col-lg-9"><a href="mailto:{{email.email}}"> {{email.email}}</a></div>
+    <div class="col-lg-9"><a href="mailto:{{email.email}}"> {{e.email}}</a></div>
 </div>
-<div class="row create-contact-inputs">
-    <div class="col-lg-3">Descripción</div>
-    <div class="col-lg-9">{{email.descripcion}}</div>
-</div>
-
-
-{% comment %}
+{%endfor%} {% comment %}
 <h3 class="header-address">Listado de Direcciones</h3>{% endcomment %}
 
 <div class="table" id="direcciones-persona">
     <div id="direcciones-table">
-        {% comment %}{% for addr in address%}{% endcomment %}
+        {% for addr in address%}
         <div class="row create-contact-inputs">
             <div class="col-lg-3">Dirección</div>
-            <div class="col-lg-9">{{address.address_one}}</div>
+            <div class="col-lg-9">{{addr.address}}</div>
         </div>
         <div class="row create-contact-inputs">
-            <div class="col-lg-3">Municipio</div>
-            <div class="col-lg-9">{{address.municipio}}</div>
+            <div class="col-lg-3">País</div>
+            <div class="col-lg-9">{{addr.pais}}</div>
         </div>
-        <div class="row create-contact-inputs">
-            <div class="col-lg-3">Provincia</div>
-            <div class="col-lg-9">{{address.provincia}}</div>
-        </div>
-        <div class="row create-contact-inputs">
-            <div class="col-lg-3">Descripción</div>
-            <div class="col-lg-9">{{address.descripcion}}</div>
-        </div>
-        {% comment %}{% endfor %}{% endcomment %}
+        {% endfor %}
     </div>
 </div>
-{% comment %}
-<div class="row create-contact-inputs">
-    <div class="col-lg-3">
-        <a id="anadir-direccion" href="#"><i class="fa fa-plus-circle"></i> Añadir Dirección</a>
-    </div>
-</div>{% endcomment %}
 
 <div class="row create-contact-inputs">
-    <div class="col-lg-3">País</div>
-    <div class="col-lg-9">{{contact.pais}}</div>
+    <div class="col-lg-3">Nacionalidad</div>
+    <div class="col-lg-9">{{contact.nacionalidad}}</div>
 </div>
 <div class="row create-contact-inputs">
     <div class="col-lg-3">Sitio Web</div>

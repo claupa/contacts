@@ -53,20 +53,23 @@ class CommaSeparatedCharField(forms.Field):
         self.run_validators(value)
         return value
 
-class CreateAddressForm(forms.ModelForm):
+class CreateAddressForm(forms.Form):
     address = CommaSeparatedCharField()
+    pais = forms.CharField(required=False, widget=forms.TextInput(), label="País")
 
-    class Meta:
-        model = AddressPerson
-        fields = ('pais',)
+    def __init__(self , *args, **kwargs):
+        super(CreateAddressForm, self).__init__( *args, **kwargs)
+        self.fields['address'].widget.attrs['placeholder'] = 'Calle 0 e/ 0 y 0 #000, Municipio, Provincia'
+
 
 AddressFormSet = formsets.formset_factory(CreateAddressForm, extra=0, min_num=0)
 
 
-class CreatePhoneForm(forms.ModelForm):
-    class Meta:
-        model = PhoneNumberPerson
-        fields = ('number',)
+class CreatePhoneForm(forms.Form):
+    number = forms.CharField(label="Número de teléfono",
+                                widget=forms.TextInput()
+                                )
+
     def __init__(self , *args, **kwargs):
         super(CreatePhoneForm, self).__init__( *args, **kwargs)
         self.fields['number'].widget.attrs.update({
@@ -76,10 +79,9 @@ class CreatePhoneForm(forms.ModelForm):
 PhoneFormSet = formsets.formset_factory(CreatePhoneForm, min_num=1, extra=0)
 
 
-class CreateEmailForm(forms.ModelForm):
-    class Meta:
-        model = EmailPerson
-        fields = ('email',)
+class CreateEmailForm(forms.Form):
+    email = forms.EmailField(label="Correo Electrónico"
+                                )
 
     def __init__(self, *args, **kwargs):
         super(CreateEmailForm, self).__init__(*args, **kwargs)

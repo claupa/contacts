@@ -4,7 +4,7 @@
         <form id="contact-persona-form" action="{% url 'create_contact_entidad'%}" method="post">
             {% csrf_token %}
             <h4 class="page-title sn-sh">Crear Nuevo Contacto: Entidad</h4>
-            {% include 'oncuba/entidad_form.html'%}
+            {% include 'oncuba/entidad/entidad_form.html'%}
             <input class="btn btn-primary create-contact-submit" type="submit" value="Crear Contacto">
         </form>
     </div>

@@ -70,6 +70,12 @@ def mis_contactos(request, template= "marketing/mis_contactos.html"):
 
     return render(request, template, {'contacts': contacts})
 
+def get_proyectos(staff):
+    prs = ''
+    for proyecto in staff.proyectos.all():
+        prs += proyecto.name +'-'
+    return prs[:-1]
+
 # --------------------------------------------------- Utils -------------------------------------------------
 def get_staff_info():
     staff = []
@@ -79,7 +85,7 @@ def get_staff_info():
         staff.append({
             'index' : index,
             'nombre' : s.nombre + ' ' + s.apellidos,
-            'cargo' : s.cargo,
+            'cargo' : s.cargo + '/' + get_proyectos(s),
             'email' : s.email 
         })
     return staff
