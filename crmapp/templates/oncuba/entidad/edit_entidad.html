@@ -4,7 +4,7 @@
         <form id="contact-persona-form" action="{% url 'editar_entidad' contact_id%}" method="post">
             {% csrf_token %}
             <h4 class="page-title sn-sh">Actualizar Contacto: Entidad</h4>
-            {% include 'oncuba/entidad_form.html'%}
+            {% include 'oncuba/entidad/entidad_form.html'%}
             <span id="phone-descr" style="display:none;">{{phone_description}}</span>
             <span id="email-descr" style="display:none;">{{email_description}}</span>
 

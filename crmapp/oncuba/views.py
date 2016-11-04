@@ -206,44 +206,42 @@ def create_entidad(request, template="oncuba/entidad/create_contact_entidad.html
 
     return render(request, template, {'form':form_contact, 'addr_formset': addr_formset, 'formset': phone_formset, 'email_formset': email_formset})
 
-def editar_entidad(request, contact_id, template="oncuba/edit_entidad.html"):
+def editar_entidad(request, contact_id, template="oncuba/entidad/edit_entidad.html"):
         
     contacto = Entidad.objects.get(pk=contact_id)
     address = AddressEntidad.objects.filter(contact__pk = contact_id)
     phone = PhoneNumberEntidad.objects.filter(contact__pk= contact_id)
     email = EmailEntidad.objects.filter(contact__pk= contact_id)
     
+    initial_phones = [{'number': phone_number.number} for phone_number in phone]
+    initial_email = [{'email': e.email} for e in email]
+    initial_addr = [{'address': addr.address(), 'pais': addr.pais} for addr in address]
+
     if request.method == 'POST':
         form_contact = CreateContactFormEntidad(request.POST)
-        form_address = CreateAddressFormEntidad(request.POST)
-        form_phone = CreatePhoneFormEntidad(request.POST)
-        form_email = CreateEmailFormEntidad(request.POST)
+        phone_formset = PhoneFormSet(request.POST, initial = initial_phones, prefix = "phones")
+        email_formset = EmailFormSet(request.POST, initial= initial_email, prefix = 'email' )
+        addr_formset = AddressFormSet(request.POST, initial = initial_addr, prefix= 'addr')
 
-        if form_contact.is_valid() and form_address.is_valid() and form_phone.is_valid() and form_email.is_valid():
+        if form_contact.is_valid() and phone_formset.is_valid() and email_formset.is_valid() and addr_formset.is_valid():
             entidad = save_entidad(form_contact, request.user, contacto)
 
-            phone.number = form_phone.cleaned_data['number']
-            phone.save()
-
-            email.email = form_email.cleaned_data['email']
-            email.save()
+            update_phone_numbers(phone_formset, entidad, phone, PhoneClass=PhoneNumberEntidad)
+            update_emails(email_formset, entidad,email, EmailClass=EmailEntidad)
+            update_address(addr_formset, entidad, address,AddrClass=AddressEntidad)
             
-            address.address_one = form_address.cleaned_data['address_one']
-            address.provincia = form_address.cleaned_data['provincia']
-            address.municipio= form_address.cleaned_data['municipio']
-            address.pais = form_address.cleaned_data['pais']
-            address.save()
+           
         history = UserTracker(user = request.user, action= 'M', entidad = entidad, fecha = t.now() )
         history.save()
         
         return HttpResponseRedirect('/')
     else:
-        form_contact = CreateContactFormEntidad(model_to_dict(entidad)) 
-        form_address = CreateAddressFormEntidad(model_to_dict(address))
-        form_email = CreateEmailFormEntidad(model_to_dict(email))
-        form_phone = CreatePhoneFormEntidad(model_to_dict(phone))
+        form_contact = CreateContactFormEntidad(model_to_dict(contacto)) 
+        phone_formset = PhoneFormSet(initial = initial_phones, prefix = "phones")
+        email_formset = EmailFormSet(initial= initial_email, prefix = 'email' )
+        addr_formset = AddressFormSet(initial = initial_addr, prefix= 'addr')
 
-    return render(request, template, {'form':form_contact, 'address': form_address, 'phone': form_phone, 'email': form_email,
+    return render(request, template, {'form':form_contact, 'formset': phone_formset, 'email_formset': email_formset, 'addr_formset': addr_formset,
         'contact_id': contact_id})
 
 
