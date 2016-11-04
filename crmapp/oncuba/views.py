@@ -66,8 +66,10 @@ def update_address(addr_formset, persona, address = None, AddrClass=AddressPerso
         address.delete()
     for addr_form in addr_formset:
         address = addr_form.cleaned_data['address']
-        new_address = AddrClass(contact = persona, address_one = address[0])
-        new_address.municipio = address[1] if len(address) > 1 else ''
+        print address
+        new_address = AddrClass(contact = persona, address_one = address[1])
+    
+        new_address.municipio = address[0] if len(address) > 1 else ''
         new_address.provincia = ', '.join(address[2:]) if len(address) > 2 else ''
         new_address.pais = addr_form.cleaned_data['pais']
         new_address.save()
@@ -317,13 +319,14 @@ def change_password(request):
 
 @login_required()
 def delete_contact(request, contact_id, is_persona):
+    print is_persona
     contact = Persona.objects.get(pk = contact_id) if is_persona == 'True' else Entidad.objects.get(pk = contact_id)
 
     if check_credentials(contact, request.user):
         contact.marked_for_deletion = True;
         contact.date_marked = t.now()
         contact.save()
-        if is_persona:
+        if is_persona == 'True':
             history = UserTracker(user = request.user, action= 'B', persona = contact,fecha = t.now() )
             history.save()
         else:
