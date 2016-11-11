@@ -58,20 +58,18 @@ class OnCubaUser(models.Model):
     def nombre_completo(self):
         return self.user.first_name + ' ' + self.user.last_name
 
+# ---------------- PERSONA -------------------------------------------------
 class Persona(models.Model):
     SEXO =(('F', 'Femenino'), ('M', 'Masculino'))
     ESTADO_CIVIL = (('S', 'Solter'),('C','Casad'), ('V', 'Viud'), ('D', 'Divorciad'))
-
     nombre = models.CharField(max_length = 200,  verbose_name='Nombre(s) y Apellido(s)', default = " ")
     lugar_de_trabajo = models.CharField(max_length=50, verbose_name='Lugar de Trabajo')
     ocupacion = models.CharField(max_length = 50,verbose_name='Ocupación')    
     nacionalidad = models.CharField(max_length=50,  verbose_name='nacionalidad', default="Cubana")
-
-    fecha_de_nacimiento = models.DateField(verbose_name = 'Fecha de Nacimiento',blank = True)
+    fecha_de_nacimiento = models.DateField(verbose_name = 'Fecha de Nacimiento',blank = True, null=True)
     sexo = models.CharField(max_length = 1, choices = SEXO,blank = True)
     estado_civil = models.CharField(max_length = 1, choices=ESTADO_CIVIL,blank = True)
     hijos = models.BooleanField()
-
     sitio_web = models.URLField( verbose_name='Sitio Web', blank = True)
     categoria = models.ManyToManyField(Categoria)
     proyecto = models.ManyToManyField(Proyecto)
@@ -88,111 +86,123 @@ class Persona(models.Model):
 
 
 class PhoneNumberPerson(models.Model):
-    number = models.CharField(max_length=100, unique=True, verbose_name= 'Número de Teléfono')
+    number = models.CharField(max_length=100, verbose_name= 'Número de Teléfono')
     contact = models.ForeignKey(Persona, on_delete= models.CASCADE)
+
     class Meta:
-        verbose_name_plural = 'Números de Teléfono'
+        verbose_name_plural = 'Listado de Teléfonos'
         verbose_name =  "Número de Teléfono"
-
-class EmailPerson(models.Model):
-    email = models.EmailField(unique= True, verbose_name = 'Correo Electrónico')
-    contact = models.ForeignKey(Persona, on_delete= models.CASCADE)
-    class Meta:
-        verbose_name_plural = 'Listado de Correos'
-        verbose_name =  "Correo Electrónico"
-
-class AddressPerson(models.Model):
-    address_one = models.CharField(max_length=200, verbose_name= 'Dirección')
-    provincia = models.CharField(max_length=50)
-    municipio = models.CharField(max_length=50)
-    pais = models.CharField(max_length=50,  verbose_name='País', default="Cuba")
-    contact = models.ForeignKey(Persona, on_delete= models.CASCADE)
-    class Meta:
-        verbose_name_plural = 'Direcciones'
-        verbose_name =  "Dirección"
-    
-    def address(self):
-        l = [self.address_one,]
-        if self.municipio:
-            l.append(self.municipio)
-        if self.provincia:
-            l.append(self.provincia)
-            
-        return ', '.join(l)
-
-class Entidad(models.Model):
-    SEXO =(('F', 'Femenino'), ('M', 'Masculino'))
-    ESTADO_CIVIL = (('S', 'Solter'),('C','Casad'), ('V', 'Viud'), ('D', 'Divorciad'))
-
-    nombre = models.CharField(max_length = 100,  verbose_name='Nombre', default = " ")
-    servicios = models.CharField(max_length=100, verbose_name='Servicios/Productos')
-  
-
-    nacionalidad = models.CharField(max_length=50,  verbose_name='Nacionalidad', default="Cubana")
-    
-    aniversario = models.DateField(blank = True)
-    fiesta = models.DateField(verbose_name='Fiesta Nacional',blank = True)
-    
-    sitio_web = models.URLField( verbose_name='Sitio Web',blank = True)
-    categoria = models.ManyToManyField(Categoria)
-    proyecto = models.ManyToManyField(Proyecto)    
-    observaciones = models.TextField(blank = True)
-
-    created_by = models.ForeignKey(OnCubaUser, verbose_name = 'Creado por',default = 1)
-    marked_for_deletion = models.BooleanField(default = False)
-    date_marked = models.DateTimeField(blank = True, default =t.now)
-
-    def nombre_completo(self):
-        return u"%s" % (self.nombre) 
-    
-
-    class Meta:
-        verbose_name_plural = 'entidades'
-
-    def __unicode__(self):
-        return u"%s" % (self.nombre) 
-        
-
-class PhoneNumberEntidad(models.Model):
-    number = models.CharField(max_length=50, unique=True, verbose_name= 'Número de Teléfono')
-    contact = models.ForeignKey(Entidad, on_delete= models.CASCADE)
-
-    class Meta:
-        verbose_name_plural = 'Números de Teléfono'
-        verbose_name =  "Número de Teléfono"
-
+        unique_together =('number', 'contact')
 
     def __unicode__(self):
         return u"%s" % (self.number) 
 
+class EmailPerson(models.Model):
+    email = models.EmailField(verbose_name = 'Correo Electrónico')
+    contact = models.ForeignKey(Persona, on_delete= models.CASCADE)
 
-class EmailEntidad(models.Model):
-    email = models.EmailField(unique= True, verbose_name = 'Correo Electrónico')
-    contact = models.ForeignKey(Entidad, on_delete= models.CASCADE)
     class Meta:
         verbose_name_plural = 'Listado de Correos'
         verbose_name =  "Correo Electrónico"
+        unique_together = ("email", "contact")
+    
+    def __unicode__(self):
+        return u"%s" % (self.email) 
+
+
+class AddressPerson(models.Model):
+    address = models.CharField(max_length=300, verbose_name= 'Dirección', default ='')   
+    pais = models.CharField(max_length=50,  verbose_name='País', default="Cuba")
+    contact = models.ForeignKey(Persona, on_delete= models.CASCADE)
+
+    class Meta:
+        verbose_name_plural = 'Listado de Direcciones'
+        verbose_name =  "Dirección"
+        unique_together = ('address', 'pais', 'contact')
+    
+    def __unicode__(self):
+        return u"%s/%s" % (self.address, self.pais) 
+
+# ---------------- END PERSONA -------------------------------------------------
+
+# ---------------- ENTIDAD -----------------------------------------------------
+class Entidad(models.Model):
+    SEXO =(('F', 'Femenino'), ('M', 'Masculino'))
+    ESTADO_CIVIL = (('S', 'Solter'),('C','Casad'), ('V', 'Viud'), ('D', 'Divorciad'))
+    nombre = models.CharField(max_length = 100,  verbose_name='Nombre', default = " ")
+    servicios = models.CharField(max_length=100, verbose_name='Servicios/Productos')
+    nacionalidad = models.CharField(max_length=50,  verbose_name='Nacionalidad', default="Cubana")
+    aniversario = models.DateField(blank = True, null=True)
+    fiesta = models.DateField(verbose_name='Fiesta Nacional',blank = True, null=True)
+    sitio_web = models.URLField( verbose_name='Sitio Web',blank = True)
+    categoria = models.ManyToManyField(Categoria)
+    proyecto = models.ManyToManyField(Proyecto)    
+    observaciones = models.TextField(blank = True)
+    created_by = models.ForeignKey(OnCubaUser, verbose_name = 'Creado por', default = 1)
+    marked_for_deletion = models.BooleanField(default = False)
+    date_marked = models.DateTimeField(blank = True, default =t.now)
+
+    def nombre_completo(self):
+        return u"%s" % (self.nombre)    
+
+    class Meta:
+        verbose_name_plural = 'Entidades'
+        verbose_name = 'Entidad'
+
+    def __unicode__(self):
+        return u"%s" % (self.nombre) 
+
+class ContactPerson(models.Model):
+    persona = models.CharField(max_length = 200 , verbose_name = 'Persona de Contacto')
+    cargo = models.CharField(max_length = 100 , verbose_name = 'Cargo')
+    numbers = models.CharField(max_length=100, verbose_name= 'Número(s) de Teléfono', null=True, blank=True)
+    emails = models.CharField(max_length=400, verbose_name= 'Correo(s) Electrónico(s)', null=True, blank=True)
+    entidad = models.ForeignKey(Entidad)
+
+    class Meta:
+        verbose_name = 'Persona de Contacto'
+        verbose_name_plural = 'Personas de Contacto'
+        unique_together = ('persona', 'cargo', 'entidad')
+
+    def __unicode__(self):
+        return u"%s %s" % (self.persona, self.cargo)         
+
+class PhoneNumberEntidad(models.Model):
+    number = models.CharField(max_length=50, verbose_name= 'Número de Teléfono')
+    contact = models.ForeignKey(Entidad, on_delete= models.CASCADE)
+
+    class Meta:
+        verbose_name_plural = 'Listado de Teléfonos'
+        verbose_name =  "Número de Teléfono"
+        unique_together =('number', 'contact')
+
+    def __unicode__(self):
+        return u"%s" % (self.number) 
+
+class EmailEntidad(models.Model):
+    email = models.EmailField(verbose_name = 'Correo Electrónico')
+    contact = models.ForeignKey(Entidad, on_delete= models.CASCADE)
+
+    class Meta:
+        verbose_name_plural = 'Listado de Correos'
+        verbose_name =  "Correo Electrónico"
+        unique_together = ("email", "contact")   
+
+    def __unicode__(self):
+        return u"%s" % (self.email) 
     
 
 class AddressEntidad(models.Model):
-    address_one = models.CharField(max_length=200, verbose_name= 'Dirección')
-    provincia = models.CharField(max_length=50)
-    municipio = models.CharField(max_length=50)
-    pais = models.CharField(max_length=50,  verbose_name='País', default="Cuba")
-    
+    address = models.CharField(max_length=300, verbose_name= 'Dirección', default ='')
+    pais = models.CharField(max_length=50,  verbose_name='País', default='Cuba')    
     contact = models.ForeignKey(Entidad, on_delete= models.CASCADE)
-    class Meta:
-        verbose_name_plural = 'Direcciones Disponibles'
-        verbose_name =  "Dirección"
 
-    def address(self):
-        l = [self.address_one,]
-        if self.municipio:
-            l.append(self.municipio)
-        if self.provincia:
-            l.append(self.provincia)
-            
-        return ', '.join(l)
+    class Meta:
+        verbose_name_plural = 'Listado de Direcciones'
+        verbose_name =  'Dirección'
+        unique_together = ('address', 'pais', 'contact')
+
+# ---------------- END ENTIDAD -------------------------------------------------
 
 
 class Invitacion(models.Model):
@@ -248,19 +258,4 @@ class Staff(models.Model):
         verbose_name_plural = 'Staff'
 
     def __unicode__(self):
-        return u"%s %s" % (self.nombre, self.apellidos) 
-
-
-class ContactPerson(models.Model):
-    persona = models.CharField(max_length = 200 , verbose_name = 'Persona de Contacto')
-    cargo = models.CharField(max_length = 100 , verbose_name = 'Cargo')
-    numbers = models.CharField(max_length=100, verbose_name= 'Número(s) de Teléfono', null=True, blank=True)
-    emails = models.CharField(max_length=400, verbose_name= 'Correo(s) Electrónico(s)', null=True, blank=True)
-    entidad = models.ForeignKey(Entidad)
-
-    class Meta:
-        verbose_name = 'Persona de Contacto'
-        verbose_name_plural = 'Personas de Contacto'
-
-    def __unicode__(self):
-        return u"%s %s" % (self.persona, self.cargo) 
+        return u"%s %s" % (self.nombre, self.apellidos)

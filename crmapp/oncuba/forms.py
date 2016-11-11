@@ -4,18 +4,16 @@ from django.forms import  formsets
 
 from .models import Persona, AddressPerson, PhoneNumberPerson, EmailPerson
 from .models import Entidad, AddressEntidad, PhoneNumberEntidad, EmailEntidad
-from .models import Proyecto, Categoria, OnCubaUser,Role, ContactPerson
+from .models import Categoria, OnCubaUser, Role, ContactPerson
 from django.contrib.auth.forms import UserCreationForm
 from django.core.validators import validate_email
 from django.core import validators
 from django.core.exceptions import ValidationError
 from authtools.forms import UserCreationForm
 
-
-
 class CreateContactForm(forms.ModelForm):
     YEARS = range(1900,2017)
-    fecha_nac = forms.DateField(widget=forms.SelectDateWidget(years=tuple(YEARS[-1::-1])))  
+    fecha_nac = forms.DateField(widget=forms.SelectDateWidget(years=tuple(YEARS[-1::-1])), required = False) 
 
     class Meta:
         model = Persona
@@ -23,79 +21,10 @@ class CreateContactForm(forms.ModelForm):
                   'sexo', 'estado_civil', 'hijos', 'observaciones',
                   'sitio_web', 'categoria', 'proyecto')
 
-class MinLengthValidator(validators.MinLengthValidator):
-    message = 'Ensure this value has at least %(limit_value)d elements (it has %(show_value)d).'
-
-class MaxLengthValidator(validators.MaxLengthValidator):
-    message = 'Ensure this value has at most %(limit_value)d elements (it has %(show_value)d).'
-
-class CommaSeparatedCharField(forms.Field):
-    def __init__(self, dedup=True, max_length=None, min_length=None, *args, **kwargs):
-        self.dedup, self.max_length, self.min_length = dedup, max_length, min_length
-        super(CommaSeparatedCharField, self).__init__(*args, **kwargs)
-        if min_length is not None:
-            self.validators.append(MinLengthValidator(min_length))
-        if max_length is not None:
-            self.validators.append(MaxLengthValidator(max_length))
-
-    def to_python(self, value):
-        if value in validators.EMPTY_VALUES:
-            return []
-
-        value = [item.strip() for item in value.split(',') if item.strip()]
-        if self.dedup:
-            value = list(set(value))
-
-        return value
-
-    def clean(self, value):
-        value = self.to_python(value)
-        self.validate(value)
-        self.run_validators(value)
-        return value
-
-class CreateAddressForm(forms.Form):
-    address = CommaSeparatedCharField()
-    pais = forms.CharField(required=False, widget=forms.TextInput(), label="País")
-
-    def __init__(self , *args, **kwargs):
-        super(CreateAddressForm, self).__init__( *args, **kwargs)
-        self.fields['address'].widget.attrs['placeholder'] = 'Calle 0 e/ 0 y 0 #000, Municipio, Provincia'
-
-
-AddressFormSet = formsets.formset_factory(CreateAddressForm, extra=0, min_num=0)
-
-
-class CreatePhoneForm(forms.Form):
-    number = forms.CharField(label="Número de teléfono",
-                                widget=forms.TextInput()
-                                )
-
-    def __init__(self , *args, **kwargs):
-        super(CreatePhoneForm, self).__init__( *args, **kwargs)
-        self.fields['number'].widget.attrs.update({
-                'placeholder': '+53 55555555 (casa)',
-            })
-
-PhoneFormSet = formsets.formset_factory(CreatePhoneForm, min_num=1, extra=0)
-
-
-class CreateEmailForm(forms.Form):
-    email = forms.EmailField(label="Correo Electrónico"
-                                )
-
-    def __init__(self, *args, **kwargs):
-        super(CreateEmailForm, self).__init__(*args, **kwargs)
-        
-        self.fields['email'].widget.attrs.update({'placeholder':'correo@algo.com'})
-
-EmailFormSet = formsets.formset_factory(CreateEmailForm, min_num =1, extra= 0)
-
 class CreateContactFormEntidad(forms.ModelForm):
     YEARS = range(1900,2017)
-
-    aniversario = forms.DateField(widget=forms.SelectDateWidget(years=tuple(YEARS[-1::-1])))  
-    fiesta =  forms.DateField(widget=forms.SelectDateWidget(years=tuple(YEARS[-1::-1])))
+    aniversario = forms.DateField(widget=forms.SelectDateWidget(years=tuple(YEARS[-1::-1])), required = False)  
+    fiesta =  forms.DateField(widget=forms.SelectDateWidget(years=tuple(YEARS[-1::-1])), required = False)
     
     class Meta:
         model = Entidad
@@ -106,7 +35,42 @@ class ContactPersonForm(forms.ModelForm):
         model = ContactPerson
         fields = ('persona', 'cargo', 'numbers', 'emails')
 
+    def __init__(self , *args, **kwargs):
+        super(ContactPersonForm, self).__init__( *args, **kwargs)
+        self.fields['persona'].widget.attrs['placeholder'] = 'Nombre y Apellidos'
+        self.fields['cargo'].widget.attrs['placeholder'] = 'Cargo'
+        self.fields['numbers'].widget.attrs['placeholder'] = '+555 5555 (casa), +555 5555 (casa), ...'
+        self.fields['emails'].widget.attrs['placeholder'] = 'correo1@correo.com, correo2@correo.com, ...'
+        
+class CreateAddressForm(forms.Form):
+    address = forms.CharField(required=False, widget=forms.TextInput(), label="Dirección")
+    pais = forms.CharField(required=False, widget=forms.TextInput(), label="País")
+
+    def __init__(self , *args, **kwargs):
+        super(CreateAddressForm, self).__init__( *args, **kwargs)
+        self.fields['address'].widget.attrs['placeholder'] = 'Calle 0 e/ 0 y 0 #000, Municipio, Provincia'
+
+class CreatePhoneForm(forms.Form):
+    number = forms.CharField(label="Número de teléfono", widget=forms.TextInput())
+
+    def __init__(self , *args, **kwargs):
+        super(CreatePhoneForm, self).__init__( *args, **kwargs)
+        self.fields['number'].widget.attrs.update({
+                'placeholder': '+53 55555555 (casa)',
+            })
+
+class CreateEmailForm(forms.Form):
+    email = forms.EmailField(label="Correo Electrónico")
+
+    def __init__(self, *args, **kwargs):
+        super(CreateEmailForm, self).__init__(*args, **kwargs)        
+        self.fields['email'].widget.attrs.update({'placeholder':'correo@algo.com'})
+
+AddressFormSet = formsets.formset_factory(CreateAddressForm, extra=0, min_num=0)
+PhoneFormSet = formsets.formset_factory(CreatePhoneForm, min_num=1, extra=0)
+EmailFormSet = formsets.formset_factory(CreateEmailForm, min_num =1, extra= 0)
 ContactPersonFormSet = formsets.formset_factory(ContactPersonForm, min_num =1, extra= 0)        
+
 
 class CrearUsuario(UserCreationForm):
     first_name = forms.CharField(required=False, widget=forms.TextInput(attrs={'class':'form-control'}))
@@ -129,19 +93,11 @@ class OnCubaUserForm(forms.ModelForm):
         model = OnCubaUser
         fields = ('cargo',)
 
-
-
 class UserCreationForm(UserCreationForm):
-    """
-    A UserCreationForm with optional password inputs.
-    """
-
     def __init__(self, *args, **kwargs):
         super(UserCreationForm, self).__init__(*args, **kwargs)
         self.fields['password1'].required = False
         self.fields['password2'].required = False
-        # If one field gets autocompleted but not the other, our 'neither
-        # password or both password' validation will be triggered.
         self.fields['password1'].widget.attrs['autocomplete'] = 'off'
         self.fields['password2'].widget.attrs['autocomplete'] = 'off'
 

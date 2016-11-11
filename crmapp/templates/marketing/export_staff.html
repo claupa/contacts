@@ -1,0 +1,27 @@
+<form role="filter" id="form-filter-staff" class="navbar-form" method="get" action="{% url 'filter-staff-export'%}">
+    <div></div>
+    <div class="input-group header-filter">
+        {{form}}
+        <span class="input-group-btn">
+            <button type="submit" class="btn btn-default ">Filtrar</button>
+        </span>
+    </div>
+</form>
+
+<div class="table" id="staff-table">
+    <div class="row-header-blue row">
+        <h1 class="page-title col-lg-10 col-md-10 col-xs-6" id="contacts-header">Staff</h1>
+    </div>
+    {% for st in staff %}
+    <div class="table-row row contact">
+
+        <div class="col-md-12 col-lg-12 col-xs-12">
+            {% for element in st%}
+            <div class="row property">
+                {{element}}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+</div>

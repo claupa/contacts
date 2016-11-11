@@ -121,9 +121,9 @@ def editar_persona(request, contact_id, template="oncuba/persona/edit_contact.ht
     emails = EmailPerson.objects.filter(contact__pk= contact_id)
     
 
-    initial_phones = [{'number': phone_number.number} for phone_number in phones]
+    initial_phones = [{'number': phone_number.number} for phone_number in phone]
     initial_email = [{'email': email.email} for email in emails]
-    initial_addr = [{'address': addr.address(), 'pais': addr.pais} for addr in address]
+    initial_addr = [{'address': addr.address, 'pais': addr.pais} for addr in address]
     
     if request.method == 'POST':
         form_contact = CreateContactForm(request.POST)
@@ -306,6 +306,8 @@ def edit_oncuba_user(request, template="oncuba/oncuba-user/oncuba_user_form.html
             oncubauser.user.email = form.cleaned_data['email']
             oncubauser.user.save()
             oncubauser.cargo = form.cleaned_data['cargo']
+            oncubauser.phone_number = form.cleaned_data['phone_number']
+            
             # oncubauser.proyecto.clear()
             
             # for proyecto in form.cleaned_data['proyecto']:
@@ -319,6 +321,7 @@ def edit_oncuba_user(request, template="oncuba/oncuba-user/oncuba_user_form.html
             'last_name' : oncubauser.user.last_name, 
             'email' : oncubauser.user.email,
             'cargo' : oncubauser.cargo,
+            'phone_number': oncubauser.phone_number,
             # 'proyecto' : oncubauser.proyecto
         })
     return render(request, template, {'form': form})
@@ -346,7 +349,6 @@ def change_password(request):
 
 @login_required()
 def delete_contact(request, contact_id, is_persona):
-    print is_persona
     contact = Persona.objects.get(pk = contact_id) if is_persona == 'True' else Entidad.objects.get(pk = contact_id)
 
     if check_credentials(contact, request.user):
@@ -359,8 +361,6 @@ def delete_contact(request, contact_id, is_persona):
         else:
             history = UserTracker(user = request.user, action= 'B', entidad = contact, fecha = t.now() )
             history.save()
-            
-        
     else:
         return HttpResponseForbidden()
     
@@ -383,7 +383,7 @@ def invitar_usuario(request, template="oncuba/invitar_usuarios.html"):
                                     email = email, phone_number = phone_number, cargo = cargo, role = role)
             invitacion.save()
             
-            url =  request.build_absolute_uri('../aceptar-invitacion/' + str(invitacion.pk))
+            url =  request.build_absolute_uri('/aceptar-invitacion/' + str(invitacion.pk))
             text = """Hola,
   Has recibido una invitación para acceder al sitio de contactos de OnCuba. Para crear tu cuenta de usuario accede a:
   %s
@@ -436,3 +436,30 @@ def aceptar_invitacion(request, o_id, template="oncuba/aceptar_invitacion.html")
         form = CrearUsuario(form_dict)       
 
     return render(request, template, {'form': form, 'id': o_id})
+
+def solicitar_usuario(request, template="oncuba/solicitar_usuario.html"):
+    if request.POST:
+        form = CrearUsuario(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            email = form.cleaned_data['email']
+            first_name = form.cleaned_data['first_name']
+            last_name = form.cleaned_data['last_name']
+            user = User(username=username, email=email,
+                        first_name=first_name, last_name=last_name)
+            user.set_password(password)
+            user.save()
+
+            cargo = form.cleaned_data['cargo']
+            phone_number = form.cleaned_data['phone_number']
+            oncubauser = OnCubaUser(user = user, cargo = cargo, phone_number = phone_number)
+            oncubauser.save()
+            user.is_active = False
+            user.save()
+            return redirect('/')
+    else:
+        form = CrearUsuario()
+    
+    return render(request, template, {'form': form})
+    

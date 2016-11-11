@@ -3,7 +3,7 @@ from django.views.generic.base import TemplateView
 from crmapp.oncuba.models import Categoria, Proyecto, Persona, Entidad, Staff
 from crmapp.oncuba.utils import check_credentials
 from django.contrib.auth.decorators import login_required
-from .forms import FilterForm
+from .forms import FilterForm, FilterStaffForm
 from django.db.models import Q
 
 
@@ -73,6 +73,19 @@ def get_proyectos(staff):
     for proyecto in staff.proyectos.all():
         prs += proyecto.name +'-'
     return prs[:-1]
+
+@login_required()
+def export_staff(request, template="marketing/export_staff.html"):
+    
+    if request.POST:
+        filter_form = FilterStaffForm(request.POST)
+        if filter_form.is_valid():
+            return render(request, template, {'form': filter_form})
+            
+    else:
+        filter_form = FilterStaffForm()
+    
+    return render(request, template, {'form': filter_form, 'staff': []})
 
 # --------------------------------------------------- Utils -------------------------------------------------
 def get_staff_info():

@@ -1,11 +1,13 @@
 {% if staff %}
 <div class="table" id="staff-table">
-    <div class="row-header-blue">
-        <h1 class="page-title" id="contacts-header">Staff</h4>
+    <div class="row-header-blue row">
+        <h1 class="page-title col-lg-10 col-md-10 col-xs-6" id="contacts-header">Staff</h1>
+        {% comment %}
+        <h1 class="page-title col-lg-2 col-md-2 col-xs-6 text-right" id="contacts-header"><a href="{% url 'filter-staff-export' %}">Exportar</a></h1>{% endcomment %}
     </div>
     {% for st in staff %}
     <div class="table-row row contact">
-        <div class="col-md-10 col-lg-10">
+        <div class="col-md-12 col-lg-12 col-xs-12">
             <div class="contact-number-name">
                 <span class="contact-number">{{st.index}}.</span>
                 <span class="contact-name">{{st.nombre}}</span>

@@ -1,10 +1,10 @@
 from django.conf.urls import url
 from django.conf.urls import include
 from django.contrib import admin
-from marketing.views import home_page, mis_contactos
+from marketing.views import home_page, mis_contactos, export_staff
 import django.contrib.auth.views as djauth
 from oncuba.views import create_persona, create_entidad, view_persona,view_entidad, editar_persona, editar_entidad,\
-view_oncuba_user, change_password, edit_oncuba_user, delete_contact, invitar_usuario, aceptar_invitacion
+view_oncuba_user, change_password, edit_oncuba_user, delete_contact, invitar_usuario, aceptar_invitacion, solicitar_usuario
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -21,7 +21,9 @@ urlpatterns = [
     url(r'^password/?$', change_password, name='change_password'),    
     url(r'^mis-contactos/?$', mis_contactos, name='mis_contactos'),
     url(r'^invitar-usuario/?$', invitar_usuario, name='invitar-usuario'),
+    url(r'^solicitar-usuario/?$', solicitar_usuario, name='solicitar-usuario'),
     url(r'^aceptar-invitacion/(?P<o_id>.*)/?$', aceptar_invitacion, name='aceptar-invitacion'),
     url(r'^entrar/?$', djauth.login, {'template_name': 'login.html'}),
     url(r'^logout/?$', djauth.logout, {'next_page': '/entrar/'}),
+    url(r'^exportar-staff/?$', export_staff,name='filter-staff-export'),
 ]
