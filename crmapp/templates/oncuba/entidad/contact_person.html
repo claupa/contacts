@@ -1,0 +1,52 @@
+<div class="table" id="contact-group">
+    <div class="contact-table-header">
+        {{ contact_formset.management_form }}
+    </div>
+    <div id="contacts-table">
+        {% for form_contact in contact_formset %}
+        <div class="row create-contact-inputs">
+            <div class="col-xs-12 col-md-3 col-lg-3 label-contact">{{form_contact.persona.label}}:</div>
+            <div class="col-xs-12 col-md-9 col-lg-9">
+                <div class="text-left form-input">
+                    {{form_contact.persona}}
+                </div>
+                <div class="text-right col-xs-12 col-md-2 col-lg-2 delete-contact-holder" id="delete-contact-">
+                    <a href="#" class="delete-contact">Eliminar<i class="fa fa-times"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="row create-contact-inputs">
+            <div class="col-xs-12 col-md-3 col-lg-3 label-contact">{{form_contact.cargo.label}}:</div>
+            <div class="col-xs-12 col-md-9 col-lg-9">
+                <div class="text-left form-input">
+                    {{form_contact.cargo}}
+                </div>
+            </div>
+        </div>
+        <div class="row create-contact-inputs">
+            <div class="col-xs-12 col-md-3 col-lg-3 label-contact">{{form_contact.numbers.label}}:</div>
+            <div class="col-xs-12 col-md-9 col-lg-9">
+                <div class="text-left form-input">
+                    {{form_contact.numbers}}
+                </div>
+            </div>
+        </div>
+        <div class="row create-contact-inputs">
+            <div class="col-xs-12 col-md-3 col-lg-3 label-contact">{{form_contact.emails.label}}:</div>
+            <div class="col-xs-12 col-md-9 col-lg-9">
+                <div class="text-left form-input">
+                    {{form_contact.emails}}
+                </div>
+            </div>
+        </div>
+        <div class="row create-contact-errors">
+            <div class="col-lg-12">{{contact_formset.errors}}</div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="row create-contact-inputs add-contact text-right">
+        <div class="col-xs-12 col-md-10 col-lg-10">
+            <a id="anadir-contact" href="#"><i class="fa fa-plus-circle"></i> Añadir Contacto</a>
+        </div>
+    </div>
+</div>

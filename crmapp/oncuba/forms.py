@@ -4,7 +4,7 @@ from django.forms import  formsets
 
 from .models import Persona, AddressPerson, PhoneNumberPerson, EmailPerson
 from .models import Entidad, AddressEntidad, PhoneNumberEntidad, EmailEntidad
-from .models import Proyecto, Categoria, OnCubaUser,Role
+from .models import Proyecto, Categoria, OnCubaUser,Role, ContactPerson
 from django.contrib.auth.forms import UserCreationForm
 from django.core.validators import validate_email
 from django.core import validators
@@ -127,11 +127,17 @@ class CreateContactFormEntidad(forms.ModelForm):
 
     aniversario = forms.DateField(widget=forms.SelectDateWidget(years=tuple(YEARS[-1::-1])))  
     fiesta =  forms.DateField(widget=forms.SelectDateWidget(years=tuple(YEARS[-1::-1])))
-
+    
     class Meta:
         model = Entidad
-        fields = ('nombre', 'servicios', 'persona' , 'cargo',
-                 'nacionalidad',  'observaciones','sitio_web', 'categoria', 'proyecto')
+        fields = ('nombre', 'servicios', 'nacionalidad',  'observaciones','sitio_web', 'categoria', 'proyecto')
+
+class ContactPersonForm(forms.ModelForm):
+    class Meta:
+        model = ContactPerson
+        fields = ('persona', 'cargo', 'numbers', 'emails')
+
+ContactPersonFormSet = formsets.formset_factory(ContactPersonForm, min_num =1, extra= 0)
 
 class FilterForm(forms.Form):
     choices_tipo = ((u'T' , u'Todos'),(u'P', u'Persona'),(u'E', u'Entidad')  )

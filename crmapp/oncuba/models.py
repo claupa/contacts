@@ -126,8 +126,7 @@ class Entidad(models.Model):
 
     nombre = models.CharField(max_length = 100,  verbose_name='Nombre', default = " ")
     servicios = models.CharField(max_length=100, verbose_name='Servicios/Productos')
-    persona = models.CharField(max_length = 200 , verbose_name = 'Nombre de Persona de Contacto')
-    cargo = models.CharField(max_length = 100 , verbose_name = 'Cargo de Persona de Contacto')   
+  
 
     nacionalidad = models.CharField(max_length=50,  verbose_name='Nacionalidad', default="Cubana")
     
@@ -252,4 +251,16 @@ class Staff(models.Model):
         return u"%s %s" % (self.nombre, self.apellidos) 
 
 
-    
+class ContactPerson(models.Model):
+    persona = models.CharField(max_length = 200 , verbose_name = 'Persona de Contacto')
+    cargo = models.CharField(max_length = 100 , verbose_name = 'Cargo')
+    numbers = models.CharField(max_length=100, verbose_name= 'Número(s) de Teléfono', null=True, blank=True)
+    emails = models.CharField(max_length=100, verbose_name= 'Correo(s) Electrónico(s)', null=True, blank=True)
+    entidad = models.ForeignKey(Entidad)
+
+    class Meta:
+        verbose_name = 'Persona de Contacto'
+        verbose_name_plural = 'Personas de Contacto'
+
+    def __unicode__(self):
+        return u"%s %s" % (self.persona, self.cargo) 

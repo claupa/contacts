@@ -53,9 +53,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'crmapp.marketing',
-    'crmapp.suscribers',
     'crmapp.accounts',
-    'crmapp.contact',
     'crmapp.oncuba',
 ]
 

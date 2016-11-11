@@ -14,7 +14,7 @@ from django.core.mail import send_mail
 from django.core.validators import validate_email
 from .forms import CreateContactForm, CreateAddressForm, CreatePhoneForm, CreateEmailForm,OnCubaUserForm,\
                    CreateContactFormEntidad, CreateAddressFormEntidad, CreatePhoneFormEntidad, CreateEmailFormEntidad,\
-                   InvitationForm, CrearUsuario, PhoneFormSet, EmailFormSet, AddressFormSet
+                   InvitationForm, CrearUsuario, PhoneFormSet, EmailFormSet, AddressFormSet, ContactPersonFormSet
 from .models import PhoneNumberPerson, EmailPerson, AddressPerson,Persona,\
                 PhoneNumberEntidad, EmailEntidad, AddressEntidad, Entidad, OnCubaUser, UserTracker, Invitacion, Role
 from .utils import check_credentials

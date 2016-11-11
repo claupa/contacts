@@ -12,20 +12,7 @@
 <div class="row create-contact-errors">
     <div class="col-lg-12">{{form.servicios.errors}}</div>
 </div>
-<div class="row create-contact-inputs">
-    <div class="col-lg-3">{{form.persona.label}}*</div>
-    <div class="col-lg-9">{{form.persona}}</div>
-</div>
-<div class="row create-contact-errors">
-    <div class="col-lg-12">{{form.persona.errors}}</div>
-</div>
-<div class="row create-contact-inputs">
-    <div class="col-lg-3">{{form.cargo.label}}*</div>
-    <div class="col-lg-9">{{form.cargo}}</div>
-</div>
-<div class="row create-contact-errors">
-    <div class="col-lg-12">{{form.cargo.errors}}</div>
-</div>
+{% include 'oncuba/entidad/contact_person.html' %}
 
 {% include 'oncuba/phone_form.html'%} {% include 'oncuba/email_form.html'%}
 
