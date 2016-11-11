@@ -12,9 +12,9 @@ from django.contrib.auth.decorators import login_required
 import django.utils.timezone as t
 from django.core.mail import send_mail
 from django.core.validators import validate_email
-from .forms import CreateContactForm, CreateAddressForm, CreatePhoneForm, CreateEmailForm,OnCubaUserForm,\
-                   CreateContactFormEntidad, CreateAddressFormEntidad, CreatePhoneFormEntidad, CreateEmailFormEntidad,\
-                   InvitationForm, CrearUsuario, PhoneFormSet, EmailFormSet, AddressFormSet, ContactPersonFormSet
+from .forms import CreateContactForm, CreateAddressForm, CreatePhoneForm, CreateEmailForm, OnCubaUserForm,\
+                   CreateContactFormEntidad, InvitationForm, CrearUsuario,\
+                   PhoneFormSet, EmailFormSet, AddressFormSet,  ContactPersonFormSet
 from .models import PhoneNumberPerson, EmailPerson, AddressPerson,Persona,\
                 PhoneNumberEntidad, EmailEntidad, AddressEntidad, Entidad, OnCubaUser, UserTracker, Invitacion, Role
 from .utils import check_credentials
@@ -120,6 +120,7 @@ def editar_persona(request, contact_id, template="oncuba/persona/edit_contact.ht
     address = AddressPerson.objects.filter(contact__pk = contact_id)
     phone = PhoneNumberPerson.objects.filter(contact__pk= contact_id)
     emails = EmailPerson.objects.filter(contact__pk= contact_id)
+    
 
     initial_phones = [{'number': phone_number.number} for phone_number in phones]
     initial_email = [{'email': email.email} for email in emails]
@@ -185,10 +186,11 @@ def save_entidad(form_contact,user, entity= None):
 def create_entidad(request, template="oncuba/entidad/create_contact_entidad.html"):
     if request.method == 'POST':
         form_contact = CreateContactFormEntidad(request.POST)
-        print request.POST
         phone_formset = PhoneFormSet(request.POST, prefix="phones")
         email_formset = EmailFormSet(request.POST, prefix="email")
         addr_formset = AddressFormSet(request.POST, prefix = "addr")
+        contact_formset = ContactPersonFormSet(request.POST, prefix = "contact")
+        
 
         if form_contact.is_valid() and phone_formset.is_valid() and email_formset.is_valid() and addr_formset.is_valid():            
             entidad = save_entidad(form_contact, request.user)
@@ -205,8 +207,13 @@ def create_entidad(request, template="oncuba/entidad/create_contact_entidad.html
         phone_formset = PhoneFormSet( prefix="phones")
         email_formset = EmailFormSet(prefix="email")
         addr_formset = AddressFormSet(prefix="addr")    
+        contact_formset = ContactPersonFormSet(prefix = "contact")
 
-    return render(request, template, {'form':form_contact, 'addr_formset': addr_formset, 'formset': phone_formset, 'email_formset': email_formset})
+    return render(request, template, {'form':form_contact, 
+                                      'addr_formset': addr_formset, 
+                                      'formset': phone_formset, 
+                                      'email_formset': email_formset,
+                                      'contact_formset': contact_formset})
 
 def editar_entidad(request, contact_id, template="oncuba/entidad/edit_entidad.html"):
         

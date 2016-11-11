@@ -90,38 +90,6 @@ class CreateEmailForm(forms.Form):
 
 EmailFormSet = formsets.formset_factory(CreateEmailForm, min_num =1, extra= 0)
 
-
-
-class CreateAddressFormEntidad(forms.ModelForm):
-    class Meta:
-        model = AddressEntidad
-        fields = ('address_one', 'provincia', 'municipio', 'pais')
-
-
-
-class CreatePhoneFormEntidad(forms.ModelForm):
-    modification = False
-    def validate_unique(self):
-        if self.modification:
-            return True
-        else: 
-            return super(CreatePhoneFormEntidad, self).validate_unique()
-    class Meta:
-        model = PhoneNumberEntidad
-        fields = ('number',)
-
-class CreateEmailFormEntidad(forms.ModelForm):
-    modification = False
-
-    def validate_unique(self):
-        if self.modification:
-            return True
-        else: 
-            return super(CreateEmailFormEntidad, self).validate_unique()
-    class Meta:
-        model = EmailEntidad
-        fields = ('email',)
-
 class CreateContactFormEntidad(forms.ModelForm):
     YEARS = range(1900,2017)
 

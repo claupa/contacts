@@ -190,7 +190,7 @@ $(document).ready(function() {
             '<div class="text-left form-input">' +
             '<input id="id_addr-' + addr_index + '-address" maxlength="200" name="addr-' + addr_index + '-address" placeholder="Calle 0 e/ 0 y 0 #000, Municipio, Provincia" type="text">' +
             '</div>' +
-            '<div class="text-right col-xs-12 col-md-2 col-lg-2 delete-addr-holder" id="delete-addr-">' +
+            '<div class="text-right col-xs-12 col-md-2 col-lg-2 delete-addr-holder" id="delete-addr-' + addr_index + '">' +
             '<a href="#" class="delete-addr">Eliminar<i class="fa fa-times"></i></a>' +
             '</div>' +
             '</div>' +
@@ -222,4 +222,75 @@ $(document).ready(function() {
         $('#addr-group #id_addr-TOTAL_FORMS').val(addr_index);
 
     });
+    // ------------- ADD CONTACTPERSON -----------------------------------------
+    $('.delete-contact-holder').each(function(index) {
+        var e = $(this);
+        e.attr('id', e.attr('id') + index);
+        if (index == 0) {
+            e.parents('#contacts-table>div').children('.label-contact').text('Persona de Contacto*:');
+        }
+    });
+    $('.delete-contact-holder').last().show();
+    $('.delete-contact-holder').first().hide();
+
+
+    var contact_index = $('.delete-contact-holder').length;
+    $('#anadir-contact').click(function(e) {
+        e.preventDefault();
+        var new_contact = '<div class="contactos">' +
+            '<div class="row create-contact-inputs">' +
+            '<div class="col-xs-12 col-md-3 col-lg-3 label-contact">Persona de Contacto:</div>' +
+            '<div class="col-xs-12 col-md-9 col-lg-9">' +
+            '<div class="text-left form-input">' +
+            '<input id="id_contact-' + contact_index + '-persona" maxlength="200" name="contact-' + contact_index + '-persona" placeholder="Nombre y Apellidos" type="text">' +
+            '</div>' +
+            '<div class="text-right col-xs-12 col-md-2 col-lg-2 delete-contact-holder" id="delete-contact-' + contact_index + '">' +
+            '<a href="#" class="delete-contact">Eliminar<i class="fa fa-times"></i></a>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '<div class="row create-contact-inputs">' +
+            '<div class="col-xs-12 col-md-3 col-lg-3 label-contact">Cargo:</div>' +
+            '<div class="col-xs-12 col-md-9 col-lg-9">' +
+            '<div class="text-left form-input">' +
+            '<input id="id_contact-' + contact_index + '-cargo" maxlength="50" name="contact-' + contact_index + '-cargo" type="text" value="Cuba">' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '<div class="row create-contact-inputs">' +
+            '<div class="col-xs-12 col-md-3 col-lg-3 label-contact">Número(s) de Teléfono:</div>' +
+            '<div class="col-xs-12 col-md-9 col-lg-9">' +
+            '<div class="text-left form-input">' +
+            '<input id="id_contact-' + contact_index + '-numbers" maxlength="50" name="contact-' + contact_index + '-numbers" type="text" value="Cuba">' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '<div class="row create-contact-inputs">' +
+            '<div class="col-xs-12 col-md-3 col-lg-3 label-contact">Correo(s) Electrónico(s):</div>' +
+            '<div class="col-xs-12 col-md-9 col-lg-9">' +
+            '<div class="text-left form-input">' +
+            '<input id="id_contact-' + contact_index + '-emails" maxlength="50" name="contact-' + contact_index + '-emails" type="text" value="Cuba">' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>';
+
+        $('#contacts-table').append(new_contact);
+
+        $('#contact-group #id_contact-TOTAL_FORMS').val(contact_index + 1);
+        if (contact_index - 1 > 0)
+            $('#delete-contact-' + (contact_index - 1)).hide();
+        contact_index++;
+
+    });
+    $('#contacts-table').on('click', '.delete-contact', function(e) {
+        e.preventDefault();
+        contact_index--;
+        if (contact_index - 1 > 0)
+            $('#delete-contact-' + (contact_index - 1)).show();
+        $(e.currentTarget.parentElement.parentElement.parentElement.parentElement).detach();
+        $('#contact-group #id_contact-TOTAL_FORMS').val(contact_index);
+
+    });
+
 });

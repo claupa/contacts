@@ -7,7 +7,6 @@ from oncuba.views import create_persona, create_entidad, view_persona,view_entid
 view_oncuba_user, change_password, edit_oncuba_user, delete_contact, invitar_usuario, aceptar_invitacion
 
 urlpatterns = [
-    # Marketing pages
     url(r'^admin/', admin.site.urls),
     url(r'^$', home_page, name="home"),
     url(r'^nueva-persona/?$', create_persona, name='create_contact_persona'),

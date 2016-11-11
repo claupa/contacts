@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import Categoria, Proyecto,Role, Persona, Entidad, PhoneNumberEntidad, PhoneNumberPerson,\
 EmailEntidad, EmailPerson, AddressEntidad, AddressPerson, OnCubaUser, Staff, UserTracker, Invitacion
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.contrib.auth.admin import UserAdmin
 
 admin.site.register(Categoria)
@@ -24,6 +24,8 @@ UserAdmin.inlines = (InlineOnCubaUser,)
 
 admin.site.unregister(User)
 admin.site.register(User,UserAdmin)
+admin.site.unregister(Group)
+
 
 class InlinePhone(admin.StackedInline):
     model = PhoneNumberEntidad
