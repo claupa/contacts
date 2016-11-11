@@ -232,7 +232,7 @@ def editar_entidad(request, contact_id, template="oncuba/entidad/edit_entidad.ht
     
     initial_phones = [{'number': phone_number.number} for phone_number in phone]
     initial_email = [{'email': e.email} for e in email]
-    initial_addr = [{'address': addr.address(), 'pais': addr.pais} for addr in address]
+    initial_addr = [{'address': addr.address, 'pais': addr.pais} for addr in address]
     initial_contact = [model_to_dict(cp) for cp in contacts]
 
     if request.method == 'POST':

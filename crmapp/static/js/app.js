@@ -253,7 +253,7 @@ $(document).ready(function() {
             '<div class="col-xs-12 col-md-3 col-lg-3 label-contact">Cargo:</div>' +
             '<div class="col-xs-12 col-md-9 col-lg-9">' +
             '<div class="text-left form-input">' +
-            '<input id="id_contact-' + contact_index + '-cargo" maxlength="50" name="contact-' + contact_index + '-cargo" type="text" value="Cuba">' +
+            '<input id="id_contact-' + contact_index + '-cargo" maxlength="50" name="contact-' + contact_index + '-cargo" type="text" placeholder="Cargo">' +
             '</div>' +
             '</div>' +
             '</div>' +
@@ -261,7 +261,7 @@ $(document).ready(function() {
             '<div class="col-xs-12 col-md-3 col-lg-3 label-contact">Número(s) de Teléfono:</div>' +
             '<div class="col-xs-12 col-md-9 col-lg-9">' +
             '<div class="text-left form-input">' +
-            '<input id="id_contact-' + contact_index + '-numbers" maxlength="50" name="contact-' + contact_index + '-numbers" type="text" value="Cuba">' +
+            '<input id="id_contact-' + contact_index + '-numbers" maxlength="50" name="contact-' + contact_index + '-numbers" type="text" placeholder="+555 5555 (casa), +555 5555 (casa), ...">' +
             '</div>' +
             '</div>' +
             '</div>' +
@@ -269,7 +269,7 @@ $(document).ready(function() {
             '<div class="col-xs-12 col-md-3 col-lg-3 label-contact">Correo(s) Electrónico(s):</div>' +
             '<div class="col-xs-12 col-md-9 col-lg-9">' +
             '<div class="text-left form-input">' +
-            '<input id="id_contact-' + contact_index + '-emails" maxlength="50" name="contact-' + contact_index + '-emails" type="text" value="Cuba">' +
+            '<input id="id_contact-' + contact_index + '-emails" maxlength="50" name="contact-' + contact_index + '-emails" type="text" placeholder="correo1@correo.com, correo2@correo.com, ...">' +
             '</div>' +
             '</div>' +
             '</div>' +
