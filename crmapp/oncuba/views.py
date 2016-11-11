@@ -66,10 +66,7 @@ def update_address(addr_formset, persona, address = None, AddrClass=AddressPerso
         address.delete()
     for addr_form in addr_formset:
         address = addr_form.cleaned_data['address']
-        new_address = AddrClass(contact = persona, address_one = address[1])
-    
-        new_address.municipio = address[0] if len(address) > 1 else ''
-        new_address.provincia = ', '.join(address[2:]) if len(address) > 2 else ''
+        new_address = AddrClass(contact = persona, address = address)
         new_address.pais = addr_form.cleaned_data['pais']
         new_address.save()
     
