@@ -179,7 +179,7 @@ def save_entidad(form_contact,user, entity= None):
     entidad.save()
     return entidad
         
-def update_contactperson(contact_formset, entidad, contacts):
+def update_contactperson(contact_formset, entidad, contacts = None):
     if contacts:
         contacts.delete()
     for contact_form in contact_formset:
