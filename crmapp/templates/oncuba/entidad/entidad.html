@@ -6,27 +6,45 @@
     <div class="col-lg-3">Servicios/Productos</div>
     <div class="col-lg-9">{{contact.servicios}}</div>
 </div>
+<br/>
+<h4> Personas de Contacto:</h4>
+{% for cp in contacts%}
 <div class="row create-contact-inputs">
-    <div class="col-lg-3">Nombre de Persona de Contacto</div>
-    <div class="col-lg-9">{{contact.persona}}</div>
+    <div class="col-lg-3">Persona de Contacto:</div>
+    <div class="col-lg-9">{{cp.persona}}</div>
 </div>
 <div class="row create-contact-inputs">
-    <div class="col-lg-3">Cargo de Persona de Contacto</div>
-    <div class="col-lg-9">{{contact.cargo}}</div>
+    <div class="col-lg-3">Cargo:</div>
+    <div class="col-lg-9">{{cp.cargo}}</div>
 </div>
+<div class="row create-contact-inputs">
+    <div class="col-lg-3">Número(s) de Teléfono:</div>
+    <div class="col-lg-9">{{cp.numbers}}</div>
+</div>
+<div class="row create-contact-inputs">
+    <div class="col-lg-3">Correo(s) Electrónico(s):</div>
+    <div class="col-lg-9">{{cp.emails}}</div>
+</div>
+{% endfor%}
+<br/>
+<h4> Listado de Teléfonos:</h4>
 {% for p in phone%}
 <div class="row create-contact-inputs">
     <div class="col-lg-3">Número de Teléfono</div>
     <div class="col-lg-9">{{p.number}}</div>
 </div>
-{% endfor %} {% for e in email%}
+{% endfor %}
+<br/>
+<h4> Listado de Correos:</h4>
+{% for e in email%}
 <div class="row create-contact-inputs">
     <div class="col-lg-3">Correo Electrónico</div>
     <div class="col-lg-9"><a href="mailto:{{email.email}}"> {{e.email}}</a></div>
 </div>
-{%endfor%} {% comment %}
-<h3 class="header-address">Listado de Direcciones</h3>{% endcomment %}
-
+{%endfor%}
+ {%if address%}<br/>
+<h4> Listado de Direcciones:</h4>
+{% endif %}
 <div class="table" id="direcciones-persona">
     <div id="direcciones-table">
         {% for addr in address%}

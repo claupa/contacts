@@ -3,7 +3,7 @@ from django.views.generic.base import TemplateView
 from crmapp.oncuba.models import Categoria, Proyecto, Persona, Entidad, Staff
 from crmapp.oncuba.utils import check_credentials
 from django.contrib.auth.decorators import login_required
-from crmapp.oncuba.forms import FilterForm
+from .forms import FilterForm
 from django.db.models import Q
 
 
@@ -18,12 +18,10 @@ def home_page(request, template='marketing/home.html'):
          
         contact_person = contact_person.filter(Q(nombre__icontains = s) | Q(lugar_de_trabajo__icontains=s)\
         | Q(ocupacion__icontains=s))
-        contact_entidad = contact_entidad.filter(Q(nombre__icontains = s) | Q(servicios__icontains=s) | Q(persona__icontains=s)\
-        | Q(cargo__icontains=s))
+        contact_entidad = contact_entidad.filter(Q(nombre__icontains = s) | Q(servicios__icontains=s) )
 
     if request.POST:
         filter_form = FilterForm(request.POST)
-        # print request.POST
         if filter_form.is_valid():
             tipos = filter_form.cleaned_data['tipos']
             categoria = filter_form.cleaned_data['categoria']

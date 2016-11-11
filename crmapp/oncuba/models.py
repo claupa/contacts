@@ -255,7 +255,7 @@ class ContactPerson(models.Model):
     persona = models.CharField(max_length = 200 , verbose_name = 'Persona de Contacto')
     cargo = models.CharField(max_length = 100 , verbose_name = 'Cargo')
     numbers = models.CharField(max_length=100, verbose_name= 'Número(s) de Teléfono', null=True, blank=True)
-    emails = models.CharField(max_length=100, verbose_name= 'Correo(s) Electrónico(s)', null=True, blank=True)
+    emails = models.CharField(max_length=400, verbose_name= 'Correo(s) Electrónico(s)', null=True, blank=True)
     entidad = models.ForeignKey(Entidad)
 
     class Meta:

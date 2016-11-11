@@ -9,6 +9,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.core.validators import validate_email
 from django.core import validators
 from django.core.exceptions import ValidationError
+from authtools.forms import UserCreationForm
 
 
 
@@ -105,30 +106,7 @@ class ContactPersonForm(forms.ModelForm):
         model = ContactPerson
         fields = ('persona', 'cargo', 'numbers', 'emails')
 
-ContactPersonFormSet = formsets.formset_factory(ContactPersonForm, min_num =1, extra= 0)
-
-class FilterForm(forms.Form):
-    choices_tipo = ((u'T' , u'Todos'),(u'P', u'Persona'),(u'E', u'Entidad')  )
-    proyecto_choices = tuple([(proyecto.pk, proyecto.name) for proyecto in Proyecto.objects.all()])
-    categoria_choices= tuple([(categoria.pk, categoria.name) for categoria in Categoria.objects.all()])
-    proyecto = forms.MultipleChoiceField(widget=forms.SelectMultiple,
-                                         choices=proyecto_choices,
-                                         required= False)
-    categoria = forms.MultipleChoiceField(widget=forms.SelectMultiple,
-                                         choices=categoria_choices,
-                                         required=False)
-    tipos = forms.CharField(label="Tipos de Contacto",
-                                initial='T',
-                                widget=forms.Select(choices = choices_tipo)
-                                )
-    def __init__(self):
-        super(FilterForm, self).__init__()
-        self.fields['proyecto'] =  forms.MultipleChoiceField(widget=forms.SelectMultiple,
-                                         choices=tuple([(proyecto.pk, proyecto.name) for proyecto in Proyecto.objects.all()]),
-                                         required= False)
-        self.fields['categoria'] = forms.MultipleChoiceField(widget=forms.SelectMultiple,
-                                         choices=tuple([(categoria.pk, categoria.name) for categoria in Categoria.objects.all()]),
-                                         required=False)                            
+ContactPersonFormSet = formsets.formset_factory(ContactPersonForm, min_num =1, extra= 0)        
 
 class CrearUsuario(UserCreationForm):
     first_name = forms.CharField(required=False, widget=forms.TextInput(attrs={'class':'form-control'}))
@@ -151,8 +129,7 @@ class OnCubaUserForm(forms.ModelForm):
         model = OnCubaUser
         fields = ('cargo',)
 
-from django import forms
-from authtools.forms import UserCreationForm
+
 
 class UserCreationForm(UserCreationForm):
     """
@@ -187,7 +164,7 @@ class InvitationForm(forms.Form):
     role = forms.ChoiceField(widget=forms.Select(),
                                          choices=role_choices,
                                          required= True)
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         super(InvitationForm, self).__init__()
         role = forms.ChoiceField(widget=forms.Select(),
                                          choices=tuple([(x.pk,x.name) for x in Role.objects.all()]),
