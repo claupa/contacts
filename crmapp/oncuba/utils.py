@@ -5,7 +5,7 @@ def check_credentials(contact, user):
     oncubauser = OnCubaUser.objects.get(user=user)
     if user.is_superuser:
         return True
-    if contact.created_by.user.username == user.username :
+    if contact.created_by.user.username == user.username:
         return True
     if not oncubauser.role:
         return False

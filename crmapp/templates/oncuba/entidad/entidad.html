@@ -1,99 +1,96 @@
 <div class="row create-contact-inputs">
-    <div class="col-lg-3">Nombre</div>
-    <div class="col-lg-9">{{contact.nombre}}</div>
+    <div class="col-xs-12 col-md-3 col-lg-3">Nombre:</div>
+    <div class="col-xs-12 col-md-9 col-lg-9">{{contact.nombre}}</div>
 </div>
 <div class="row create-contact-inputs">
-    <div class="col-lg-3">Servicios/Productos</div>
-    <div class="col-lg-9">{{contact.servicios}}</div>
+    <div class="col-xs-12 col-md-3 col-lg-3">Servicios/Productos:</div>
+    <div class="col-xs-12 col-md-9 col-lg-9">{{contact.servicios}}</div>
 </div>
 <br/>
 <h4> Personas de Contacto:</h4>
 {% for cp in contacts%}
 <div class="row create-contact-inputs">
-    <div class="col-lg-3">Persona de Contacto:</div>
-    <div class="col-lg-9">{{cp.persona}}</div>
+    <div class="col-xs-12 col-md-3 col-lg-3">Persona de Contacto:</div>
+    <div class="col-xs-12 col-md-9 col-lg-9">{{cp.persona}}</div>
 </div>
 <div class="row create-contact-inputs">
-    <div class="col-lg-3">Cargo:</div>
-    <div class="col-lg-9">{{cp.cargo}}</div>
+    <div class="col-xs-12 col-md-3 col-lg-3">Cargo:</div>
+    <div class="col-xs-12 col-md-9 col-lg-9">{{cp.cargo}}</div>
 </div>
 <div class="row create-contact-inputs">
-    <div class="col-lg-3">Número(s) de Teléfono:</div>
-    <div class="col-lg-9">{{cp.numbers}}</div>
+    <div class="col-xs-12 col-md-3 col-lg-3">Número(s) de Teléfono:</div>
+    <div class="col-xs-12 col-md-9 col-lg-9">{{cp.numbers}}</div>
 </div>
 <div class="row create-contact-inputs">
-    <div class="col-lg-3">Correo(s) Electrónico(s):</div>
-    <div class="col-lg-9">{{cp.emails}}</div>
+    <div class="col-xs-12 col-md-3 col-lg-3">Correo(s) Electrónico(s):</div>
+    <div class="col-xs-12 col-md-9 col-lg-9">{{cp.emails}}</div>
 </div>
 {% endfor%}
 <br/>
 <h4> Listado de Teléfonos:</h4>
 {% for p in phone%}
 <div class="row create-contact-inputs">
-    <div class="col-lg-3">Número de Teléfono</div>
-    <div class="col-lg-9">{{p.number}}</div>
+    <div class="col-xs-12 col-md-12 col-lg-12">{{p.number}}</div>
 </div>
 {% endfor %}
 <br/>
 <h4> Listado de Correos:</h4>
 {% for e in email%}
 <div class="row create-contact-inputs">
-    <div class="col-lg-3">Correo Electrónico</div>
-    <div class="col-lg-9"><a href="mailto:{{email.email}}"> {{e.email}}</a></div>
+    <div class="col-xs-12 col-md-12 col-lg-12"><a href="mailto:{{email.email}}"> {{e.email}}</a></div>
 </div>
-{%endfor%}
- {%if address%}<br/>
+{%endfor%} {%if address%}<br/>
 <h4> Listado de Direcciones:</h4>
 {% endif %}
 <div class="table" id="direcciones-persona">
     <div id="direcciones-table">
         {% for addr in address%}
         <div class="row create-contact-inputs">
-            <div class="col-lg-3">Dirección</div>
-            <div class="col-lg-9">{{addr.address}}</div>
+            <div class="col-xs-12 col-md-3 col-lg-3">Dirección:</div>
+            <div class="col-xs-12 col-md-9 col-lg-9">{{addr.address}}</div>
         </div>
         <div class="row create-contact-inputs">
-            <div class="col-lg-3">País</div>
-            <div class="col-lg-9">{{addr.pais}}</div>
+            <div class="col-xs-12 col-md-3 col-lg-3">País:</div>
+            <div class="col-xs-12 col-md-9 col-lg-9">{{addr.pais}}</div>
         </div>
         {% endfor %}
     </div>
 </div>
 
 <div class="row create-contact-inputs">
-    <div class="col-lg-3">Nacionalidad</div>
-    <div class="col-lg-9">{{contact.nacionalidad}}</div>
+    <div class="col-xs-12 col-md-3 col-lg-3">Nacionalidad:</div>
+    <div class="col-xs-12 col-md-9 col-lg-9">{{contact.nacionalidad}}</div>
 </div>
 <div class="row create-contact-inputs">
-    <div class="col-lg-3">Sitio Web</div>
-    <div class="col-lg-9">{{contact.sitio_web}}</div>
-</div>
-
-<div class="row create-contact-inputs">
-    <div class="col-lg-3">Aniversario</div>
-    <div class="col-lg-9">{{contact.aniversario}}</div>
+    <div class="col-xs-12 col-md-3 col-lg-3">Sitio Web:</div>
+    <div class="col-xs-12 col-md-9 col-lg-9">{% if contact.sitio_web %}{{contact.sitio_web}}{% else %}-{% endif%}</div>
 </div>
 
 <div class="row create-contact-inputs">
-    <div class="col-lg-3">Fiesta Nacional</div>
-    <div class="col-lg-9">{{contact.fiesta}}</div>
+    <div class="col-xs-12 col-md-3 col-lg-3">Aniversario:</div>
+    <div class="col-xs-12 col-md-9 col-lg-9">{% if contact.aniversario %}{{contact.aniversario}}{% else %}-{%endif%}</div>
 </div>
 
 <div class="row create-contact-inputs">
-    <div class="col-lg-3">Categoría(s)</div>
-    <div class="col-lg-9">
+    <div class="col-xs-12 col-md-3 col-lg-3">Fiesta Nacional:</div>
+    <div class="col-xs-12 col-md-9 col-lg-9">{% if contact.fiesta %}{{contact.fiesta}}{% else %}-{% endif %}</div>
+</div>
+
+<div class="row create-contact-inputs">
+    <div class="col-xs-12 col-md-3 col-lg-3">Categoría(s):</div>
+    <div class="col-xs-12 col-md-9 col-lg-9">
         {% for categoria in contact.categoria.all%}
         <span><i class="fa fa-circle-o" style="font-size:0.5em;"></i> {{categoria.name}}</span><br/> {% endfor %}
     </div>
 </div>
 <div class="row create-contact-inputs">
-    <div class="col-lg-3">Proyecto(s)</div>
-    <div class="col-lg-9">
+    <div class="col-xs-12 col-md-3 col-lg-3">Proyecto(s):</div>
+    <div class="col-xs-12 col-md-9 col-lg-9">
         {% for proyecto in contact.proyecto.all %}
         <span><i class="fa fa-circle-o" style="font-size:0.5em;"></i> {{proyecto.name}}</span><br/> {% endfor %}</div>
 </div>
 
 <div class="row create-contact-inputs">
-    <div class="col-lg-3">Observaciones</div>
-    <div class="col-lg-9">{{contact.observaciones}}</div>
+    <div class="col-xs-12 col-md-3 col-lg-3">Observaciones:</div>
+    <div class="col-xs-12 col-md-9 col-lg-9">{% if contact.observaciones %}{{contact.observaciones}}{% else %}-{% endif%}</div>
 </div>

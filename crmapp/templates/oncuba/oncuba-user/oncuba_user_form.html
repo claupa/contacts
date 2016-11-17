@@ -4,8 +4,8 @@
         <form method="post" id="editar-perfil" action="{% url 'editar-perfil'%}">
             {% csrf_token %}
             <div class="row create-contact-inputs">
-                <div class="col-xs-12 col-md-3 col-lg-3">{{form.username.label}}</div>
-                <div class="col-xs-12 col-md-9 col-lg-9">{{form.username}}</div>
+                <div class="col-xs-12 col-md-3 col-lg-3">Nombre de usuario:</div>
+                <div class="col-xs-12 col-md-9 col-lg-9">{{user.username}}</div>
             </div>
             <div class="row create-contact-errors">
                 <div class="col-lg-12">{{form.username.errors}}</div>
@@ -13,9 +13,6 @@
             <div class="row create-contact-inputs">
                 <div class="col-xs-12 col-md-3 col-lg-3">Nombre(s):</div>
                 <div class="col-xs-12 col-md-9 col-lg-9">{{form.first_name}}</div>
-            </div>
-            <div class="row create-contact-errors">
-                <div class="col-lg-12">{{form.first_name.errors}}</div>
             </div>
 
             <div class="row create-contact-inputs">

@@ -32,12 +32,6 @@
                         <img src="{{ STATIC_URL}}images/logo.png" class="text-center" />
                     </a>
                 </div>
-                <div class="navbar-header header-search-header">
-                    <button data-target="#header-search-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="glyphicon glyphicon-search"></span>
-                        </button>
-                </div>
                 <div id="main-nav-menu" class="navbar-collapse collapse">
                     <ul id="menu-main-english" class="nav navbar-nav">
                         {% if user.is_authenticated %}
@@ -70,7 +64,8 @@
                             </ul>
                         </li>
                         {% else %}
-                        <li><a href="entrar/">Entrar</a></li>
+                        <li><a href="{% url 'entrar'%}">Entrar</a></li>
+                        <li><a href="{% url 'solicitar-usuario'%}">Solicitar Usuario</a></li>
                         {% endif %}
                     </ul>
                 </div>

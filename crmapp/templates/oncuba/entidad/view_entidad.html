@@ -4,18 +4,19 @@
         <h4 class="page-title sn-sh">Entidad</h4>
         {% include 'oncuba/entidad/entidad.html'%}
     </div>
+    {% if can_delete %}
     <div class="edit-container">
         <a href="{% url 'editar_entidad' contact_id%}">
             <button class="btn btn-primary submit-button">Editar</button>
         </a>
     </div>
     <div class="borrar-container">
-        {% if can_delete %}
         <span>
-                <form id="delete-contact-form" onsubmit="return delete_contact()" action="{% url 'delete-contact' contact_id False %}" method="get">
-                    <button class="btn btn-primary submit-button">Borrar</button>
-                </form>
-            </span> {% endif %}
+            <form id="delete-contact-form" onsubmit="return delete_contact()" action="{% url 'delete-contact' contact_id False %}" method="get">
+                <button class="btn btn-primary submit-button">Borrar</button>
+            </form>
+        </span>
     </div>
+    {% endif %}
 </div>
 {% endblock content %}

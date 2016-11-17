@@ -83,7 +83,6 @@ class CrearUsuario(UserCreationForm):
     phone_number = forms.CharField(required= False, widget=forms.TextInput(attrs={'class':'form-control'}))
         
 class OnCubaUserForm(forms.ModelForm):
-    username = forms.CharField(widget=forms.TextInput())
     first_name = forms.CharField(required=False, widget=forms.TextInput())
     last_name = forms.CharField(required=False, widget=forms.TextInput())
     email = forms.EmailField(required=True, widget=forms.TextInput())

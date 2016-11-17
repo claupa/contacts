@@ -55,7 +55,7 @@ form#form-search.navbar-form {
 .contact {
     padding: 10px 0;
     color: #336699;
-    font-size: 30px;
+    font-size: 22px;
     border: 1px solid #00A9DA;
     padding-left: 10px !important;
     margin-top: 5px;
@@ -64,7 +64,7 @@ form#form-search.navbar-form {
 .contact .created-by,
 .contact .occupation,
 .contact .email {
-    font-size: 20px;
+    font-size: 17px;
     color: #333;
 }
 
@@ -149,7 +149,7 @@ form#form-search.navbar-form {
 }
 
 .container .modify {
-    line-height: 100px;
+    line-height: 80px;
     text-align: right;
     padding-right: 15px;
     float: right;
@@ -158,6 +158,11 @@ form#form-search.navbar-form {
 .container .modify span {
     margin-right: 10px;
     font-size: 1.2em;
+}
+
+.contact-type label {
+    clear: both;
+    display: block;
 }
 
 #form-filter .contact-type select {
@@ -213,6 +218,10 @@ form#delete-contact-form:focus {
 #user-reg-form input,
 #user-reg-form select {
     min-width: 250px;
+}
+
+#content-container select {
+    min-width: 300px;
 }
 
 #user-reg-form input.invitar {
@@ -272,51 +281,6 @@ form#delete-contact-form:focus {
 
 .text-xs-justify {
     text-align: justify;
-}
-
-@media (min-width: 768px) {
-    .text-sm-left {
-        text-align: left;
-    }
-    .text-sm-right {
-        text-align: right;
-    }
-    .text-sm-center {
-        text-align: center;
-    }
-    .text-sm-justify {
-        text-align: justify;
-    }
-}
-
-@media (min-width: 992px) {
-    .text-md-left {
-        text-align: left;
-    }
-    .text-md-right {
-        text-align: right;
-    }
-    .text-md-center {
-        text-align: center;
-    }
-    .text-md-justify {
-        text-align: justify;
-    }
-}
-
-@media (min-width: 1200px) {
-    .text-lg-left {
-        text-align: left;
-    }
-    .text-lg-right {
-        text-align: right;
-    }
-    .text-lg-center {
-        text-align: center;
-    }
-    .text-lg-justify {
-        text-align: justify;
-    }
 }
 
 .edit-container,
@@ -382,4 +346,68 @@ form#delete-contact-form:focus {
 
 #contact-persona-form .form-input input {
     width: 100%;
+}
+
+#form-filter .contact-type select,
+#form-filter .contact-type button {
+    width: 100%;
+}
+
+@media(max-width: 767px) {
+    #main-nav-menu {
+        float: inherit;
+        clear: inherit;
+    }
+}
+
+@media(max-width: 992px) {
+    form#form-search.navbar-form {
+        clear: both;
+        width: 100%;
+    }
+}
+
+@media (min-width: 768px) {
+    .text-sm-left {
+        text-align: left;
+    }
+    .text-sm-right {
+        text-align: right;
+    }
+    .text-sm-center {
+        text-align: center;
+    }
+    .text-sm-justify {
+        text-align: justify;
+    }
+}
+
+@media (min-width: 992px) {
+    .text-md-left {
+        text-align: left;
+    }
+    .text-md-right {
+        text-align: right;
+    }
+    .text-md-center {
+        text-align: center;
+    }
+    .text-md-justify {
+        text-align: justify;
+    }
+}
+
+@media (min-width: 1200px) {
+    .text-lg-left {
+        text-align: left;
+    }
+    .text-lg-right {
+        text-align: right;
+    }
+    .text-lg-center {
+        text-align: center;
+    }
+    .text-lg-justify {
+        text-align: justify;
+    }
 }

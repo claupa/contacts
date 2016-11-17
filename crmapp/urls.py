@@ -23,7 +23,7 @@ urlpatterns = [
     url(r'^invitar-usuario/?$', invitar_usuario, name='invitar-usuario'),
     url(r'^solicitar-usuario/?$', solicitar_usuario, name='solicitar-usuario'),
     url(r'^aceptar-invitacion/(?P<o_id>.*)/?$', aceptar_invitacion, name='aceptar-invitacion'),
-    url(r'^entrar/?$', djauth.login, {'template_name': 'login.html'}),
+    url(r'^entrar/?$', djauth.login, {'template_name': 'login.html'}, name = 'entrar'),
     url(r'^logout/?$', djauth.logout, {'next_page': '/entrar/'}),
     url(r'^exportar-staff/?$', export_staff,name='filter-staff-export'),
 ]

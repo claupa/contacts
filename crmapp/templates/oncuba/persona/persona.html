@@ -15,8 +15,7 @@
 <h4> Listado de Teléfonos:</h4>
 {% for p in phone %}
 <div class="row create-contact-inputs">
-    <div class="col-xs-12 col-md-3 col-lg-3">Número de Teléfono:</div>
-    <div class="col-xs-12 col-md-9 col-lg-9">{{p.number}}</div>
+    <div class="col-xs-12 col-md-12 col-lg-12">{{p.number}}</div>
 </div>
 {% endfor %}
 
@@ -24,10 +23,9 @@
 <h4> Listado de Correos:</h4>
 {% for e in email%}
 <div class="row create-contact-inputs">
-    <div class="col-xs-12 col-md-3 col-lg-3">Correo Electrónico:</div>
-    <div class="col-xs-12 col-md-9 col-lg-9"><a href="mailto:{{email.email}}">{{e.email}}</a></div>
+    <div class="col-xs-12 col-md-12 col-lg-12"><a href="mailto:{{email.email}}">{{e.email}}</a></div>
 </div>
-{% endfor %}
+{% endfor %} {% if address %}
 <br/>
 <h4> Listado de Direcciones:</h4>
 <div class="table" id="direcciones-persona">
@@ -45,6 +43,8 @@
         {% endfor %}
     </div>
 </div>
+{% endif %}
+<br/>
 
 <div class="row create-contact-inputs">
     <div class="col-xs-12 col-md-3 col-lg-3">Nacionalidad:</div>
@@ -57,7 +57,7 @@
 
 <div class="row create-contact-inputs">
     <div class="col-xs-12 col-md-3 col-lg-3">Fecha de Nacimiento:</div>
-    <div class="col-xs-12 col-md-9 col-lg-9">{{contact.fecha_de_nacimiento}}</div>
+    <div class="col-xs-12 col-md-9 col-lg-9">{% if form.fecha_de_nacimiento %}{{contact.fecha_de_nacimiento}}{% else %}-{% endif %}</div>
 </div>
 
 <div class="row create-contact-inputs">
@@ -71,7 +71,7 @@
 </div>
 
 <div class="row create-contact-inputs">
-    <div class="col-xs-12 col-md-3 col-lg-3">Tiene Hijos?:</div>
+    <div class="col-xs-12 col-md-3 col-lg-3">Tiene Hijos?</div>
     <div class="col-xs-12 col-md-9 col-lg-9">{% if contact.hijos %}Sí{%else%}No{%endif%}</div>
 </div>
 

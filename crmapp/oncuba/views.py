@@ -247,7 +247,7 @@ def editar_entidad(request, contact_id, template="oncuba/entidad/edit_entidad.ht
             update_address(addr_formset, entidad, address,AddrClass=AddressEntidad)
             update_contactperson(contact_formset, entidad, contacts)
            
-        history = UserTracker(user = request.user, action= 'M', entidad = entidad, fecha = t.now() )
+        history = UserTracker(user = request.user, action= 'M', entidad = contacto, fecha = t.now() )
         history.save()
         
         return HttpResponseRedirect('/')
@@ -297,29 +297,21 @@ def edit_oncuba_user(request, template="oncuba/oncuba-user/oncuba_user_form.html
     if request.POST:
         form = OnCubaUserForm(request.POST)
         if form.is_valid():
-            oncubauser.user.username = form.cleaned_data['username']
             oncubauser.user.first_name = form.cleaned_data['first_name']
             oncubauser.user.last_name = form.cleaned_data['last_name']
             oncubauser.user.email = form.cleaned_data['email']
             oncubauser.user.save()
             oncubauser.cargo = form.cleaned_data['cargo']
             oncubauser.phone_number = form.cleaned_data['phone_number']
-            
-            # oncubauser.proyecto.clear()
-            
-            # for proyecto in form.cleaned_data['proyecto']:
-            #     oncubauser.proyecto.add(proyecto)
             oncubauser.save()
             return redirect('/mi-perfil/')
     else:
         form = OnCubaUserForm({
-            'username': oncubauser.user.username,
             'first_name' : oncubauser.user.first_name,
             'last_name' : oncubauser.user.last_name, 
             'email' : oncubauser.user.email,
             'cargo' : oncubauser.cargo,
             'phone_number': oncubauser.phone_number,
-            # 'proyecto' : oncubauser.proyecto
         })
     return render(request, template, {'form': form})
 
@@ -367,6 +359,7 @@ def delete_contact(request, contact_id, is_persona):
 def invitar_usuario(request, template="oncuba/invitar_usuarios.html"):
     if request.POST:
         form = InvitationForm(request.POST)
+        
         if form.is_valid():
             username = form.cleaned_data['username']
             first_name = form.cleaned_data['first_name']
@@ -379,7 +372,6 @@ def invitar_usuario(request, template="oncuba/invitar_usuarios.html"):
             invitacion = Invitacion(username = username, first_name = first_name, last_name=last_name,
                                     email = email, phone_number = phone_number, cargo = cargo, role = role)
             invitacion.save()
-            
             url =  request.build_absolute_uri('/aceptar-invitacion/' + str(invitacion.pk))
             text = """Hola,
   Has recibido una invitación para acceder al sitio de contactos de OnCuba. Para crear tu cuenta de usuario accede a:
@@ -395,7 +387,7 @@ def invitar_usuario(request, template="oncuba/invitar_usuarios.html"):
             return redirect('/')
     else:
         form = InvitationForm()
-    
+        
     return render(request, template, {'form': form})
 
 from django.contrib.auth import logout
