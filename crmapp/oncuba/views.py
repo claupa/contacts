@@ -375,7 +375,7 @@ def invitar_usuario(request, template="oncuba/invitar_usuarios.html"):
             url =  request.build_absolute_uri('/aceptar-invitacion/' + str(invitacion.pk))
             text = "Hola, has recibido una invitación para acceder al sitio de contactos de OnCuba. Para crear tu cuenta de usuario accede a: %s" % url
             
-            # send_mail('Invitacion Sitio de Contacto OnCuba', text,'crmoncuba@gmail.com',[email], fail_silently=False)
+            send_mail('Invitacion Sitio de Contacto OnCuba', text,'crmoncuba@gmail.com',[email], fail_silently=False)
             
             history = UserTracker(user = request.user, action= 'I', created_user = invitacion, fecha = t.now() )
             history.save()   
