@@ -411,3 +411,21 @@ form#delete-contact-form:focus {
         text-align: justify;
     }
 }
+
+.solicitud-number-name {
+    float: left;
+}
+
+.user-request-activation {
+    float: right;
+}
+
+.user-request-activation select {
+    height: 38px;
+    float: left;
+    margin: 10px 10px 0 0;
+}
+
+#staff-table-pagination {
+    margin: 10px 0;
+}

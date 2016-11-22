@@ -1,10 +1,10 @@
+<div class="row-header-blue">
+    <h1 class="page-title" id="contacts-header">Lista de Contactos</h4>
+</div>
 <div class="table" id="contact-table">
-    <div class="row-header-blue">
-        <h1 class="page-title" id="contacts-header">Lista de Contactos</h4>
-    </div>
     {% for contact in contacts %}
-    <div class="table-row row contact">
-        <div class="col-xs-10 col-md-10 col-lg-10">
+    <div class="table-row row contact contact-list">
+        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
             <div class="contact-number-name">
                 <span class="contact-number">{{contact.index}}.</span> {% if contact.can_read %} {% if contact.is_persona %}
                 <a href="{% url 'view_persona' contact.id %}">
@@ -20,7 +20,7 @@
                 <span class="created-by-text">Creado por: </span>{{contact.created_by}}
             </div>
         </div>
-        <div class="col-xs-2 col-md-2 col-lg-2 modify">
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 modify">
             {% if contact.can_edit %} {% if contact.is_persona %}
             <span>
                     <a href="{% url 'editar_persona' contact.id %}"><i class="fa fa-pencil"></i></a>
@@ -36,7 +36,9 @@
                 </form>
             </span> {% endif %}
         </div>
-        {% comment %}{{contact}}{% endcomment %}
     </div>
     {% endfor %}
+</div>
+<div id="contact-table-pagination">
+
 </div>

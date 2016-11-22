@@ -15,11 +15,16 @@ class CreateContactForm(forms.ModelForm):
     YEARS = range(1900,2017)
     fecha_nac = forms.DateField(widget=forms.SelectDateWidget(years=tuple(YEARS[-1::-1])), required = False) 
 
+    def __init__(self , *args, **kwargs):
+        super(CreateContactForm, self).__init__( *args, **kwargs)
+        self.fields['sitio_web'].widget.attrs['placeholder'] = 'http://www.example.com'
+
     class Meta:
         model = Persona
         fields = ('nombre', 'lugar_de_trabajo', 'ocupacion', 'nacionalidad',
                   'sexo', 'estado_civil', 'hijos', 'observaciones',
                   'sitio_web', 'categoria', 'proyecto')
+                  
 
 class CreateContactFormEntidad(forms.ModelForm):
     YEARS = range(1900,2017)
@@ -30,6 +35,10 @@ class CreateContactFormEntidad(forms.ModelForm):
         model = Entidad
         fields = ('nombre', 'servicios', 'nacionalidad',  'observaciones','sitio_web', 'categoria', 'proyecto')
 
+    def __init__(self , *args, **kwargs):
+        super(CreateContactFormEntidad, self).__init__( *args, **kwargs)
+        self.fields['sitio_web'].widget.attrs['placeholder'] = 'http://www.example.com'
+
 class ContactPersonForm(forms.ModelForm):
     class Meta:
         model = ContactPerson
@@ -39,7 +48,7 @@ class ContactPersonForm(forms.ModelForm):
         super(ContactPersonForm, self).__init__( *args, **kwargs)
         self.fields['persona'].widget.attrs['placeholder'] = 'Nombre y Apellidos'
         self.fields['cargo'].widget.attrs['placeholder'] = 'Cargo'
-        self.fields['numbers'].widget.attrs['placeholder'] = '+555 5555 (casa), +555 5555 (casa), ...'
+        self.fields['numbers'].widget.attrs['placeholder'] = '+555 5555 (casa), +555 5555 (movil), ...'
         self.fields['emails'].widget.attrs['placeholder'] = 'correo1@correo.com, correo2@correo.com, ...'
         
 class CreateAddressForm(forms.Form):
@@ -73,14 +82,14 @@ ContactPersonFormSet = formsets.formset_factory(ContactPersonForm, min_num =1, e
 
 
 class CrearUsuario(UserCreationForm):
-    first_name = forms.CharField(required=False, widget=forms.TextInput(attrs={'class':'form-control'}))
-    last_name = forms.CharField(required=False, widget=forms.TextInput(attrs={'class':'form-control'}))
+    first_name = forms.CharField(required=True, widget=forms.TextInput(attrs={'class':'form-control'}))
+    last_name = forms.CharField(required=True, widget=forms.TextInput(attrs={'class':'form-control'}))
     email = forms.EmailField(required=True, widget=forms.TextInput(attrs={'class':'form-control'}))
-    username = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+    username = forms.CharField(required= True,widget=forms.TextInput(attrs={'class':'form-control'}))
     password1 = forms.CharField(required=True, widget=forms.TextInput(attrs={'class':'form-control', 'type':'password'}))
     password2 = forms.CharField(required=True, widget=forms.TextInput(attrs={'class':'form-control', 'type':'password'}))
-    cargo = forms.CharField(required= False, widget=forms.TextInput(attrs={'class':'form-control'}))
-    phone_number = forms.CharField(required= False, widget=forms.TextInput(attrs={'class':'form-control'}))
+    cargo = forms.CharField(required= True, widget=forms.TextInput(attrs={'class':'form-control'}))
+    phone_number = forms.CharField(required= True, widget=forms.TextInput(attrs={'class':'form-control'}))
         
 class OnCubaUserForm(forms.ModelForm):
     first_name = forms.CharField(required=False, widget=forms.TextInput())
@@ -108,19 +117,24 @@ class UserCreationForm(UserCreationForm):
         return password2
 
 class InvitationForm(forms.Form):
-    first_name = forms.CharField(required=False, widget=forms.TextInput())
-    last_name = forms.CharField(required=False, widget=forms.TextInput())
+    first_name = forms.CharField(required=True, widget=forms.TextInput())
+    last_name = forms.CharField(required=True, widget=forms.TextInput())
     email = forms.EmailField(required=True, widget=forms.TextInput())
-    username = forms.CharField(required= False, widget=forms.TextInput())
+    username = forms.CharField(required= True, widget=forms.TextInput())
     cargo = forms.CharField(required= True, widget=forms.TextInput())
-    phone_number = forms.CharField(required= False, widget=forms.TextInput())
+    phone_number = forms.CharField(required= True, widget=forms.TextInput())
     
-    role_choices =tuple([(x.pk,x.name) for x in Role.objects.all()])
-    role = forms.ChoiceField(widget=forms.Select(),
-                                         choices=role_choices,
-                                         required= True)
     def __init__(self, *args, **kwargs):
         super(InvitationForm, self).__init__()
-        role = forms.ChoiceField(widget=forms.Select(),
+        self.role_choices =tuple([(x.pk,x.name) for x in Role.objects.all()])
+        self.fields['role'] = forms.ChoiceField(widget=forms.Select(),
                                          choices=tuple([(x.pk,x.name) for x in Role.objects.all()]),
                                          required= True)
+
+class ActivateUser(forms.Form):
+    def __init__(self, *args, **kwargs):
+        super(ActivateUser, self).__init__()
+        self.fields['role']= forms.ChoiceField(widget=forms.Select(),
+                                         choices=tuple([(x.pk,x.name) for x in Role.objects.all()]),
+                                         required= True)
+        self.fields['role'].widget.attrs['class'] = "dropdown"

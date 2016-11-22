@@ -52,7 +52,8 @@ def home_page(request, template='marketing/home.html'):
                                     'categorias' : Categoria.objects.all(),
                                     'proyectos': Proyecto.objects.all(),
                                     'contacts': contacts,
-                                    'staff' : staff})
+                                    'staff' : staff,
+                                    'staff_count': len(staff)})
 
 @login_required()
 def mis_contactos(request, template= "marketing/mis_contactos.html"):
@@ -135,7 +136,7 @@ def get_contact_info(contacts, user, persona = True):
         new_contact = {'index' : index,
                     'nombre' : fn(contact)[0],
                     'ocupacion': fn(contact)[1],
-                    'created_by': creator.username,
+                    'created_by': creator.first_name + ' ' + creator.last_name,
                     'can_read': check_credentials(contact, user),
                     'can_edit': is_owner_or_admin,
                     'can_delete': is_owner_or_admin,

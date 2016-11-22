@@ -14,7 +14,7 @@ from django.core.mail import send_mail
 from django.core.validators import validate_email
 from .forms import CreateContactForm, CreateAddressForm, CreatePhoneForm, CreateEmailForm, OnCubaUserForm,\
                    CreateContactFormEntidad, InvitationForm, CrearUsuario,\
-                   PhoneFormSet, EmailFormSet, AddressFormSet,  ContactPersonFormSet
+                   PhoneFormSet, EmailFormSet, AddressFormSet,  ContactPersonFormSet, ActivateUser
 from .models import PhoneNumberPerson, EmailPerson, AddressPerson,Persona,ContactPerson,\
                 PhoneNumberEntidad, EmailEntidad, AddressEntidad, Entidad, OnCubaUser, UserTracker, Invitacion, Role
 from .utils import check_credentials
@@ -373,14 +373,10 @@ def invitar_usuario(request, template="oncuba/invitar_usuarios.html"):
                                     email = email, phone_number = phone_number, cargo = cargo, role = role)
             invitacion.save()
             url =  request.build_absolute_uri('/aceptar-invitacion/' + str(invitacion.pk))
-            text = """Hola,
-  Has recibido una invitación para acceder al sitio de contactos de OnCuba. Para crear tu cuenta de usuario accede a:
-  %s
-            """ % url
-            try:
-                send_mail('Invitacion Sitio de Contacto OnCuba', text,'crmoncuba@gmail.com',[email], fail_silently=False)
-            except:
-                return render(request, template,{'form':form, 'error': 'El correo electrónico no funcionó'})                
+            text = "Hola, has recibido una invitación para acceder al sitio de contactos de OnCuba. Para crear tu cuenta de usuario accede a: %s" % url
+            
+            # send_mail('Invitacion Sitio de Contacto OnCuba', text,'crmoncuba@gmail.com',[email], fail_silently=False)
+            
             history = UserTracker(user = request.user, action= 'I', created_user = invitacion, fecha = t.now() )
             history.save()   
             
@@ -451,4 +447,25 @@ def solicitar_usuario(request, template="oncuba/solicitar_usuario.html"):
         form = CrearUsuario()
     
     return render(request, template, {'form': form})
+    
+@login_required
+def get_solicitudes(request, template = "oncuba/oncuba-user/oncuba_user_request.html"):
+    oncubausers = OnCubaUser.objects.filter(user__is_active=False)
+    solicitudes = [{'oncubauser': oncubauser, 'form': ActivateUser(), 'pk': oncubauser.user.pk} for oncubauser in oncubausers]
+    return render(request, template, {'solicitudes': solicitudes})
+
+@login_required
+def activar_user(request, contact_id):
+    if request.POST:
+        form = ActivateUser(request.POST)
+        role = request.POST['role']
+        user = OnCubaUser.objects.get(user__pk = contact_id)
+        user.role = Role.objects.get(pk = role)
+        user.user.is_active = True
+        user.user.save()
+        user.save()
+    
+    return redirect('/solicitudes/')
+
+
     

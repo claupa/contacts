@@ -4,8 +4,8 @@ from django.contrib import admin
 from marketing.views import home_page, mis_contactos, export_staff
 import django.contrib.auth.views as djauth
 from oncuba.views import create_persona, create_entidad, view_persona,view_entidad, editar_persona, editar_entidad,\
-view_oncuba_user, change_password, edit_oncuba_user, delete_contact, invitar_usuario, aceptar_invitacion, solicitar_usuario
-
+view_oncuba_user, change_password, edit_oncuba_user, delete_contact, invitar_usuario, aceptar_invitacion, solicitar_usuario,\
+get_solicitudes, activar_user
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', home_page, name="home"),
@@ -26,4 +26,6 @@ urlpatterns = [
     url(r'^entrar/?$', djauth.login, {'template_name': 'login.html'}, name = 'entrar'),
     url(r'^logout/?$', djauth.logout, {'next_page': '/entrar/'}),
     url(r'^exportar-staff/?$', export_staff,name='filter-staff-export'),
+    url(r'^solicitudes/?$', get_solicitudes, name='get-solicitudes'),
+    url(r'^activar-usuario/(?P<contact_id>.*)/?$', activar_user, name = 'activar-user'),
 ]

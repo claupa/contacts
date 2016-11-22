@@ -261,7 +261,7 @@ $(document).ready(function() {
             '<div class="col-xs-12 col-md-3 col-lg-3 label-contact">Número(s) de Teléfono:</div>' +
             '<div class="col-xs-12 col-md-9 col-lg-9">' +
             '<div class="text-left form-input">' +
-            '<input id="id_contact-' + contact_index + '-numbers" maxlength="50" name="contact-' + contact_index + '-numbers" type="text" placeholder="+555 5555 (casa), +555 5555 (casa), ...">' +
+            '<input id="id_contact-' + contact_index + '-numbers" maxlength="50" name="contact-' + contact_index + '-numbers" type="text" placeholder="+555 5555 (casa), +555 5555 (movil), ...">' +
             '</div>' +
             '</div>' +
             '</div>' +
@@ -291,6 +291,25 @@ $(document).ready(function() {
         $(e.currentTarget.parentElement.parentElement.parentElement.parentElement).detach();
         $('#contact-group #id_contact-TOTAL_FORMS').val(contact_index);
 
+    });
+
+    $('#staff-table-pagination').pagination({
+        dataSource: $.makeArray($('.contact-staff')),
+        pageSize: 5,
+        callback: function(data, pagination) {
+            // template method of yourself
+            var html = data;
+            $('#staff-table').html(html);
+        }
+    });
+    $('#contact-table-pagination').pagination({
+        dataSource: $.makeArray($('.contact-list')),
+        pageSize: 10,
+        callback: function(data, pagination) {
+            // template method of yourself
+            var html = data;
+            $('#contact-table').html(html);
+        }
     });
 
 });

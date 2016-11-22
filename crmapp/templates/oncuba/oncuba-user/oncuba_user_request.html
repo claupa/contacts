@@ -1,0 +1,22 @@
+{% extends 'base.html' %} {% block title %}Solicitudes{% endblock title %} {% block content %}
+<div id="content-container" class="container p-none">
+    <div class="side-p">
+        {% for solicitud in solicitudes %}
+        <div class="table-row row contact">
+            <div class="solicitud-number-name">
+                <span class="contact-number">{{solicitud.oncubauser.user.first_name}} {{solicitud.oncubauser.user.last_name}}</span>
+                <div class="occupation">{{solicitud.oncubauser.cargo}}</div>
+
+            </div>
+            <div class="user-request-activation">
+                <form method="post" id="activar-user" action="{% url 'activar-user' solicitud.pk %}">
+                    {% csrf_token %} {{ solicitud.form.role }} {{ solicitud.form.error }}
+                    <input class="btn btn-primary" type="submit" name="activar" value="Activar">
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+</div>
+{% endblock content%}
