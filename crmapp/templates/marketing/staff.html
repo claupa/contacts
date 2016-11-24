@@ -1,8 +1,8 @@
 {% if staff %}
 <div class="row-header-blue row">
     <h1 class="page-title col-lg-10 col-md-10 col-xs-6" id="contacts-header">Staff</h1>
-    {% comment %}
-    <h1 class="page-title col-lg-2 col-md-2 col-xs-6 text-right" id="contacts-header"><a href="{% url 'filter-staff-export' %}">Exportar</a></h1>{% endcomment %}
+
+    <h1 class="page-title col-lg-2 col-md-2 col-xs-6 text-right" id="contacts-header"><a href="{% url 'filter-staff-export' %}">Exportar</a></h1>
 </div>
 <div class="table" id="staff-table">
     {% for st in staff %}

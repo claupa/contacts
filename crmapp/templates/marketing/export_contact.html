@@ -1,0 +1,38 @@
+{% extends 'base.html' %} {% block title %}Exportar Contactos{% endblock title %} {% block content %}
+
+<div class="container">
+    <div class="col-md-3" id="filter-table">
+        <form role="filter" id="form-filter" class="" method="post" action="{%url 'filter-contact-export' %}">
+            {% csrf_token %}
+            <div class="contact-type">
+                <div class="form-group">
+                    <label for="contact-type">
+                        <h4>Tipo de Contacto</h4>                    
+                    </label> {{filter_form.tipos}}
+                </div>
+                <div class="form-group">
+                    <label for="proyecto">
+                        <h4>Proyecto</h4>
+                    </label> {{filter_form.proyecto}}
+                </div>
+                <div class="form-group">
+                    <label for="categorias">
+                        <h4>Categorías</h4>
+                    </label> {{filter_form.categoria}}
+                </div>
+
+                <input type="submit" class="btn btn-primary" form="form-filter" id="form-filter-submit" name="filtrar" value="Filtrar">
+                <input type="submit" class="btn btn-primary" form="form-filter" id="form-filter-submit" name="export" value="Exportar como PDF">
+                <input type="submit" class="btn btn-primary" form="form-filter" id="form-filter-submit" name="exportdoc" value="Exportar como DOC">
+            </div>
+        </form>
+    </div>
+    <div class="col-md-9">
+        <div class="row-header-blue row">
+            <h1 class="page-title col-lg-6 col-md-6 col-sm-6 col-xs-6" id="contacts-header">Lista de Contactos</h1>
+
+        </div>
+        {% include 'marketing/contacts_list.html' %}
+    </div>
+</div>
+{% endblock content%}

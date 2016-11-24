@@ -24,6 +24,12 @@
 
 <div class="container">
     <div class="col-md-12 col-lg-12">
+        <div class="row-header-blue row">
+            <h1 class="page-title col-lg-6 col-md-6 col-sm-6 col-xs-6" id="contacts-header">Lista de Contactos</h1>
+
+            <h1 class="page-title col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right" id="contacts-header"><a href="{% url 'filter-contact-export' %}">Exportar</a></h1>
+
+        </div>
         {% include 'marketing/contacts_list.html' %}
     </div>
 </div>

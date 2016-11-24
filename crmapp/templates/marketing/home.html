@@ -3,7 +3,7 @@
 <div class="row header-blue">
     <div class="container">
         <div id="header-search-collapse" class="row" style="height: auto;">
-            <form role="search" id="form-search" class="navbar-form" method="get" action="{% url 'home'%}">
+            <form role="search" id="form-search" class="navbar-form" method="get" action="{% url 'filter-contact-export'%}">
                 <div class="input-group header-search">
                     <input type="text" class="form-control" name="s" value="{{s}}">
                     <span class="input-group-btn">
@@ -11,21 +11,13 @@
                     </span>
                 </div>
             </form>
-            <h4 id="create-contact" class="media-heading">
-                <span>Crear Contacto: </span>
-                <span><a id="crear-persona" href="{% url 'create_contact_persona'%}" class="text-left">Persona</a></span>
-                <span> o </span>
-            </h4>
-            <h4 id="create-entidad" class="media-heading">
-                <span><a id="crear-entidad" href="{% url 'create_contact_entidad'%}" class="text-left">Entidad</a></span>
-            </h4>
         </div>
     </div>
 </div>
 
 <div class="container">
     <div class="col-md-3" id="filter-table">
-        <form role="filter" id="form-filter" class="" method="post" action="{%url 'home' %}">
+        <form role="filter" id="form-filter" class="" method="post" action="{%url 'filter-contact-export' %}">
             {% csrf_token %}
             <div class="contact-type">
                 <div class="form-group">
@@ -50,6 +42,12 @@
         </form>
     </div>
     <div class="col-md-9">
+        <div class="row-header-blue row">
+            <h1 class="page-title col-lg-6 col-md-6 col-sm-6 col-xs-6" id="contacts-header">Lista de Contactos</h1>
+            {% if user.is_superuser %}
+            <h1 class="page-title col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right" id="contacts-header"><a href="{% url 'filter-contact-export' %}">Exportar</a></h1>
+            {% endif %}
+        </div>
         {% include 'marketing/contacts_list.html' %} {% include 'marketing/staff.html'%}
     </div>
 </div>

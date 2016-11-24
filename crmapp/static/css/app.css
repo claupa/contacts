@@ -429,3 +429,31 @@ form#delete-contact-form:focus {
 #staff-table-pagination {
     margin: 10px 0;
 }
+
+.header-filter {
+    width: 100%;
+    margin: 10px auto;
+    display: block;
+}
+
+.header-filter select {
+    min-width: 200px;
+    min-height: 100px;
+}
+
+.row-header-blue {
+    margin: 0;
+    padding: 0;
+}
+
+#form-filter-staff {
+    margin: auto;
+}
+
+#staff-table {
+    padding: 0;
+}
+
+#form-filter input {
+    width: 100%;
+}
