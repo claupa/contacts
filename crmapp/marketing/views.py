@@ -236,7 +236,7 @@ def export_contacts(request, template="marketing/export_contact.html"):
                                                 'contacts': contacts,})
     
 
-def get_count(request, algo):
+def get_count(request):
     return HttpResponse(
             json.dumps(OnCubaUser.objects.filter(user__is_active=False).count()),
             content_type="application/json"

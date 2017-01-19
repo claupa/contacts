@@ -9,7 +9,7 @@ get_solicitudes, activar_user
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', home_page, name="home"),
-    url(r'^num-solicitud/(?P<algo>.*)?$', get_count , name="counting"),
+    url(r'^num-solicitud/?$', get_count , name="counting"),
     url(r'^nueva-persona/?$', create_persona, name='create_contact_persona'),
     url(r'^nueva-entidad/?$', create_entidad, name='create_contact_entidad'),
     url(r'^editar-persona/(?P<contact_id>.*)/?$', editar_persona, name='editar_persona'),
