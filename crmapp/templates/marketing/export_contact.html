@@ -21,6 +21,12 @@
                     </label> {{filter_form.categoria}}
                 </div>
 
+                <div class="form-group" {% if not user.is_superuser %}style = "display:none;"{% endif%}>
+                    <label for="categorias">
+                        <h4>Creado por: </h4>
+                    </label> {{filter_form.creado_por}}
+                </div>
+
                 <input type="submit" class="btn btn-primary" form="form-filter" id="form-filter-submit" name="filtrar" value="Filtrar">
                 <input type="submit" class="btn btn-primary" form="form-filter" id="form-filter-submit" name="export" value="Exportar como PDF">
                 <input type="submit" class="btn btn-primary" form="form-filter" id="form-filter-submit" name="exportdoc" value="Exportar como DOC">

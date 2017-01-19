@@ -50,7 +50,7 @@
                                 <li class="menu-categorias"><a href="{% url 'admin:oncuba_categoria_changelist' %}">Categorías</a></li>
                                 <li class="menu-categorias"><a href="{% url 'admin:oncuba_proyecto_changelist' %}">Proyectos</a></li>
                                 <li class="menu-categorias"><a href="{% url 'admin:oncuba_staff_changelist' %}">Staff</a></li>
-                                <li class="menu-categorias"><a href="{% url 'get-solicitudes' %}">Solicitudes</a></li>
+                                <li class="menu-categorias"><a href="{% url 'get-solicitudes' %}">Solicitudes <span class="badge">{{solicitudes}}</span></a></li>
                             </ul>
                         </li>
                         {% endif %}
@@ -80,7 +80,7 @@
     {# The Footer #}
     <div class="footer">
         <div class="container">
-            <p class="text-center">© Copyright OnCuba, a Fuego Media Group/Fuego Enterprises Inc, Publication.</p>
+            <p class="text-center">© Copyright OnCuba, a Fuego Media Group/Fuego Enterprises Inc, Platform.</p>
         </div>
     </div>
 </body>
@@ -88,6 +88,12 @@
 <script src="{{ STATIC_URL }}js/jquery.min.js"></script>
 <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
 <script src="{{ STATIC_URL }}js/pagination.min.js"></script>
-<script src="{{ STATIC_URL }}js/app.js"></script> {% endblock footer_javascript_site %} {% block footer_javascript_section %}{% endblock footer_javascript_section %} {% block footer_javascript_page %}{% endblock footer_javascript_page %} {% endblock footer_javascript %}
+<script src="{{ STATIC_URL }}js/app.js"></script> 
+{% endblock footer_javascript_site %} 
+{% block footer_javascript_section %}
+{% endblock footer_javascript_section %} 
+{% block footer_javascript_page %}
+{% endblock footer_javascript_page %} 
+{% endblock footer_javascript %}
 
 </html>

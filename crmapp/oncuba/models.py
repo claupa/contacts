@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 from django.db import models
 from django.contrib.auth.models import User
 from select_multiple_field.models import SelectMultipleField
-from django.contrib.auth.models import User
 import django.utils.timezone as t
 
 class Categoria(models.Model):
@@ -63,8 +62,8 @@ class Persona(models.Model):
     SEXO =(('F', 'Femenino'), ('M', 'Masculino'))
     ESTADO_CIVIL = (('S', 'Solter'),('C','Casad'), ('V', 'Viud'), ('D', 'Divorciad'))
     nombre = models.CharField(max_length = 200,  verbose_name='Nombre(s) y Apellido(s)', default = " ")
-    lugar_de_trabajo = models.CharField(max_length=50, verbose_name='Lugar de Trabajo')
-    ocupacion = models.CharField(max_length = 50,verbose_name='Ocupación')    
+    lugar_de_trabajo = models.CharField(max_length=100, verbose_name='Lugar de Trabajo')
+    ocupacion = models.CharField(max_length = 100,verbose_name='Ocupación')    
     nacionalidad = models.CharField(max_length=50,  verbose_name='nacionalidad', default="", blank = True, null = True)
     fecha_de_nacimiento = models.DateField(verbose_name = 'Fecha de Nacimiento',blank = True, null=True)
     sexo = models.CharField(max_length = 1, choices = SEXO,blank = True)

@@ -10,7 +10,7 @@ from django.forms.models import model_to_dict
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.units import inch
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 
 
 def home_page(request, template='marketing/home.html'):
@@ -18,6 +18,7 @@ def home_page(request, template='marketing/home.html'):
         return redirect('/entrar/')
     contact_person = Persona.objects.filter(marked_for_deletion = False)
     contact_entidad = Entidad.objects.filter(marked_for_deletion = False)
+    creado_por = None
     s = ''
     if request.GET:
         s =request.GET['s']
@@ -32,7 +33,10 @@ def home_page(request, template='marketing/home.html'):
             tipos = filter_form.cleaned_data['tipos']
             categoria = filter_form.cleaned_data['categoria']
             proyecto = filter_form.cleaned_data['proyecto']
-            
+            creado_por = filter_form.cleaned_data['creado_por']
+
+            print(creado_por)
+
             if tipos == 'T' or tipos == 'P':
                 contact_person = check_list(categoria, proyecto, contact_person)
                 if tipos == 'P':
@@ -44,8 +48,8 @@ def home_page(request, template='marketing/home.html'):
     else:
         filter_form = FilterForm()
     
-    contacts = get_contact_info(contact_person, request.user, True)
-    contacts.extend(get_contact_info(contact_entidad, request.user, False))
+    contacts = get_contact_info(contact_person, request.user, creado_por, True)
+    contacts.extend(get_contact_info(contact_entidad, request.user, creado_por,  False))
     staff = get_staff_info()
 
     index = 0
@@ -67,7 +71,7 @@ def mis_contactos(request, template= "marketing/mis_contactos.html"):
     db_entidades= Entidad.objects.filter(created_by__user__username=request.user.username).filter(marked_for_deletion = False)
 
     contacts = get_contact_info(db_personas, request.user)
-    contacts.extend(get_contact_info(db_entidades, request.user, False))
+    contacts.extend(get_contact_info(db_entidades, request.user, persona = False))
     index = 0
     for contact in contacts:
         index += 1
@@ -157,6 +161,8 @@ def export_contacts(request, template="marketing/export_contact.html"):
             tipos = filter_form.cleaned_data['tipos']
             categoria = filter_form.cleaned_data['categoria']
             proyecto = filter_form.cleaned_data['proyecto']
+            creado_por = filter_form.cleaned_data['creado_por']
+            
             
             if tipos == 'T' or tipos == 'P':
                 contact_person = check_list(categoria, proyecto, contact_person)
@@ -168,14 +174,16 @@ def export_contacts(request, template="marketing/export_contact.html"):
                     contact_person = []
 
 
-            contacts = get_contact_info(contact_person, request.user, True)
-            contacts.extend(get_contact_info(contact_entidad, request.user, False))  
-            if 'filtrar' in request.POST:
+            contacts = get_contact_info(contact_person, request.user, creado_por, persona = True)
+            contacts.extend(get_contact_info(contact_entidad, request.user,creado_por, persona =  False))  
+
+            if not contacts or 'filtrar' in request.POST:
                 return render(request, template, { 'filter_form':filter_form, 
                                                 'categorias' : Categoria.objects.all(),
                                                 'proyectos': Proyecto.objects.all(),
                                                 'contacts': contacts,})
             if 'export' in request.POST:
+                
                 contacts = [format_persona(x) for x in contact_person]
                 contacts.extend([format_entidad(x) for x in contact_entidad])
                 # Create the HttpResponse object with the appropriate PDF headers.
@@ -215,8 +223,8 @@ def export_contacts(request, template="marketing/export_contact.html"):
                 return response 
     else:
         filter_form = ExportForm()
-        contacts = get_contact_info(contact_person, request.user, True)
-        contacts.extend(get_contact_info(contact_entidad, request.user, False))  
+        contacts = get_contact_info(contact_person, request.user,creado_por,  persona =  True)
+        contacts.extend(get_contact_info(contact_entidad, request.user,creado_por, persona  = False))  
         
         return render(request, template, { 'filter_form':filter_form, 
                                                 'categorias' : Categoria.objects.all(),
@@ -302,15 +310,18 @@ def check_list(categorias, proyectos, contacts):
         contacts=possible_contacts
     return contacts
 
-def get_contact_info(contacts, user, persona = True):
+def get_contact_info(contacts, user, creado_por=[], persona = True):
     new_contacts = []
     index = 0
+    print(persona)
     if persona:
         fn = get_name_and_ocupation_of_persona
     else:
         fn = get_name_and_ocupation_of_entidad
 
     for contact in contacts:
+        if creado_por and int(creado_por) != contact.created_by.pk:
+            continue
         index +=1
         creator = contact.created_by.user
         is_owner_or_admin = creator == user or user.is_superuser

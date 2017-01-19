@@ -304,7 +304,7 @@ $(document).ready(function() {
     });
     $('#contact-table-pagination').pagination({
         dataSource: $.makeArray($('.contact-list')),
-        pageSize: 10,
+        pageSize: 5,
         callback: function(data, pagination) {
             // template method of yourself
             var html = data;

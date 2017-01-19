@@ -3,7 +3,7 @@
 <div class="row header-blue">
     <div class="container">
         <div id="header-search-collapse" class="row" style="height: auto;">
-            <form role="search" id="form-search" class="navbar-form" method="get" action="{% url 'filter-contact-export'%}">
+            <form role="search" id="form-search" class="navbar-form" method="get" action="{% url 'home'%}">
                 <div class="input-group header-search">
                     <input type="text" class="form-control" name="s" value="{{s}}">
                     <span class="input-group-btn">
@@ -17,7 +17,7 @@
 
 <div class="container">
     <div class="col-md-3" id="filter-table">
-        <form role="filter" id="form-filter" class="" method="post" action="{%url 'filter-contact-export' %}">
+        <form role="filter" id="form-filter" class="" method="post" action="{%url 'home' %}">
             {% csrf_token %}
             <div class="contact-type">
                 <div class="form-group">
@@ -36,6 +36,13 @@
                     </label> {{filter_form.categoria}}
                 </div>
 
+                <div class="form-group" {% if not user.is_superuser %}style = "display:none;"{% endif%}>
+                    <label for="categorias">
+                        <h4>Creado por: </h4>
+                    </label> {{filter_form.creado_por}}
+                </div>
+
+
                 <button type="submit" form="form-filter" id="form-filter-submit" value="Submit">Filtrar</button>
 
             </div>
@@ -45,11 +52,15 @@
         <div class="row-header-blue row">
             <h1 class="page-title col-lg-6 col-md-6 col-sm-6 col-xs-6" id="contacts-header">Lista de Contactos</h1>
             {% if user.is_superuser %}
-            <h1 class="page-title col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right" id="contacts-header"><a href="{% url 'filter-contact-export' %}">Exportar</a></h1>
+            <h1 class="page-title col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right" id="contacts-header">
+                <a href="{% url 'filter-contact-export' %}">Exportar</a>
+            </h1>
             {% endif %}
         </div>
         {% include 'marketing/contacts_list.html' %} {% include 'marketing/staff.html'%}
     </div>
 </div>
-
+<script>
+ function submitSearch(){}   
+</script>
 {% endblock content %}
