@@ -11,10 +11,18 @@
                     </span>
                 </div>
             </form>
+            <h4 id="create-contact" class="media-heading"> 
+               <span>Crear Contacto: </span>                                                                                                       
+               <span><a id="crear-persona" href="{% url 'create_contact_persona'%}" class="text-left">Persona</a></span>                           
+               <span> o </span>                                                                                                                    
+           </h4>                                                                                                                                   
+           <h4 id="create-entidad" class="media-heading">                                                                                          
+               <span><a id="crear-entidad" href="{% url 'create_contact_entidad'%}" class="text-left">Entidad</a></span>                           
+           </h4>
         </div>
     </div>
 </div>
-
+{% block main_content%}
 <div class="container">
     <div class="col-md-3" id="filter-table">
         <form role="filter" id="form-filter" class="" method="post" action="{%url 'home' %}">
@@ -63,4 +71,5 @@
 <script>
  function submitSearch(){}   
 </script>
+{% endblock main_content%}
 {% endblock content %}

@@ -1,6 +1,9 @@
-{% extends 'base.html' %} {% block title %}Solicitudes{% endblock title %} {% block content %}
+{% extends 'marketing/home.html' %} {% block title %}Solicitudes{% endblock title %} {% block content %}
 <div id="content-container" class="container p-none">
     <div class="side-p">
+        {% if not solicitudes%}
+        <h3 class="text-center">No hay nuevas solicitudes.</h3>
+        {% endif%}
         {% for solicitud in solicitudes %}
         <div class="table-row row contact">
             <div class="solicitud-number-name">

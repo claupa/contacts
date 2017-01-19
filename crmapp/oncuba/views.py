@@ -464,7 +464,7 @@ def activar_user(request, contact_id):
         user.user.is_active = True
         user.user.save()
         user.save()
-    
+        send_mail('Sitio de Contacto OnCuba', "Su solicitud ha sido aceptada, para acceder al sitio vaya a: http://contactos.oncubamagazine.com/entrar/",'crmoncuba@gmail.com',[email], fail_silently=False)
     return redirect('/solicitudes/')
 
 

@@ -62,9 +62,33 @@ function resetForm($form) {
         .removeAttr('checked').removeAttr('selected');
 }
 
+ function create_post() {
+        $.ajax({
+            url : "num-solicitud/", // the endpoint
+            type : "POST", // http method
+            data : { }, // data sent with the post request
+
+            // handle a successful response
+            success : function(json) {
+
+                $('#solicitudes-count').text(json); // remove the value from the input
+                console.log(json); // log the returned json to the console
+                console.log("success"); // another sanity check
+            },
+
+            // handle a non-successful response
+            error : function(xhr,errmsg,err) {
+                // $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+" <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+                console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            }
+        });
+    };
+
+
 // Main App
 $(document).ready(function() {
-
+    create_post();
+    
     // $('#id_estado_civil option').each(function(index) {
     //     if (index != 0) {
     //         this.label = this.label + 'o';

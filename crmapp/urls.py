@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from django.conf.urls import include
 from django.contrib import admin
-from marketing.views import home_page, mis_contactos, export_staff, export_contacts
+from marketing.views import home_page, mis_contactos, export_staff, export_contacts, get_count
 import django.contrib.auth.views as djauth
 from oncuba.views import create_persona, create_entidad, view_persona,view_entidad, editar_persona, editar_entidad,\
 view_oncuba_user, change_password, edit_oncuba_user, delete_contact, invitar_usuario, aceptar_invitacion, solicitar_usuario,\
@@ -9,6 +9,7 @@ get_solicitudes, activar_user
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', home_page, name="home"),
+    url(r'^num-solicitud/(?P<algo>.*)?$', get_count , name="counting"),
     url(r'^nueva-persona/?$', create_persona, name='create_contact_persona'),
     url(r'^nueva-entidad/?$', create_entidad, name='create_contact_entidad'),
     url(r'^editar-persona/(?P<contact_id>.*)/?$', editar_persona, name='editar_persona'),

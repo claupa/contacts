@@ -1,7 +1,7 @@
 #-*- coding: utf8 -*-
 from django.shortcuts import render,redirect
 from django.views.generic.base import TemplateView
-from crmapp.oncuba.models import Categoria, Proyecto, Persona, Entidad, Staff, PhoneNumberPerson, EmailPerson, PhoneNumberEntidad, EmailEntidad
+from crmapp.oncuba.models import Categoria, Proyecto, Persona, Entidad, Staff, PhoneNumberPerson, EmailPerson, PhoneNumberEntidad, EmailEntidad,OnCubaUser
 from crmapp.oncuba.utils import check_credentials
 from django.contrib.auth.decorators import login_required
 from .forms import FilterForm, FilterStaffForm, ExportForm
@@ -11,6 +11,7 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.units import inch
 from django.http import HttpResponse, HttpResponseRedirect
+import json
 
 
 def home_page(request, template='marketing/home.html'):
@@ -50,6 +51,7 @@ def home_page(request, template='marketing/home.html'):
     
     contacts = get_contact_info(contact_person, request.user, creado_por, True)
     contacts.extend(get_contact_info(contact_entidad, request.user, creado_por,  False))
+    contacts.sort(lambda x,y: cmp(x['nombre'], y['nombre']))
     staff = get_staff_info()
 
     index = 0
@@ -72,6 +74,8 @@ def mis_contactos(request, template= "marketing/mis_contactos.html"):
 
     contacts = get_contact_info(db_personas, request.user)
     contacts.extend(get_contact_info(db_entidades, request.user, persona = False))
+    contacts.sort(lambda x,y: cmp(x['nombre'], y['nombre']))
+    
     index = 0
     for contact in contacts:
         index += 1
@@ -232,6 +236,11 @@ def export_contacts(request, template="marketing/export_contact.html"):
                                                 'contacts': contacts,})
     
 
+def get_count(request, algo):
+    return HttpResponse(
+            json.dumps(OnCubaUser.objects.filter(user__is_active=False).count()),
+            content_type="application/json"
+        )
 
 # --------------------------------------------------- Utils -------------------------------------------------
 def format_persona(contact):

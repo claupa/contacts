@@ -50,7 +50,7 @@
                                 <li class="menu-categorias"><a href="{% url 'admin:oncuba_categoria_changelist' %}">Categorías</a></li>
                                 <li class="menu-categorias"><a href="{% url 'admin:oncuba_proyecto_changelist' %}">Proyectos</a></li>
                                 <li class="menu-categorias"><a href="{% url 'admin:oncuba_staff_changelist' %}">Staff</a></li>
-                                <li class="menu-categorias"><a href="{% url 'get-solicitudes' %}">Solicitudes <span class="badge">{{solicitudes}}</span></a></li>
+                                <li class="menu-categorias"><a href="{% url 'get-solicitudes' %}">Solicitudes <span class="badge" style="float: right;" id="solicitudes-count"></span></a></li>
                             </ul>
                         </li>
                         {% endif %}
