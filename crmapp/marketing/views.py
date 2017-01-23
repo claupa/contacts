@@ -24,6 +24,7 @@ from django.views.generic import *
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.db.models.query_utils import Q
+from django.contrib.auth import get_user_model
 
 
 def home_page(request, template='marketing/home.html'):
@@ -443,8 +444,8 @@ class ResetPasswordRequestView(FormView):
         return self.form_invalid(form)
 
 class PasswordResetConfirmView(FormView):
-    template_name = "account/test_template.html"
-    success_url = '/admin/'
+    template_name = "registration/reset-passwd.html"
+    success_url = '/entrar/'
     form_class = SetPasswordForm
 
     def post(self, request, uidb64=None, token=None, *arg, **kwargs):
@@ -460,7 +461,7 @@ class PasswordResetConfirmView(FormView):
             user = UserModel._default_manager.get(pk=uid)
         except (TypeError, ValueError, OverflowError, UserModel.DoesNotExist):
             user = None
-
+        print('LOL1', user.username)
         if user is not None and default_token_generator.check_token(user, token):
             if form.is_valid():
                 new_password= form.cleaned_data['new_password2']
