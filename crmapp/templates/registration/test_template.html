@@ -1,0 +1,34 @@
+{% extends 'base.html' %} {% block title %}Recuperar Contraseña{% endblock %} {% block content %}
+<div id="login-container" class="container p-none">
+    <div class="smaller-login lgn-container col-lg-8">
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <form id="login-form" method="post" action="{% url 'reset' %}">
+            {% csrf_token %}
+            <div class="row create-contact-inputs">
+                <div class="col-xs-12 col-md-6 col-lg-6 text-md-right text-lg-right text-xs-center">Nombre de Usuario o Correo Electrónico:</div>
+                <div class="col-xs-12 col-md-6 col-lg-6 text-md-left text-lg-left text-xs-center">{{form.email_or_username}}</div>
+            </div>
+            <div class="row create-contact-errors">
+                <div class="col-xs-12 col-md-12 col-lg-12">{{form.email_or_username.errors}}</div>
+            </div>
+            {% if form.non_field_errors%} {% for error in form.non_field_errors%}
+            <div class="row create-contact-errors">
+                <div class="col-xs-12 col-md-12 col-lg-12">{{error}}</div>
+            </div>
+            {% endfor %} {% endif %}
+            <div class="row submit-button">
+                <input type="submit" value="Recuperar" class="btn btn-primary text-center submit-button" />
+            </div>
+
+            <input type="hidden" name="next" value="{{next}}" />
+
+        </form>
+    </div>
+</div>
+{% endblock content %}

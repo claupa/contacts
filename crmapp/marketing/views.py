@@ -4,7 +4,7 @@ from django.views.generic.base import TemplateView
 from crmapp.oncuba.models import Categoria, Proyecto, Persona, Entidad, Staff, PhoneNumberPerson, EmailPerson, PhoneNumberEntidad, EmailEntidad,OnCubaUser
 from crmapp.oncuba.utils import check_credentials
 from django.contrib.auth.decorators import login_required
-from .forms import FilterForm, FilterStaffForm, ExportForm
+from .forms import FilterForm, FilterStaffForm, ExportForm, PasswordResetRequestForm, SetPasswordForm
 from django.db.models import Q
 from django.forms.models import model_to_dict
 from reportlab.pdfgen import canvas
@@ -12,6 +12,18 @@ from reportlab.lib.pagesizes import letter
 from reportlab.lib.units import inch
 from django.http import HttpResponse, HttpResponseRedirect
 import json
+from django.core.validators import validate_email
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.template import loader
+from django.core.exceptions import ValidationError
+from django.core.mail import send_mail
+from crmapp.settings import EMAIL_HOST_USER
+from django.views.generic import *
+from django.contrib import messages
+from django.contrib.auth.models import User
+from django.db.models.query_utils import Q
 
 
 def home_page(request, template='marketing/home.html'):
@@ -353,3 +365,112 @@ def get_name_and_ocupation_of_persona(contact):
 
 def get_name_and_ocupation_of_entidad(contact):
     return (contact.nombre, contact.servicios)
+
+
+
+
+class ResetPasswordRequestView(FormView):
+    template_name = "registration/test_template.html"    #code for template is given below the view's code
+    success_url = '/entrar/'
+    form_class = PasswordResetRequestForm
+
+    @staticmethod
+    def validate_email_address(email):
+        try:
+            validate_email(email)
+            return True
+        except ValidationError:
+            return False
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            data= form.cleaned_data["email_or_username"]
+            if self.validate_email_address(data) is True:                 #uses the method written above
+                associated_users= User.objects.filter(Q(email=data)|Q(username=data))
+                if associated_users.exists():
+                    for user in associated_users:
+                            c = {
+                                'email': user.email,
+                                'domain': 'contactos.oncubamagazine.com',
+                                'site_name': 'Contactos OnCuba',
+                                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                                'user': user,
+                                'token': default_token_generator.make_token(user),
+                                'protocol': 'http',
+                                }
+                            subject_template_name='registration/password_reset_subject.txt' 
+                            # copied from django/contrib/admin/templates/registration/password_reset_subject.txt to templates directory
+                            email_template_name='registration/password_reset_email.html'    
+                            # copied from django/contrib/admin/templates/registration/password_reset_email.html to templates directory
+                            subject = loader.render_to_string(subject_template_name, c)
+                            # Email subject *must not* contain newlines
+                            subject = ''.join(subject.splitlines())
+                            email = loader.render_to_string(email_template_name, c)
+                            send_mail(subject, email, EMAIL_HOST_USER , [user.email], fail_silently=False)
+                    result = self.form_valid(form)
+                    messages.success(request, 'An email has been sent to ' + data +". Please check its inbox to continue reseting password.")
+                    return result
+                result = self.form_invalid(form)
+                messages.error(request, 'No existe un usuario asociado a esta dirección de correo.')
+                return result
+            else:
+                associated_users= User.objects.filter(username=data)
+                if associated_users.exists():
+                    for user in associated_users:
+                        c = {
+                            'email': user.email,
+                            'domain': 'contactos.oncubamagazine.com', #or your domain
+                            'site_name': 'Contactos OnCuba',
+                            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                            'user': user,
+                            'token': default_token_generator.make_token(user),
+                            'protocol': 'http',
+                            }
+                        subject_template_name='registration/password_reset_subject.txt'
+                        email_template_name='registration/password_reset_email.html'
+                        subject = loader.render_to_string(subject_template_name, c)
+                        # Email subject *must not* contain newlines
+                        subject = ''.join(subject.splitlines())
+                        email = loader.render_to_string(email_template_name, c)
+                        send_mail(subject, email, EMAIL_HOST_USER , [user.email], fail_silently=False)
+                    result = self.form_valid(form)
+                    messages.success(request, 'Email has been sent to ' + data +"'s email address. Please check its inbox to continue reseting password.")
+                    return result
+                result = self.form_invalid(form)
+                messages.error(request, 'Este usuario no existe en el sistema.')
+                return result
+        return self.form_invalid(form)
+
+class PasswordResetConfirmView(FormView):
+    template_name = "account/test_template.html"
+    success_url = '/admin/'
+    form_class = SetPasswordForm
+
+    def post(self, request, uidb64=None, token=None, *arg, **kwargs):
+        """
+        View that checks the hash in a password reset link and presents a
+        form for entering a new password.
+        """
+        UserModel = get_user_model()
+        form = self.form_class(request.POST)
+        assert uidb64 is not None and token is not None  # checked by URLconf
+        try:
+            uid = urlsafe_base64_decode(uidb64)
+            user = UserModel._default_manager.get(pk=uid)
+        except (TypeError, ValueError, OverflowError, UserModel.DoesNotExist):
+            user = None
+
+        if user is not None and default_token_generator.check_token(user, token):
+            if form.is_valid():
+                new_password= form.cleaned_data['new_password2']
+                user.set_password(new_password)
+                user.save()
+                messages.success(request, 'Password has been reset.')
+                return self.form_valid(form)
+            else:
+                messages.error(request, 'Password reset has not been unsuccessful.')
+                return self.form_invalid(form)
+        else:
+            messages.error(request,'The reset password link is no longer valid.')
+            return self.form_invalid(form)
