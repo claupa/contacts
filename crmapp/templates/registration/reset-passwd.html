@@ -24,11 +24,6 @@
             <div class="row create-contact-errors">
                 <div class="col-xs-12 col-md-12 col-lg-12">{{form.new_password2.errors}}</div>
             </div>
-            {% if form.non_field_errors%} {% for error in form.non_field_errors%}
-            <div class="row create-contact-errors">
-                <div class="col-xs-12 col-md-12 col-lg-12">{{error}}</div>
-            </div>
-            {% endfor %} {% endif %}
             <div class="row submit-button">
                 <input type="submit" value="Guardar Contraseña" class="btn btn-primary text-center submit-button" />
             </div>

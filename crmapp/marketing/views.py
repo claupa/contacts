@@ -461,17 +461,16 @@ class PasswordResetConfirmView(FormView):
             user = UserModel._default_manager.get(pk=uid)
         except (TypeError, ValueError, OverflowError, UserModel.DoesNotExist):
             user = None
-        print('LOL1', user.username)
         if user is not None and default_token_generator.check_token(user, token):
             if form.is_valid():
                 new_password= form.cleaned_data['new_password2']
                 user.set_password(new_password)
                 user.save()
-                messages.success(request, 'Password has been reset.')
+                messages.success(request, 'La contraseña ha sido actualizada.')
                 return self.form_valid(form)
             else:
-                messages.error(request, 'Password reset has not been unsuccessful.')
+                # messages.error(request, 'Password reset has not been unsuccessful.')
                 return self.form_invalid(form)
         else:
-            messages.error(request,'The reset password link is no longer valid.')
+            messages.error(request,'El enlace para resetear el password es inválido.')
             return self.form_invalid(form)
