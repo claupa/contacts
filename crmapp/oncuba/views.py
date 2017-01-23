@@ -359,15 +359,24 @@ def delete_contact(request, contact_id, is_persona):
 def invitar_usuario(request, template="oncuba/invitar_usuarios.html"):
     if request.POST:
         form = InvitationForm(request.POST)
-        
         if form.is_valid():
+            
             username = form.cleaned_data['username']
             first_name = form.cleaned_data['first_name']
             last_name = form.cleaned_data['last_name']
             email = form.cleaned_data['email']
             phone_number = form.cleaned_data['phone_number']
             cargo = form.cleaned_data['cargo']
-            role = Role.objects.get(pk = form.cleaned_data['role'])
+            role = Role(name = email)
+            role.save()
+            for categoria in form.cleaned_data['categoria']:
+                role.categories.add(categoria)
+
+            for proyecto in form.cleaned_data['proyecto']:
+                role.proyectos.add(proyecto)
+
+            role.save()
+            # role = Role.objects.get(pk = form.cleaned_data['role'])
             
             invitacion = Invitacion(username = username, first_name = first_name, last_name=last_name,
                                     email = email, phone_number = phone_number, cargo = cargo, role = role)
@@ -375,15 +384,15 @@ def invitar_usuario(request, template="oncuba/invitar_usuarios.html"):
             url =  request.build_absolute_uri('/aceptar-invitacion/' + str(invitacion.pk))
             text = "Hola, has recibido una invitación para acceder al sitio de contactos de OnCuba. Para crear tu cuenta de usuario accede a: %s" % url
             
-            send_mail('Invitacion Sitio de Contacto OnCuba', text,'crmoncuba@gmail.com',[email], fail_silently=False)
+            send_mail('Invitación Sitio de Contacto OnCuba', text,'crmoncuba@gmail.com',[email], fail_silently=False)
             
             history = UserTracker(user = request.user, action= 'I', created_user = invitacion, fecha = t.now() )
             history.save()   
             
-            return redirect('/')
+            return HttpResponseRedirect('/')
     else:
         form = InvitationForm()
-        
+    
     return render(request, template, {'form': form})
 
 from django.contrib.auth import logout
@@ -458,13 +467,25 @@ def get_solicitudes(request, template = "oncuba/oncuba-user/oncuba_user_request.
 def activar_user(request, contact_id):
     if request.POST:
         form = ActivateUser(request.POST)
-        role = request.POST['role']
-        user = OnCubaUser.objects.get(user__pk = contact_id)
-        user.role = Role.objects.get(pk = role)
-        user.user.is_active = True
-        user.user.save()
-        user.save()
-        send_mail('Sitio de Contacto OnCuba', "Su solicitud ha sido aceptada, para acceder al sitio vaya a: http://contactos.oncubamagazine.com/entrar/",'crmoncuba@gmail.com',[user.user.email], fail_silently=False)
+        if form.is_valid():
+            user = OnCubaUser.objects.get(user__pk = contact_id)
+            role = Role(name = user.user.email)
+            role.save()
+            for categoria in form.cleaned_data['categoria']:
+                role.categories.add(categoria)
+
+            for proyecto in form.cleaned_data['proyecto']:
+                role.proyectos.add(proyecto)
+
+            role.save()
+            user.role = role
+            user.user.is_active = True
+            user.user.save()
+            user.save()
+            send_mail('Sitio de Contacto OnCuba', "Su solicitud ha sido aceptada, para acceder al sitio vaya a: http://contactos.oncubamagazine.com/entrar/",'crmoncuba@gmail.com',[user.user.email], fail_silently=False)
+            return HttpResponseRedirect('/solicitudes/')
+
+            
     return redirect('/solicitudes/')
 
 

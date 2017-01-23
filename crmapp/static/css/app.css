@@ -457,3 +457,7 @@ form#delete-contact-form:focus {
 #form-filter input {
     width: 100%;
 }
+.dropdown-solicitud{
+    height: 70px !important;
+    font-size: 15px;
+}

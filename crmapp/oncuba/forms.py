@@ -2,9 +2,9 @@
 from django import forms
 from django.forms import  formsets
 
-from .models import Persona, AddressPerson, PhoneNumberPerson, EmailPerson
+from .models import Persona, AddressPerson, PhoneNumberPerson, EmailPerson, Invitacion
 from .models import Entidad, AddressEntidad, PhoneNumberEntidad, EmailEntidad
-from .models import Categoria, OnCubaUser, Role, ContactPerson
+from .models import Categoria, OnCubaUser, Role, ContactPerson, Categoria, Proyecto 
 from django.contrib.auth.forms import UserCreationForm
 from django.core.validators import validate_email
 from django.core import validators
@@ -119,22 +119,43 @@ class UserCreationForm(UserCreationForm):
 class InvitationForm(forms.Form):
     first_name = forms.CharField(required=True, widget=forms.TextInput())
     last_name = forms.CharField(required=True, widget=forms.TextInput())
-    email = forms.EmailField(required=True, widget=forms.TextInput())
+    email = forms.EmailField(required=True, widget=forms.EmailInput())
     username = forms.CharField(required= True, widget=forms.TextInput())
     cargo = forms.CharField(required= True, widget=forms.TextInput())
     phone_number = forms.CharField(required= True, widget=forms.TextInput())
     
     def __init__(self, *args, **kwargs):
-        super(InvitationForm, self).__init__()
-        self.role_choices =tuple([(x.pk,x.name) for x in Role.objects.all()])
-        self.fields['role'] = forms.ChoiceField(widget=forms.Select(),
-                                         choices=tuple([(x.pk,x.name) for x in Role.objects.all()]),
-                                         required= True)
+        super(InvitationForm, self).__init__( *args, **kwargs)
+        # self.role_choices =tuple([(x.pk,x.name) for x in Role.objects.all()])
+        # self.fields['role'] = forms.ChoiceField(widget=forms.Select(),
+        #                                  choices=tuple([(x.pk,x.name) for x in Role.objects.all()]),
+        #                                  required= True)
+        self.fields['proyecto'] =  forms.MultipleChoiceField(widget=forms.SelectMultiple,
+                                         choices=tuple([(proyecto.pk, proyecto.name) for proyecto in Proyecto.objects.all()]),
+                                         required= False)
+        self.fields['categoria'] = forms.MultipleChoiceField(widget=forms.SelectMultiple,
+                                         choices=tuple([(categoria.pk, categoria.name) for categoria in Categoria.objects.all()]),
+                                         required=False)  
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if Invitacion.objects.filter(email = email):
+            raise forms.ValidationError("Ya se mandó una invitación a esa dirección de correo.")
+        return email
 
 class ActivateUser(forms.Form):
     def __init__(self, *args, **kwargs):
-        super(ActivateUser, self).__init__()
-        self.fields['role']= forms.ChoiceField(widget=forms.Select(),
-                                         choices=tuple([(x.pk,x.name) for x in Role.objects.all()]),
-                                         required= True)
-        self.fields['role'].widget.attrs['class'] = "dropdown"
+        super(ActivateUser, self).__init__(*args, **kwargs)
+        # self.fields['role']= forms.ChoiceField(widget=forms.Select(),
+        #                                  choices=tuple([(x.pk,x.name) for x in Role.objects.all()]),
+        #                                  required= True)
+        # self.fields['role'].widget.attrs['class'] = "dropdown"
+        self.fields['proyecto'] =  forms.MultipleChoiceField(widget=forms.SelectMultiple,
+                                         choices=tuple([(proyecto.pk, proyecto.name) for proyecto in Proyecto.objects.all()]),
+                                         required= False)
+        self.fields['categoria'] = forms.MultipleChoiceField(widget=forms.SelectMultiple,
+                                         choices=tuple([(categoria.pk, categoria.name) for categoria in Categoria.objects.all()]),
+                                         required=False)  
+        self.fields['categoria'].widget.attrs['class'] = "dropdown dropdown-solicitud"
+        self.fields['proyecto'].widget.attrs['class'] = "dropdown dropdown-solicitud"
+         

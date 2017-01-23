@@ -2,7 +2,7 @@
 <div id="content-container" class="container p-none invitar-usuario">
     <div class="side-p">
         <h4 class="page-title sn-sh">Invitar usuario</h4>
-        {% if user.is_superuser %}
+        {% comment %}{% if user.is_superuser %}{% endcomment %}
         <form id="user-reg-form" class="container" action="{% url 'invitar-usuario' %}" method="post">
             {% csrf_token %}
             <div class="row create-contact-inputs">
@@ -13,11 +13,18 @@
                 <div class="col-lg-12">{{form.email.errors}}</div>
             </div>
             <div class="row create-contact-inputs">
-                <div class="col-lg-3">Role*:</div>
-                <div class="col-lg-9">{{form.role}}</div>
+                <div class="col-lg-3">Categorías*:</div>
+                <div class="col-lg-9">{{form.categoria}}</div>
             </div>
             <div class="row create-contact-errors">
-                <div class="col-lg-12">{{form.role.errors}}</div>
+                <div class="col-lg-12">{{form.categoria.errors}}</div>
+            </div>
+            <div class="row create-contact-inputs">
+                <div class="col-lg-3">Proyectos*:</div>
+                <div class="col-lg-9">{{form.proyecto}}</div>
+            </div>
+            <div class="row create-contact-errors">
+                <div class="col-lg-12">{{form.proyecto.errors}}</div>
             </div>
             <div class="row create-contact-inputs">
                 <div class="col-lg-3">Nombre de usuario:</div>
@@ -54,9 +61,14 @@
             <div class="row create-contact-errors">
                 <div class="col-lg-12">{{form.cargo.errors}}</div>
             </div>
+           {% if form.non_field_errors%} {% for error in form.non_field_errors%}
+            <div class="row create-contact-errors">
+                <div class="col-xs-12 col-md-12 col-lg-12">{{error}}</div>
+            </div>
+            {% endfor %} {% endif %}
             <input class="btn btn-primary invitar" type="submit" value="Invitar Usuario">
         </form>
-        {% endif %}
+        {% comment %}{% endif %}{% endcomment %}
     </div>
 </div>
 {% endblock content %}

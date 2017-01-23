@@ -11,7 +11,6 @@ urlpatterns = [
     url(r'^$', home_page, name="home"),
     url(r'^reset-passwd/$', ResetPasswordRequestView.as_view(), {}, name="reset"),
     url(r'^password-confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', PasswordResetConfirmView.as_view(),name='reset_password_confirm'), 
-                       
     url(r'^num-solicitud/?$', get_count , name="counting"),
     url(r'^nueva-persona/?$', create_persona, name='create_contact_persona'),
     url(r'^nueva-entidad/?$', create_entidad, name='create_contact_entidad'),
